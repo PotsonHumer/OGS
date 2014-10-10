@@ -1,8 +1,8 @@
 <?php
 
-    $config["root"] = "/OGS/";
+	$config["root"] = "/OGS/";
 	$config["url"] = "hearthfarm.com";
-    $config["img"] = $config["root"].'img/'; // 圖片路徑
+	$config["img"] = $config["root"].'img/'; // 圖片路徑
 	$config["css"] = $config["root"].'css/'; // css 路徑
 	$config["js"] = $config["root"].'js/'; // js 路徑
 	$config["file"] = $config["root"].'file/'; // 檔案路徑

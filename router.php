@@ -17,7 +17,6 @@
 			if(!empty($uri)){
 				$uri_array = explode("/",$uri);
 				$uri_array = self::lang_switch($uri_array);
-				self::temp_path(); // 重組樣板路徑
 				self::func_switch($uri_array);
 			}else{
 				// 首頁
@@ -37,13 +36,15 @@
 					if($lang == $lang_meter){
 						self::$config["langfix"] = $lang; // 語系設定
 						self::$config["prefix"] = $prefix; // 語系資料庫設定
-						self::temp_path(); // 重組樣板路徑
 						$uri_shift = true;
 					}
 				}
 				
 				if($uri_shift && !empty(self::$config["langfix"])){
+					self::temp_path(); // 重組樣板路徑
 					array_shift($uri_array);
+				}else{
+					self::temp_path(); // 重組樣板路徑
 				}
 			}
 			

@@ -10,20 +10,33 @@
 			self::$config = include_once self::$root.'config/config.php';
 			
 			include_once self::$root.'TP/class.TemplatePower.inc.php';
-			include_once self::$root.'view.php';
 			include_once self::$root.'libs/db.php';
 			
-			include_once self::$root.'index.php';
-			include_once self::$root.'member.php';
-			
-			self::permanent();
 			self::auto_include();
+			self::permanent();
 		}
 		
 		// 自動 include
 		private static function auto_include(){
-			$include_filter = array(__CLASS__,'ROUTER'); // 針對根目錄檔案的過濾器，寫入不要 inlcude 的檔案
+			$include_filter = array('core','router'); // 針對根目錄檔案的過濾器，寫入不要 inlcude 的檔案
 			$folder_filter = array('BAK','config',''); // 針對子目錄檔案的過濾器，寫入不要 inlcude 的目錄名稱
+			
+			// include 檔案 
+			$files = glob(self::$root.'*.php');
+			foreach($files as $f_key => $f_path){
+				include_once $f_path;
+			}
+			
+			// include 目錄內檔案
+			// 目錄內如有 summon.php, auto_include 會在此 include
+			$dirs = glob(self::$root.'*', GLOB_ONLYDIR);
+			foreach($dirs as $d_key => $d_path){
+				$summon = file_exists($d_path.DIRECTORY_SEPARATOR.'summon.php');
+				
+				if($summon){
+					include_once $d_path.DIRECTORY_SEPARATOR.'summon.php';
+				}
+			}
 		}
 		
 		// 常駐程序
