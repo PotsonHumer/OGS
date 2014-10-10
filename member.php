@@ -18,7 +18,7 @@
 
 			switch(self::$func){
 				case "login":
-					self::login_check();
+					self::login();
 				break;
 				default:
 					if($is_login){
@@ -36,13 +36,13 @@
 		}
 		
 		// 登入
-		private static function login_check(){
+		private static function login(){
 			$check = preg_match('/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/', $_POST["m_account"]); // m_account
 			$check  = preg_match('/^[A-Za-z0-9]{4,20}/',$_POST["m_password"]); // m_password
 			
 			if(!$check){
 				// 登入失敗
-				self::login_fail();
+				CORE::full_logout();
 			}
 			
 			$m_password_md5 = md5($_POST["m_password"]);
@@ -51,8 +51,8 @@
 				'table' => self::$db_prefix.'_member',
 				'fields' => "*",
 				'condition' => "m_account = '".$_POST["m_account"]."' and m_password = '".$m_password_md5."'",
-				//'order' => '1',
-				//'limit' => 1
+				//'order' => '',
+				//'limit' => '',
 			);
 			
 			$sql = DB::select($select);
@@ -70,14 +70,8 @@
 				header("location: ".CORE::$config["root"].'member/');
 			}else{
 				// 登入失敗
-				self::login_fail();
+				CORE::full_logout();
 			}
-		}
-		
-		// 登入失敗
-		public static function login_fail(){
-			unset($_SESSION[CORE::$config["sess"]]);
-			header("location: ".CORE::$config["root"]);
 		}
 	}
 	

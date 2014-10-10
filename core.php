@@ -76,6 +76,14 @@
 				return self::$config["prefix"];
 			}
 		}
+		
+		// 清除所有 SESSION, $custom_path => 指定前往路徑
+		public static function full_logout($custom_path=''){
+			$path = (!empty($custom_path))?$custom_path:CORE::$config["root"];
+			//unset($_SESSION[CORE::$config["sess"]]);
+			session_destroy();
+			header("location: ".$path);
+		}
 	}
 	
     
