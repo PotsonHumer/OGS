@@ -22,6 +22,7 @@
 	$config["prefix"] = $config["lang"][$lang_keys[0]]; // 紀錄語系資料庫狀態變數
 	###########################
 	
+	
 	#### DB connect ####
 	$config["connect"] = array(
 		'host' => 'localhost',
@@ -30,6 +31,13 @@
 		'db' => 'ogs'
 	);
 	####################
+	
+	
+	#### autoload filter ####
+	$config["file_filter"] = array('core','router');
+	$config["dir_filter"] = array();
+	##############################
+	
 	
 	#### MEMBER ####
 	$config["m_sync"] = false; // 多語系使用同個會員資料庫

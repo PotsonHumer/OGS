@@ -8,7 +8,7 @@
 		function __construct($args){
 			
 			self::$db_prefix = CORE::db_sync(CORE::$config["m_sync"]); // 判斷是否使用同個資料庫
-			$is_login = (!empty($_SESSION[CORE::$config["sess"]]["m_id"]))?true:false; // 檢查是否登入
+			$is_login = (!empty($_SESSION[CORE::$config["sess"]]["member"]["m_id"]))?true:false; // 檢查是否登入
 			
 			// 處理參數
 			self::$func = array_shift($args);

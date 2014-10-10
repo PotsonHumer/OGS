@@ -1,4 +1,5 @@
 <?php
+    session_start();
     
 	class CORE{
 		public static $config; // 設定參數
@@ -6,34 +7,42 @@
 		public static $db; // 資料庫
 		
 		function __construct(){
-			self::$root = realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR;
+			self::$root = self::real_path();
 			self::$config = include_once self::$root.'config/config.php';
-			
-			include_once self::$root.'TP/class.TemplatePower.inc.php';
-			include_once self::$root.'libs/db.php';
 			
 			self::auto_include();
 			self::permanent();
 		}
 		
+		// 定義當前目錄位置
+		public function real_path($__file=__FILE__,$addon=''){
+			return realpath(dirname($__file)).DIRECTORY_SEPARATOR.$addon;
+		}
+				
 		// 自動 include
 		private static function auto_include(){
-			$include_filter = array('core','router'); // 針對根目錄檔案的過濾器，寫入不要 inlcude 的檔案
-			$folder_filter = array('BAK','config',''); // 針對子目錄檔案的過濾器，寫入不要 inlcude 的目錄名稱
+			$file_filter = self::$config["file_filter"]; // 針對根目錄檔案的過濾器，寫入不要 inlcude 的檔案
+			$folder_filter = self::$config["dir_filter"]; // 針對子目錄檔案的過濾器，寫入不要 inlcude 的目錄名稱
 			
-			// include 檔案 
+			// include 檔案
 			$files = glob(self::$root.'*.php');
 			foreach($files as $f_key => $f_path){
-				include_once $f_path;
+				$f_name = str_replace(self::$root, '', $f_path);
+				$f_name = str_replace('.php', '', $f_name);
+				
+				if(!in_array($f_name,$file_filter)){
+					include_once $f_path;
+				}
 			}
 			
 			// include 目錄內檔案
 			// 目錄內如有 summon.php, auto_include 會在此 include
 			$dirs = glob(self::$root.'*', GLOB_ONLYDIR);
 			foreach($dirs as $d_key => $d_path){
+				$d_name = str_replace(self::$root, '', $d_path);
 				$summon = file_exists($d_path.DIRECTORY_SEPARATOR.'summon.php');
 				
-				if($summon){
+				if(!in_array($d_name,$folder_filter) && $summon){
 					include_once $d_path.DIRECTORY_SEPARATOR.'summon.php';
 				}
 			}
