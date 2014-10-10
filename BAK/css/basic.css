@@ -1,0 +1,61 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* BASIC */
+body{
+	padding: 0;
+	margin: 0;
+}
+
+.left{ text-align: left; }
+.right{ text-align: right; }
+.center{ text-align: center; }
+.float_l{ float: left; }
+.float_r{ float: right; }
+.hide{ display: none; }
+.block{ display: block; }
+.div_center{ margin: auto; }
+
+/* FONT */
+.b{ font-weight: bold; }
+.i{ font-style: italic; }
+.f_14{ font-size: 14px; }
+.f_16{ font-size: 16px; }
+.f_18{ font-size: 18px; }
+.f_20{ font-size: 20px; }
+.f_c{ font-family: '微軟正黑體','Microsoft JhengHei'; }
+
+/* COLOR */
+.red{ color: red; }
+.White{ color: #FFF; }
+.black{ color: #000; }
+.gray{ color: #CCC; }
+
+/* WIDTH */
+.w_full{ width: 100%; }
+
+/* HIEGHT */
+.h_full{ height: 100%; }
+
+/* footer */
+footer{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 98%;
+	height: 40px;
+	line-height: 40px;
+	background: #333;
+	padding: 0 1%;
+}
+
+/* deck selecter */
+#deck_selecter{
+	position: absolute;
+	z-index: 10;
+	top: 20px;
+	right: 0px;
+	width: 200px;
+	border: 1px solid #CCC;
+	padding: 10px;
+}

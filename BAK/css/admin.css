@@ -1,0 +1,103 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* ADMIN SETTING */
+h1,h2,h3{
+	font-family: '微軟正黑體',Arial, Helvetica, sans-serif,'Microsoft JhengHei';
+}
+a{
+	color: #2244FF;
+	text-decoration: none;
+}
+a:hover{
+	color: #333;
+}
+
+/* nav */
+nav{
+	position: fixed;
+	top: 0;
+	left: -130px;
+	width: 120px;
+	height: 100%;
+	background: #FFF;
+	padding: 10px 0 0 10px;
+	border-right: 1px solid #333;
+}
+nav ul{
+	padding: 0;
+	margin: 0;
+}
+nav li{
+	line-height: 30px;
+}
+
+#nav_btn{
+	float: left;
+	width: 44px;
+	height: 40px;
+	margin-right: 10px;
+	background: url("../images/menu_btn.png") no-repeat center center;
+	cursor: pointer;
+}
+
+/* sub_nav */
+#sub_nav{
+	width: 90%;
+	height: 30px;
+	margin: 10px auto;
+	padding: 0;
+}
+#sub_nav li{
+	list-style: none;
+	margin: 0;
+	border: 1px solid #CCC;
+	float: left;
+	height: 30px;
+	line-height: 30px;
+	background: #333;
+}
+#sub_nav li a{
+	display: block;
+	padding: 0 10px;
+	color: #FFF;
+}
+#sub_nav li:hover{
+	background: #4C009E;
+}
+
+/* main */
+#main,header{
+	width: 98%;
+	margin: auto;
+}
+
+/* table */
+table{
+	width: 90%;
+	border: 1px solid #CCC;
+}
+th{
+	color: #4C009E;
+}
+th,td{
+	padding: 5px 0;
+}
+input[type=button],input[type=submit],input[type=reset]{
+	padding: 3px 20px;
+}
+
+#login_table{
+	margin: auto;
+	width: 50%;
+}
+
+#login_table td{
+	text-align: center;
+}
+
+/* page */
+#page{
+	width: 90%;
+	margin: 0 auto 60px auto;
+}

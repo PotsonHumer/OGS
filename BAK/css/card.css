@@ -1,0 +1,19 @@
+@charset "utf-8";
+/* CSS Document */
+
+#content{
+	padding: 10px;
+}
+
+#seek{
+	
+}
+
+#page{
+	margin-top: 20px;
+	width: 100%;
+}
+#page a{
+	float: left;
+	margin: 0 10px;
+}

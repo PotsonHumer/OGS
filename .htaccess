@@ -1,0 +1,9 @@
+Options ExecCGI Includes IncludesNOEXEC SymLinksIfOwnerMatch -Indexes
+
+RewriteEngine On
+
+RewriteRule ^(phpmyadmin)([^*]+)$  $1$2 [L]
+RewriteRule ^404.html$  404.html [L]
+RewriteRule ^([^*]+)$  router.php [L]
+
+ErrorDocument 404 /404.html

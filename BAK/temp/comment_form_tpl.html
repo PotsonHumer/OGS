@@ -1,0 +1,131 @@
+<div>
+	<form name="comment_form" action="{TAG_ROOT_PATH}comment/replace/" method="post">
+		<label>創建牌組評論</label>
+		<br />	
+		<p><input type="text" name="cm_title" value="{VALUE_CM_TITLE}" placeholder="標題" ></p>
+		<br />
+		<textarea class="tiny_input" name="cm_content">{VALUE_CM_CONTENT}</textarea>
+		<br />
+		<input type="submit" name="submit" value="送出">
+		
+		<ul id="deck_list"></ul>
+	</form>
+</div>
+
+<div id="deck_selecter">
+	<form name="deck_selecter">
+		<label>牌組選擇器</label>
+		
+		<br />
+		<select name="class">
+			<option value="null">選擇職業</option>
+			<!-- START BLOCK : TAG_CLASS_LIST -->
+			<option value="{VALUE_CLASS_ID}">{VALUE_CLASS_STR}</option>
+			<!-- START BLOCK : TAG_CLASS_LIST -->
+		</select>
+		
+		<br />
+		<select name="mana">
+			<option value="null">選擇耗能</option>
+			<!-- START BLOCK : TAG_AMOUNT_LIST -->
+			<option value="{VALUE_AMOUNT_NUM}">{VALUE_AMOUNT_NUM}</option>
+			<!-- END BLOCK : TAG_AMOUNT_LIST -->
+		</select>
+		
+		<input type="button" name="deck_btn" value="搜尋卡牌" style="display: none;">
+	</form>
+	
+	<br />
+	<ul id="card_pick"></ul>
+</div>
+
+<script>
+	function log(OUTPUT){
+		try{
+			console.log(OUTPUT);
+		}catch(e){
+			alert(OUTPUT);
+		}
+	}
+
+	$(function(){		
+		//---- 創建列表
+		$("input[name=deck_btn]").form_box({
+			NAME : "deck_selecter", // 表單名稱 (name)
+			PHP : "{TAG_ROOT_PATH}comment/ajax_deck_search", // 傳送目標
+			FUNC : "", // func 附值
+			AFTER : function() {  }, // 動作後執行擴充
+		}, function(DATA){
+			//callback
+			if(DATA != ""){
+				$("#card_pick").html(DATA);
+			}else{
+				$("#card_pick").html('<li>無此條件卡牌</li>');
+			}
+		});
+		
+		$("select[name=mana],select[name=class]").change(function(){
+			$("input[name=deck_btn]").trigger("click");
+		});
+		
+		//----
+		$(document).on("click",".card_id",function(){
+			var DECK_ID = $(this).attr("rel");
+			
+			$(document).get_box({
+				CLICK : false, // 按鍵後才啟動功能 , true => 按鍵啟動  , false => 直接啟動
+				CALL : DECK_ID, // key 值
+				PHP : "{TAG_ROOT_PATH}comment/ajax_deck_insert", // 取值目標
+				FUNC : "", // func 附值
+				AFTER : function() {  }, // 動作後執行擴充
+			}, function(DATA){
+				//callback
+				log(DATA);
+				
+				if(DATA == 1){
+					CARD_LIST();
+				}
+			});
+		});
+		
+		CARD_LIST();
+		
+		//----
+		$(document).on("click","#deck_list li",function(){
+			var ID = $(this).attr("rel");
+			
+			$(document).get_box({
+				CLICK : false, // 按鍵後才啟動功能 , true => 按鍵啟動  , false => 直接啟動
+				CALL : ID, // key 值
+				PHP : "{TAG_ROOT_PATH}comment/ajax_deck_del", // 取值目標
+				FUNC : "", // func 附值
+				AFTER : function() {  }, // 動作後執行擴充
+			}, function(DATA){
+				//callback
+				log(DATA);
+				
+				if(DATA == 1){
+					CARD_LIST();
+				}
+			});
+		});
+		
+		//----
+		function CARD_LIST(){
+			$(document).get_box({
+				CLICK : false, // 按鍵後才啟動功能 , true => 按鍵啟動  , false => 直接啟動
+				CALL : false, // key 值
+				PHP : "{TAG_ROOT_PATH}comment/ajax_deck_output", // 取值目標
+				FUNC : "", // func 附值
+				AFTER : function() {  }, // 動作後執行擴充
+			}, function(DATA){
+				//callback
+				if(DATA != ""){
+					$("#deck_list").html("").append(DATA);
+				}else{
+					$("#deck_list").html("");
+				}
+			});
+		}
+	});
+</script>
