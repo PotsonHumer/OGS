@@ -84,6 +84,114 @@
 			session_destroy();
 			header("location: ".$path);
 		}
+		
+		// 載入外掛資源 (js,css), $custom_path => 自訂路徑
+		public static function res_init(){
+			global $cms_cfg,$tpl;
+			
+			static $box_title;
+			static $css_title;
+			static $js_title;
+			static $custom_title;
+			
+			$new_title = func_get_args();
+			$res_type = array_pop($new_title); // 最後一個值為資源類型
+			
+			switch($res_type){
+				case "box":
+					$res_tag = "TAG_JS_BOX";
+					$res_title = 'box_title';
+				break;
+				case "css":
+					$res_tag = "TAG_CSS_INCLUDE";
+					$res_title = 'css_title';
+				break;
+				case "js":
+					$res_tag = "TAG_JS_INCLUDE";
+					$res_title = 'js_title';
+				break;
+				case "custom":
+					$res_tag = "TAG_CUSTOM_INCLUDE";
+					$res_title = 'custom_title';					
+				break;
+			}
+			
+			if(is_array($$res_title)){
+				$$res_title = array_merge($$res_title,$new_title);
+			}else{
+				$$res_title = $new_title;
+			}
+			
+			if(count($$res_title)){
+				// 利用翻轉刪除重複的值
+				$$res_title = array_flip($$res_title);
+				$$res_title = array_flip($$res_title);
+				
+				foreach($$res_title as $key => $value){
+					
+					switch($res_type){
+						case "box":
+							$res_insert .= '<script src="'.CORE::$config["js"].'box_serial/'.$value.'_box.js" type="text/javascript"></script>'."\n";
+						break;
+						case "css":
+							$res_insert .= '<link href="'.CORE::$config["css"].$value.'.css" rel="stylesheet" type="text/css" />'."\n";
+						break;
+						case "js":
+							$res_insert .= '<script src="'.CORE::$config["js"].$value.'.js" type="text/javascript"></script>'."\n";
+						break;
+						case "custom":
+							$value_array = explode(".",$value);
+							$custom_type = array_pop($value_array);
+							
+							switch($custom_type){
+								case "css":
+									$res_insert .= '<link href="'.$value.'" rel="stylesheet" type="text/css" />'."\n";
+								break;
+								case "js":
+									$res_insert .= '<script src="'.$value.'" type="text/javascript"></script>'."\n";
+								break;
+							}
+						break;
+					}
+				}
+				
+				VIEW::assignGlobal($res_tag,$res_insert);
+			}
+		}
+		
+		// 信件方法 (來源位置,寄送位置,內容,抬頭,寄件者名稱)
+		public static function mail_handle($from,$to,$mail_content,$mail_subject,$mail_name){
+	        $from_email=explode(",",$from);
+	        $mail_subject = "=?UTF-8?B?".base64_encode($mail_subject)."?=";
+	        //寄給送信者
+	        $MAIL_HEADER   = "MIME-Version: 1.0\n";
+	        $MAIL_HEADER  .= "Content-Type: text/html; charset=\"utf-8\"\n";
+	        $MAIL_HEADER  .= "From: =?UTF-8?B?".base64_encode($from_name)."?= <".$from_email[0].">"."\n";
+	        $MAIL_HEADER  .= "Reply-To: ".$from_email[0]."\n";
+	        $MAIL_HEADER  .= "Return-Path: ".$from_email[0]."\n";    // these two to set reply address
+	        $MAIL_HEADER  .= "X-Priority: 1\n";
+	        $MAIL_HEADER  .= "Message-ID: <".time()."-".$from_email[0].">\n";
+	        $MAIL_HEADER  .= "X-Mailer: PHP v".phpversion()."\n";          // These two to help avoid spam-filters
+	        $to_email = explode(",",$to);
+	        for($i=0;$i<count($to_email);$i++){
+	            if($i!=0 && $i%2==0){
+	                sleep(2);
+	            }
+	            if($i!=0 && $i%5==0){
+	                sleep(10);
+	            }
+	            if($i!=0 && $i%60==0){
+	                sleep(300);
+	            }
+	            if($i!=0 && $i%600==0){
+	                sleep(2000);
+	            }
+	            if($i!=0 && $i%1000==0){
+	                sleep(10000);
+	            }
+	            @mail($to_email[$i], $mail_subject, $mail_content,$MAIL_HEADER);
+			}
+		}
 	}
 	
     

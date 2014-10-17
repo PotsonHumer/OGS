@@ -1,7 +1,16 @@
-<h2>Login as Admin</h2>
+<h2>管理員登入</h2>
 
 <form name="login_form" method="post" action="{TAG_MANAGE_PATH}login/">
-	<label>Account : </label><input type="text" name="oa_account">
-	<label>Password : </label><input type="password" name="oa_password">
-	<input type="submit" name="login_submit" value="Send">
+	<label>帳號 : </label><input type="text" name="oa_account">
+	<label>密碼 : </label><input type="password" name="oa_password">
+	<input type="submit" name="login_submit" value="登入">
+	<input type="button" name="forget_button" value="忘記帳號密碼??">
 </form>
+
+<script>
+	$(function(){
+		$("input[name=forget_button]").click(function(){
+			location.href = '{TAG_MANAGE_PATH}forget/';
+		});
+	});
+</script>

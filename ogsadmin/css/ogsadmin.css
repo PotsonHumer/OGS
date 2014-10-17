@@ -1,0 +1,27 @@
+/* OGS ADMIN css reset setting */
+
+html,body,p,ol,ul,li,div,span,p,table,th,td,strong,a,noscript,nav,footer,main,h1,h2,h3,h4,h5,h6{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	font-weight: normal;
+	font-size: 1em;
+	font-family:"Arial","MingLiU","PMingLiU";
+}
+
+input,select,textarea{
+	outline: none;
+}
+
+table{
+	border-collapse:collapse; 
+	border-spacing:0;
+}
+
+img{
+	border: 0;
+}
+
+*:after,*:before{
+	content: ' ';
+}
