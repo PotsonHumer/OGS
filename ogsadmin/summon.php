@@ -8,12 +8,13 @@
 		
 		function __construct($args){
 			
-			self::$root = CORE::real_path(__FILE__); // 後台根目錄
+			self::$root = CORE::real_path(__FILE__); // 後台實體根目錄
 			self::$temp = self::$root.'temp'.DIRECTORY_SEPARATOR; // 後台樣板目錄
 			
 			// 檢查是否登入
 			self::$is_login = (!empty($_SESSION[CORE::$config["sess"]]["ogsadmin"]["oa_id"]))?true:false;
 			CORE::res_init(CORE::$config["manage"].'css/ogsadmin.css','custom'); // 載入 CSS
+			CORE::res_init('font','css'); // 載入 CSS
 			self::$func = array_shift($args); // 功能名稱
 			
 			// include 所有模組
@@ -24,6 +25,11 @@
 						include_once $file_path;
 					}
 				}
+			}
+			
+			// 預先執行部分
+			if(self::$is_login){
+				VIEW::newBlock("TAG_HEADER_OPTION");
 			}
 			
 			// 功能選擇
@@ -40,19 +46,21 @@
 				// 取回帳號密碼
 				case "forget":
 					if(!self::$is_login){
+						self::forget_password($args);
 						$temp_option = array("MAIN" => self::$temp.'ogs-admin-forget-tpl.html');
 						new VIEW(self::$temp.'ogs-admin-hull-tpl.html',$temp_option,false,ture);
 					}else{
 						header('location: '.CORE::$config["manage"]);
 					}
 				break;
-					
+				
 				// 登出
 				case "logout":
 					CORE::full_logout(CORE::$config["manage"]);
 				break;
 				
 				case '':
+					CORE::res_init(CORE::$config["manage"].'css/login.css','custom');
 					self::login_check();
 					self::index();
 				break;
@@ -136,11 +144,11 @@
 		}
 		
 		// 取回帳號密碼
-		private static function forget_password(){
-			$email_ck = preg_match('/^[A-Za-z0-9]{4,20}/', $_POST["oa_email"]);			
-			
+		private static function forget_password(array $args){
+			$email_ck = preg_match('/^[A-Za-z0-9]{4,20}/', $_POST["oa_email"]);
+						
 			// 發送信件
-			if($email_ck){
+			if($email_ck && $args[0] == 'send'){
 				$select = array(
 					'table' => 'ogs_admin',
 					'fields' => "*",
@@ -154,22 +162,52 @@
 				
 				if(!empty($rsnum)){
 					$row = DB::field($sql);
-					$mail_from = 'system@ogs.com.tw';
+					$rand_password = CORE::rand_password(); // 組成隨機密碼
+					
+					// 更改帳號為隨機密碼
+					$new_password = md5($rand_password);
+					$sql_update = array(
+						'oa_password' => $new_password,
+						'oa_id' => $row["oa_id"],
+					);
+					
+					DB::update('ogs_admin',$sql_update);
+
+					// 發送信件
+					$mail_from = 'no-reply@ogs-system.com.tw';
 					$mail_to = $row["oa_email"];
-					$mail_content = 'Account: '.$row["oa_account"];
-					$mail_subject = 'Retrieve Your Account';
+					$mail_content = '<p>帳號: '.$row["oa_account"].'</p><p>您的新密碼: '.$rand_password.'</p>';
+					$mail_subject = '取回您的帳號';
 					$mail_name = 'OGS Admin system';
 					
 					CORE::mail_handle($mail_from,$mail_to,$mail_content,$mail_subject,$mail_name);
-				}				
+					
+					$return_status = true;
+				}else{
+					$return_status = false;
+				}
+			}else{
+				$return_status = false;
+			}
+			
+			// 後處理
+			if($return_status){
+				CORE::notice('已經寄送帳號密碼至您的信箱',CORE::$config["manage"],true);
+			}
+			
+			if(!$return_status && is_array($args) && count($args) > 0){
+				CORE::notice('錯誤的資訊',CORE::$config["manage"].'forget/',true);
 			}
 		}
-		
+
 		// 後台管理首頁
 		private static function index(){
 			
 			
-			$temp_option = array("LEFT" => self::$temp.'ogs-admin-left-tpl.html');
+			$temp_option = array(
+				"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+				"MAIN" => self::$temp.'ogs-admin-index-tpl.html'
+			);
 			new VIEW(self::$temp.'ogs-admin-hull-tpl.html',$temp_option,false,ture);
 		}
 	}

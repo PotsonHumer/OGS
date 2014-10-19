@@ -158,6 +158,39 @@
 				VIEW::assignGlobal($res_tag,$res_insert);
 			}
 		}
+
+		// 顯示提示 (提示內容,提示後前往路徑,true => js 提示; false => tpl 提示)
+		public static function notice($msg,$heading=false,$type=false){
+			if(!$type){
+				VIEW::newBlock("TAG_NOTICE_BLOCK");
+				VIEW::assign("MSG_NOTICE",$msg);
+				
+				if(!empty($heading)){
+					header('refresh: 2; url='.$heading);
+				}
+			}else{
+				self::res_init('default','js');
+				VIEW::assignGlobal("JS_NOTICE",'<script>js_notice("'.$msg.'","'.$heading.'");</script>');
+			}
+		}
+		
+		// 組成隨機密碼
+		public static function rand_password(){
+			$code_length = 12;
+			$code_array = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+			
+			for($i=1;$i<=$code_length;$i++){
+				$rand_code = rand(0, 26);
+				
+				if($rand_code <= 25){
+					$code_word .= $code_array[$i];
+				}else{
+					$code_word .= rand(0, 9);
+				}
+			}
+			
+			return $code_word;
+		}
 		
 		// 信件方法 (來源位置,寄送位置,內容,抬頭,寄件者名稱)
 		public static function mail_handle($from,$to,$mail_content,$mail_subject,$mail_name){
@@ -166,7 +199,7 @@
 	        //寄給送信者
 	        $MAIL_HEADER   = "MIME-Version: 1.0\n";
 	        $MAIL_HEADER  .= "Content-Type: text/html; charset=\"utf-8\"\n";
-	        $MAIL_HEADER  .= "From: =?UTF-8?B?".base64_encode($from_name)."?= <".$from_email[0].">"."\n";
+	        $MAIL_HEADER  .= "From: =?UTF-8?B?".base64_encode($mail_name)."?= <".$from_email[0].">"."\n";
 	        $MAIL_HEADER  .= "Reply-To: ".$from_email[0]."\n";
 	        $MAIL_HEADER  .= "Return-Path: ".$from_email[0]."\n";    // these two to set reply address
 	        $MAIL_HEADER  .= "X-Priority: 1\n";

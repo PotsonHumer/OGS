@@ -9,28 +9,37 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<script type="text/javascript" src="{TAG_JS_PATH}jquery-1.8.3.min.js"></script>
-
+	
 	{TAG_CSS_INCLUDE}
 	{TAG_JS_BOX}
 	{TAG_JS_INCLUDE}
 	{TAG_CUSTOM_INCLUDE}
+	{JS_NOTICE}
 </head>
 
 <body>
 	<header>
 		<h1>網站後臺管理系統</h1>
+		
+		<!-- START BLOCK : TAG_HEADER_OPTION -->
+		<div id="header_option">
+			<a href="{TAG_MANAGE_PATH}logout" class="icon-power no-brackets">登出</a>
+		</div>
+		<!-- END BLOCK : TAG_HEADER_OPTION -->
 	</header>
 	
-	<nav>
-		<!-- INCLUDE BLOCK : LEFT -->
-	</nav>
-	
-	<main>
-		<!-- INCLUDE BLOCK : MAIN -->
-	</main>
+	<!-- INCLUDE BLOCK : LEFT -->
+
+	<div id="main">
+		<div id="content">
+			
+			<!-- INCLUDE BLOCK : MAIN -->
+			
+		</div>
+	</div>
 	
 	<footer>
-		<p> OGS backstage management</p>
+		OGS backstage management
 	</footer>
 </body>
 </html>

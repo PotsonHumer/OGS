@@ -1,12 +1,14 @@
 /* OGS ADMIN css reset setting */
 
+/* CSS reset */
 html,body,p,ol,ul,li,div,span,p,table,th,td,strong,a,noscript,nav,footer,main,h1,h2,h3,h4,h5,h6{
 	padding: 0;
 	margin: 0;
 	list-style: none;
 	font-weight: normal;
 	font-size: 1em;
-	font-family:"Arial","MingLiU","PMingLiU";
+	font-family: Arial,"微軟正黑體","Microsoft JhengHei UI", "Microsoft JhengHei";
+	letter-spacing: 0.01em;
 }
 
 input,select,textarea{
@@ -22,6 +24,200 @@ img{
 	border: 0;
 }
 
+a:link{
+	text-decoration: none;
+}
+
 *:after,*:before{
 	content: ' ';
+}
+
+/* Common setting */
+body{
+	position: relative;
+}
+
+header{
+	position: relative;
+	width: 98%;
+	height: 40px;
+	padding: 0 1%;
+	margin: 0 0 10px 0;
+	background: #000;
+}
+
+header:after{
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 5px;
+	background: #2F96B4;
+}
+
+h1,#header_option{
+	float: left;
+	line-height: 35px;
+	color: #FFF;
+}
+
+#header_option{
+	float: right;
+	
+}
+
+h2{
+	margin: 20px 0;
+}
+
+h2:before{
+	margin: 0 5px;
+	padding: 0 2px;
+	background: #2F96B4;
+}
+
+#main{
+	position: relative;
+	padding: 0 0 0 60px;
+}
+
+#main #content{
+	width: 100%;
+}
+
+footer{
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	width: 96%;
+	height: 35px;
+	line-height: 35px;
+	padding: 0 2%;
+	text-align: right;
+	display: block;
+}
+
+label{
+	padding: 0 0 0 5px;
+}
+
+label:after{
+	content: '：';
+}
+
+label + input,label + select{
+	margin: 0 0 0 5px;
+	vertical-align: middle;
+}
+
+label + textarea{
+	vertical-align: top;
+}
+
+input[type=text],input[type=password],select{
+	padding: 5px 0;
+}
+
+input[type=button],input[type=reset],input[type=submit]{
+	padding: 5px 20px;
+}
+
+p{
+	margin: 10px 0;
+}
+
+a:before{
+	content: ' [ ';
+}
+
+a:after{
+	content: ' ] ';
+}
+
+a.no-brackets:after{
+	content: ' ';
+}
+
+/* NAV */
+nav{
+	position: absolute;
+	top: 45px;
+	left: -204px;
+	width: 200px;
+	background: #FFF;
+	border: 1px solid #2F96B4;
+	box-shadow: 2px 2px 5px #333;
+	z-index: 5;	
+}
+
+
+nav h2{
+	margin: 5px 0 20px 0;
+}
+
+nav label{
+	display: block;
+	width: 98%;
+	height: 30px;
+	line-height: 30px;
+	background: #2F96B4;
+	color: #FFF;
+	padding: 1%;
+	margin: 0 0 10px 0;
+}
+
+nav label:after{
+	content: ' ';
+}
+
+nav ul{
+	margin: 0 0 1em 1em;
+}
+
+nav li{
+	margin: 10px 0;
+}
+
+nav li a{
+	color: #333;
+}
+
+nav li a:hover,nav li a.current{
+	color: #2F96B4;
+	font-weight: bold;
+}
+
+#nav_close{
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	top: 10px;
+	right: -42px;
+	border: 1px solid #2F96B4;
+	border-left: 2px solid #FFF;
+	box-shadow: 3px 3px 1px #888;
+	background: #FFF;
+	cursor: pointer;
+	z-index: 5;
+	line-height: 40px;
+	text-align: center;
+}
+
+#nav_close:hover,#nav_close.icon-rewind{
+	color: #2F96B4;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px #999;
+}
+
+/* header_option */
+#header_option a{
+	color: #FFF;
+}
+
+#header_option a:before{
+	margin: 0 2px 0 0;
+}
+
+#header_option a:hover{
+	color: #2F96B4;
 }

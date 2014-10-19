@@ -1,7 +1,7 @@
 <?php
 
 	$config["root"] = "/OGS/";
-	$config["url"] = "hearthfarm.com";
+	$config["url"] = "localhost";
 	$config["img"] = $config["root"].'img/'; // 圖片路徑
 	$config["css"] = $config["root"].'css/'; // css 路徑
 	$config["js"] = $config["root"].'js/'; // js 路徑
