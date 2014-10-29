@@ -1,0 +1,49 @@
+<h2>管理員設定</h2>
+
+<hr>
+
+<h3>管理員資料{MSG_TITLE}</h3>
+
+<form name="admin_add_form" method="post" action="{TAG_MANAGE_PATH}admin/replace/">
+	<table>
+		<tr>
+			<th class="must" width="15%">帳號</th>
+			<td>
+				<input type="text" name="oa_account" value="{VALUE_OA_ACCOUNT}" size="100">
+			</td>
+			<th class="must" width="15%">名稱</th>
+			<td>
+				<input type="text" name="oa_name" value="{VALUE_OA_NAME}" size="100">
+			</td>
+		</tr>
+		<tr>
+			<th class="must">E-mail</th>
+			<td colspan="3">
+				<input type="text" name="oa_email" value="{VALUE_OA_EMAIL}" size="500">
+			</td>
+		</tr>
+		<tr>
+			<th>{MSG_PASSWORD}</th>
+			<td colspan="3">
+				<!-- START BLOCK : TAG_ORIGIN_PASSWORD -->
+				<label>輸入原本密碼</label><input type="text" name="origin_password" size="200">
+				<br />
+				<!-- END BLOCK : TAG_ORIGIN_PASSWORD -->
+				<label>輸入密碼　　</label><input type="text" name="oa_password" size="200">
+				<br />
+				<label>再次輸入密碼</label><input type="text" name="confirm_password" size="200">
+			</td>
+		</tr>
+		<tr>
+			<td class="btn" colspan="4">
+				<input type="submit" value="儲存">
+				<input class="goto" type="button" value="回列表" rel="{TAG_MANAGE_PATH}admin/">
+			</td>
+		</tr>
+	</table>
+
+	<input type="hidden" name="oa_id" value="{VALUE_OA_ID}">
+	<input type="hidden" name="oa_type" value="{VALUE_OA_TYPE}">
+</form>
+
+<hr>

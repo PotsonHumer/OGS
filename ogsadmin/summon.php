@@ -15,6 +15,7 @@
 			self::$is_login = (!empty($_SESSION[CORE::$config["sess"]]["ogsadmin"]["oa_id"]))?true:false;
 			CORE::res_init(CORE::$config["manage"].'css/ogsadmin.css','custom'); // 載入 CSS
 			CORE::res_init('font','css'); // 載入 CSS
+			CORE::res_init('default','js');
 			self::$func = array_shift($args); // 功能名稱
 			
 			// include 所有模組
@@ -202,13 +203,45 @@
 
 		// 後台管理首頁
 		private static function index(){
-			
-			
 			$temp_option = array(
 				"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
 				"MAIN" => self::$temp.'ogs-admin-index-tpl.html'
 			);
 			new VIEW(self::$temp.'ogs-admin-hull-tpl.html',$temp_option,false,ture);
+		}
+		
+		// 簡易取得單項資料,並直接以資料欄位名稱輸出至 VIEW
+		protected static function simple_load($tb_name,array $where,$no_output=false){
+			foreach($where as $field => $value){
+				$where_array[] = $field." = '".$value."'";
+			}
+			
+			$where_str = implode(",",$where_array);
+
+			$select = array (
+				'table' => $tb_name,
+				'fields' => "*",
+				'condition' => $where_str,
+				//'order' => '',
+				'limit' => '0,1',
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				$row = DB::field($sql);
+				
+				if(!$no_output){
+					foreach($row as $field => $value){
+						VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
+					}
+				}
+				
+				return $row;
+			}else{
+				return false;
+			}
 		}
 	}
 ?>

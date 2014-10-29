@@ -1,0 +1,39 @@
+<h2>管理員設定</h2>
+
+<hr>
+
+<h3>管理員列表一覽</h3>
+
+<table>
+	<tr class="btn">
+		<td>
+			<a href="{TAG_MANAGE_PATH}admin/add/" class="span"><span class="icon-circle-plus">新增管理員</span></a>
+		</td>
+	</tr>
+</table>
+
+<table>
+	<tr>
+		<th width="5%">No.</th>
+		<th width="10%">帳號</th>
+		<th width="15%">名稱</th>
+		<th width="30%">E-mail</th>
+		<th width="20%">創建時間</th>
+		<th width="20%">功能</th>
+	</tr>
+	<!-- START BLOCK : TAG_ADMIN_LIST -->
+	<tr>
+		<td class="center">{VALUE_OA_NUM}</td>
+		<td class="center">{VALUE_OA_ACCOUNT}</td>
+		<td class="center">{VALUE_OA_NAME}</td>
+		<td class="center">{VALUE_OA_EMAIL}</td>
+		<td class="center">{VALUE_OA_CREATEDATE}</td>
+		<td class="center">
+			<a href="{TAG_MANAGE_PATH}admin/mod/{VALUE_OA_ID}/" class="icon-link no-brackets span">修改</a>
+			<!--<a href="{TAG_MANAGE_PATH}admin/close/" class="icon-ban no-brackets span">關閉</a>-->
+		</td>
+	</tr>
+	<!-- END BLOCK : TAG_ADMIN_LIST -->
+</table>
+
+<hr>

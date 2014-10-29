@@ -33,8 +33,8 @@
 			/*
 			$default = array (
 				'table' => '',
-				'fields' => '*',
-				'condition' => '1',
+				'field' => '*',
+				'where' => '1',
 				'order' => '1',
 				'limit' => 50
 			);
@@ -42,12 +42,12 @@
 			*/
 			
 			if($options){ // 判斷是否有輸入值
-				if(empty($options['condition'])){ $condition = ""; }else{ $condition = "WHERE {$options['condition']}"; }
+				if(empty($options['where'])){ $where = ""; }else{ $where = "WHERE {$options['where']}"; }
 				if(empty($options['order'])){ $order = ""; }else{ $order = "ORDER BY {$options['order']}"; }
 				if(empty($options['limit'])){ $limit = ""; }else{ $limit = "LIMIT {$options['limit']}"; }
 				
-				$sql = "SELECT {$options['fields']} FROM {$options['table']} 
-						{$condition} 
+				$sql = "SELECT {$options['field']} FROM {$options['table']} 
+						{$where} 
 						{$order} 
 						{$limit}";
 				

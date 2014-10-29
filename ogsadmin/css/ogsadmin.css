@@ -1,7 +1,7 @@
 /* OGS ADMIN css reset setting */
 
 /* CSS reset */
-html,body,p,ol,ul,li,div,span,p,table,th,td,strong,a,noscript,nav,footer,main,h1,h2,h3,h4,h5,h6{
+html,body,p,ol,ul,li,div,span,p,table,th,td,strong,a,noscript,nav,footer,main,h1,h2,h3,h4,h5,h6,hr,input[type=button],input[type=submit],input[type=reset]{
 	padding: 0;
 	margin: 0;
 	list-style: none;
@@ -9,6 +9,10 @@ html,body,p,ol,ul,li,div,span,p,table,th,td,strong,a,noscript,nav,footer,main,h1
 	font-size: 1em;
 	font-family: Arial,"微軟正黑體","Microsoft JhengHei UI", "Microsoft JhengHei";
 	letter-spacing: 0.01em;
+}
+
+input[type=button],input[type=submit],input[type=reset]{
+	font-size: 0.8em;
 }
 
 input,select,textarea{
@@ -24,12 +28,73 @@ img{
 	border: 0;
 }
 
-a:link{
+a{
+	color: #333;
 	text-decoration: none;
+}
+
+a:hover{
+	color: #2F96B4;
 }
 
 *:after,*:before{
 	content: ' ';
+}
+
+/* default defined */
+
+.green{
+	color: #2F96B4;
+}
+
+hr{
+	height: 2px;
+	border: none;
+	padding: 10px 0;
+}
+
+hr:before,hr:after{
+	display: block;
+	background: #CCC;
+	height: 1px;
+}
+
+hr:before{
+	background: #333;
+}
+
+.clear{
+	clear: both;
+}
+
+.left{
+	text-align: left;
+}
+
+.right{
+	text-align: right;
+}
+
+.center{
+	text-align: center;
+}
+
+.float_l{
+	float: left;
+}
+
+.float_r{
+	float: right;
+}
+
+.span{
+	display: inline-block;
+	margin: 0 5px;
+}
+
+.must:before{
+	content: '*';
+	margin: 0 2px 0 0;
 }
 
 /* Common setting */
@@ -67,14 +132,23 @@ h1,#header_option{
 }
 
 h2{
-	margin: 20px 0;
+	padding: 10px 0;
 }
 
-h2:before{
+h2:before,h3:before{
 	margin: 0 5px;
 	padding: 0 2px;
 	background: #2F96B4;
 }
+
+h3{
+	padding: 10px 0;
+}
+
+h3:before{
+	background: #2244FF;
+}
+
 
 #main{
 	position: relative;
@@ -201,6 +275,11 @@ nav li a:hover,nav li a.current{
 	z-index: 5;
 	line-height: 40px;
 	text-align: center;
+	font-size: 24px;
+}
+
+#nav_close:before{
+	padding: 0;
 }
 
 #nav_close:hover,#nav_close.icon-rewind{
@@ -214,10 +293,52 @@ nav li a:hover,nav li a.current{
 	color: #FFF;
 }
 
-#header_option a:before{
-	margin: 0 2px 0 0;
-}
-
 #header_option a:hover{
 	color: #2F96B4;
+}
+
+/* TABLE */
+table{
+	width: 90%;
+	margin: 10px auto;
+}
+
+table th{
+	background: #2F96B4;
+	color: #FFF;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	border: 1px solid #FFF;
+}
+
+table td{
+	border: 1px solid #FFF;
+	height: 30px;
+	line-height: 30px;
+	padding: 5px 10px;
+}
+
+table tr{
+	background: #EEE;
+}
+
+table tr:nth-child(odd){
+	background: #DDD;
+}
+
+table tr.span{
+	background: #FFF;
+}
+
+table tr.btn{
+	background: #FCFCFC;
+}
+
+table tr:hover{
+	background: #D3E7ED;
+}
+
+table tr.span,table tr.btn{
+	background: inherit;
 }
