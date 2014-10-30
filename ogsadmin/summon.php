@@ -89,8 +89,8 @@
 				
 				$select = array (
 					'table' => 'ogs_admin',
-					'fields' => "*",
-					'condition' => "oa_account = '".$oa_account."' and oa_id = '".$oa_id."'",
+					'field' => "*",
+					'where' => "oa_account = '".$oa_account."' and oa_id = '".$oa_id."'",
 					//'order' => '',
 					//'limit' => '',
 				);
@@ -119,8 +119,8 @@
 			
 			$select = array (
 				'table' => 'ogs_admin',
-				'fields' => "*",
-				'condition' => "oa_account = '".$_POST["oa_account"]."' and oa_password = '".$oa_password_md5."'",
+				'field' => "*",
+				'where' => "oa_account = '".$_POST["oa_account"]."' and oa_password = '".$oa_password_md5."'",
 				//'order' => '',
 				//'limit' => '',
 			);
@@ -152,8 +152,8 @@
 			if($email_ck && $args[0] == 'send'){
 				$select = array(
 					'table' => 'ogs_admin',
-					'fields' => "*",
-					'condition' => "oa_email = '".$_POST["oa_email"]."'",
+					'field' => "*",
+					'where' => "oa_email = '".$_POST["oa_email"]."'",
 					//'order' => '',
 					//'limit' => '',
 				);
@@ -220,8 +220,8 @@
 
 			$select = array (
 				'table' => $tb_name,
-				'fields' => "*",
-				'condition' => $where_str,
+				'field' => "*",
+				'where' => $where_str,
 				//'order' => '',
 				'limit' => '0,1',
 			);

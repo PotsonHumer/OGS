@@ -14,11 +14,13 @@
 		public static function R($tb_name,array $args,$custom_sql=false){
 			
 			if(!$custom_sql){
-				foreach($args["where"] as $field => $value){
-					$where_array[] = $field." = '".$value."'";
+				if(is_array($args["where"])){
+					foreach($args["where"] as $field => $value){
+						$where_array[] = $field." = '".$value."'";
+					}
+	
+					$where_str = implode(",",$where_array);
 				}
-
-				$where_str = implode(",",$where_array);
 
 				$select = array(
 					'table' => $tb_name,

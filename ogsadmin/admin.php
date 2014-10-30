@@ -19,6 +19,9 @@
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
 					self::admin_replace();
 				break;
+				case "del":
+					
+				break;
 				default:
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-admin-tpl.html');
 					self::admin_list($args);
@@ -36,24 +39,21 @@
 		private function admin_list(){
 			
 			$select = array (
-				'table' => 'ogs_admin',
-				'fields' => "*",
-				//'condition' => "",
+				'field' => "*",
+				//'where' => "",
 				//'order' => '',
 				//'limit' => '',
 			);
 			
-			$sql = DB::select($select);
-			$rsnum = DB::num($sql);
-			
-			if(!empty($rsnum)){
-				while($row = DB::field($sql)){
-					VIEW::newBlock("TAG_ADMIN_LIST");
-					
-					VIEW::assign("VALUE_OA_NUM",++$i);
-					foreach($row as $field => $value){
-						VIEW::assign('VALUE_'.strtoupper($field),$value);
-					}
+			$all_row = CRUD::R('ogs_admin', $select);
+			foreach($all_row as $row){
+				$i++;
+				VIEW::newBlock("TAG_ADMIN_LIST");
+				foreach($row as $field => $value){
+					VIEW::assign(array(
+						"VALUE_".strtoupper($field) => $value,
+						"VALUE_OA_NUM" => $i,
+					));
 				}
 			}
 		}
@@ -71,10 +71,21 @@
 					$pass_title = '修改密碼';
 					
 					$oa_id = $args[0];
-					$oa_row = parent::simple_load('ogs_admin',array('oa_id' => $oa_id));
-					VIEW::newBlock("TAG_ORIGIN_PASSWORD");
+					$select = array(
+						'field' => "*",
+						'where' => array('oa_id' => $oa_id),
+						//'order' => '',
+						//'limit' => '',
+					);
 					
-					if(!$oa_row){
+					$all_row = CRUD::R('ogs_admin', $select);
+					foreach($all_row[0] as $field => $value){
+						VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
+					}
+					
+					VIEW::newBlock("TAG_ORIGIN_PASSWORD");
+										
+					if(empty(CRUD::$rsnum)){
 						CORE::notice('查無此項目',CORE::$config["manage"].'admin',true);
 					}
 				break;
@@ -106,9 +117,18 @@
 						}
 					}
 					
-					DB::insert("ogs_admin",$sql_args);
+					CHECK::is_email($sql_args["oa_email"]);
+					CHECK::is_password($_REQUEST["oa_password"]);
+					CHECK::is_same($sql_args["oa_password"], md5($_REQUEST["confirm_password"]));
+					
+					if(CHECK::is_pass()){
+						DB::insert("ogs_admin",$sql_args);
+					}else{
+						DB::$error = CHECK::$alert;
+					}
+					
 					if(!empty(DB::$error)){
-						CORE::notice(DB::$error,CORE::$config["manage"].'admin/');
+						CORE::notice(DB::$error,CORE::$config["manage"].'admin/add/');
 					}else{
 						CORE::notice('新增成功',CORE::$config["manage"].'admin/');
 					}

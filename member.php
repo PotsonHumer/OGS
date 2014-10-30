@@ -49,8 +49,8 @@
 			
 			$select = array (
 				'table' => self::$db_prefix.'_member',
-				'fields' => "*",
-				'condition' => "m_account = '".$_POST["m_account"]."' and m_password = '".$m_password_md5."'",
+				'field' => "*",
+				'where' => "m_account = '".$_POST["m_account"]."' and m_password = '".$m_password_md5."'",
 				//'order' => '',
 				//'limit' => '',
 			);

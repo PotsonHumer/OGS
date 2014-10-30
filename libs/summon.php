@@ -7,6 +7,7 @@
 			include_once $self_path.'class.TemplatePower.inc.php';
 			include_once $self_path.'db.php';
 			include_once $self_path.'crud.php';
+			include_once $self_path.'check.php';
 		}
 	}
 	
