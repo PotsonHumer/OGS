@@ -17,15 +17,22 @@
 			</td>
 		</tr>
 		<tr>
+			<th>狀態</th>
+			<td>
+				<label>關閉</label><input type="radio" name="oa_status" value="0" {VALUE_OA_STATUS_CK0} {TAG_STATUS_DISABLE}>
+				<label>啟動</label><input type="radio" name="oa_status" value="1" {VALUE_OA_STATUS_CK1} {TAG_STATUS_DISABLE}>
+			</td>
 			<th class="must">E-mail</th>
-			<td colspan="3">
-				<input type="text" name="oa_email" value="{VALUE_OA_EMAIL}" size="500">
+			<td>
+				<input type="text" name="oa_email" value="{VALUE_OA_EMAIL}" size="300">
 			</td>
 		</tr>
 		<tr>
 			<th>{MSG_PASSWORD}</th>
 			<td colspan="3">
 				<!-- START BLOCK : TAG_ORIGIN_PASSWORD -->
+				<p class="icon-bell">更改密碼完成將會強制自動登出</p>
+				
 				<label>輸入原本密碼</label><input type="text" name="origin_password" size="200">
 				<br />
 				<!-- END BLOCK : TAG_ORIGIN_PASSWORD -->

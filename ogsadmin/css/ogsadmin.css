@@ -97,6 +97,10 @@ hr:before{
 	margin: 0 2px 0 0;
 }
 
+.hide{
+	display: none;
+}
+
 /* Common setting */
 body{
 	position: relative;

@@ -16,21 +16,24 @@
 	<tr>
 		<th width="5%">No.</th>
 		<th width="10%">帳號</th>
-		<th width="15%">名稱</th>
-		<th width="30%">E-mail</th>
+		<th width="10%">狀態</th>
+		<th width="10%">名稱</th>
+		<th width="25%">E-mail</th>
 		<th width="20%">創建時間</th>
 		<th width="20%">功能</th>
 	</tr>
 	<!-- START BLOCK : TAG_ADMIN_LIST -->
 	<tr>
-		<td class="center">{VALUE_OA_NUM}</td>
+		<td class="center">{VALUE_ROW_NUM}</td>
 		<td class="center">{VALUE_OA_ACCOUNT}</td>
+		<td class="center">{TAG_OA_STATUS_STR}</td>
 		<td class="center">{VALUE_OA_NAME}</td>
 		<td class="center">{VALUE_OA_EMAIL}</td>
 		<td class="center">{VALUE_OA_CREATEDATE}</td>
 		<td class="center">
 			<a href="{TAG_MANAGE_PATH}admin/mod/{VALUE_OA_ID}/" class="icon-link no-brackets span">修改</a>
-			<!--<a href="{TAG_MANAGE_PATH}admin/close/" class="icon-ban no-brackets span">關閉</a>-->
+			<a href="{TAG_MANAGE_PATH}admin/close/{VALUE_OA_ID}/" class="icon-ban no-brackets span {TAG_HIDE_CLOSE}">關閉</a>
+			<a href="{TAG_MANAGE_PATH}admin/open/{VALUE_OA_ID}/" class="icon-check no-brackets span {TAG_HIDE_OPEN}">啟動</a>
 		</td>
 	</tr>
 	<!-- END BLOCK : TAG_ADMIN_LIST -->

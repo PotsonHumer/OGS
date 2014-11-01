@@ -90,7 +90,7 @@
 				$select = array (
 					'table' => 'ogs_admin',
 					'field' => "*",
-					'where' => "oa_account = '".$oa_account."' and oa_id = '".$oa_id."'",
+					'where' => "oa_account = '".$oa_account."' and oa_id = '".$oa_id."' and oa_status = '1'",
 					//'order' => '',
 					//'limit' => '',
 				);
@@ -120,7 +120,7 @@
 			$select = array (
 				'table' => 'ogs_admin',
 				'field' => "*",
-				'where' => "oa_account = '".$_POST["oa_account"]."' and oa_password = '".$oa_password_md5."'",
+				'where' => "oa_account = '".$_POST["oa_account"]."' and oa_password = '".$oa_password_md5."' and oa_status = '1'",
 				//'order' => '',
 				//'limit' => '',
 			);
@@ -130,7 +130,7 @@
 			
 			if(!empty($rsnum)){
 				// 登入成功
-				$row = DB::field($sql);
+				$row = DB::fetch($sql);
 				unset($row["oa_password"]);
 				
 				foreach($row as $oa_field => $oa_value){
@@ -162,7 +162,7 @@
 				$rsnum = DB::num($sql);
 				
 				if(!empty($rsnum)){
-					$row = DB::field($sql);
+					$row = DB::fetch($sql);
 					$rand_password = CORE::rand_password(); // 組成隨機密碼
 					
 					// 更改帳號為隨機密碼
@@ -230,7 +230,7 @@
 			$rsnum = DB::num($sql);
 			
 			if(!empty($rsnum)){
-				$row = DB::field($sql);
+				$row = DB::fetch($sql);
 				
 				if(!$no_output){
 					foreach($row as $field => $value){
