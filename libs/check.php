@@ -22,6 +22,30 @@
 			self::$status = '';
 		}
 		
+		//--------------------------------------------------------
+		
+		public static function is_must(){
+			$args = func_get_args();
+			
+			if(self::is_array_exist($args)){
+				foreach($args as $key => $value){
+					$rs[$key] = (!empty($value) && $value !== null)?true:false;
+				}
+				
+				if(self::is_array_exist($rs) && count($rs) == array_sum($rs)){
+					$total_rs = true;
+				}else{
+					$total_rs = false;
+				}
+				
+				if(!$total_rs){
+					self::$alert = '缺失參數';
+				}
+				
+				return self::$status[] = $total_rs;
+			}
+		}
+		
 		public static function is_email($args){
 			$rs = preg_match('/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/', $args);
 			
@@ -41,12 +65,22 @@
 			
 			return self::$status[] = $rs;
 		}
-		
+				
 		public static function is_same($args_1,$args_2){
 			$rs = ($args_1 == $args_2)?true:false;
 			
 			if(!$rs){
-				self::$alert = '數值錯誤';
+				self::$alert = '參數錯誤';
+			}
+			
+			return self::$status[] = $rs;
+		}
+		
+		public static function is_not_same($args_1,$args_2){
+			$rs = ($args_1 != $args_2)?true:false;
+			
+			if(!$rs){
+				self::$alert = '參數錯誤';
 			}
 			
 			return self::$status[] = $rs;

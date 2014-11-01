@@ -60,12 +60,15 @@
 			
 		}
 		
+		public static function field($sql){
+			return mysql_fetch_field($sql);
+		}
 		
-		public static function field($sql,$fetch_array=false){
+		public static function fetch($sql,$fetch_array=false){
 			
 			if($sql && $sql!=false){
 				if($fetch_array){
-					return mysql_fetch_array($sql);
+					return mysql_fetch_array($sql,MYSQL_NUM);
 				}else{
 					return mysql_fetch_assoc($sql);
 				}
