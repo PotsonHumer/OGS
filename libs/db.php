@@ -140,9 +140,11 @@
 		public static function delete($tbl_name,array $input){
 			
 			if(is_array($input) && count($input)){
-				$field = array_shift($input);
+				$field_array = array_keys($input);
+				$field = array_shift($field_array);
+				$value = $input[$field];
 				
-				$sql = "DELETE FROM ".$tbl_name." WHERE ".$field." = '".$input[$field]."'";
+				$sql = "DELETE FROM ".$tbl_name." WHERE ".$field." = '".$value."'";
 				self::execute($sql);
 			}
 		}

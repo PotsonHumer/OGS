@@ -1,7 +1,7 @@
 <?php
 
 	// 管理員設定
-	class ADMIN extends OGSADMIN{
+	class INTRO extends OGSADMIN{
 		protected static $func;
 		
 		function __construct($args){
@@ -10,23 +10,17 @@
 			$temp_option = array("LEFT" => self::$temp.'ogs-admin-left-tpl.html');
 			
 			switch(self::$func){
-				case "add":
-				case "mod":
-					$temp_main = array("MAIN" => self::$temp.'ogs-admin-admin-form-tpl.html');
-					self::admin_mod($args);
-				break;
-				case "replace":
+				case "group-replace":
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
-					self::admin_replace();
+					self::intro_group_replace();
 				break;
-				case "open":
-				case "close":
+				case "group-del":
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
-					self::admin_status($args);
+					self::intro_group_del($args);
 				break;
 				default:
-					$temp_main = array("MAIN" => self::$temp.'ogs-admin-admin-tpl.html');
-					self::admin_list($args);
+					$temp_main = array("MAIN" => self::$temp.'ogs-admin-intro-group-tpl.html');
+					self::intro_group();
 				break;
 			}
 			
@@ -36,6 +30,113 @@
 			
 			new VIEW(self::$temp.'ogs-admin-hull-tpl.html',$temp_option,false,ture);
 		}
+
+		//--------------------------------------------------------------------------------------
+		
+		// 介紹頁群組
+		private function intro_group(){
+			$select = array(
+				'table' => CORE::$config["langfix"].'_intro_group',
+				'field' => "*",
+				//'where' => '',
+				'order' => 'ig_sort '.CORE::$config["sort"],
+				//'limit' => '',
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				while($row = DB::fetch($sql)){
+					VIEW::newBlock("TAG_IG_LIST");
+					VIEW::assign(array(
+						"VALUE_IG_ROW" => ++$i,
+						"VALUE_IG_ID" => $row["ig_id"],
+						"VALUE_IG_SORT" => $row["ig_sort"],
+						"VALUE_IG_STATUS_CK".$row["ig_status"] => 'checked',
+						"VALUE_IG_NAME" => $row["ig_name"],
+						"VALUE_IG_DIR" => $row["ig_dir"],
+						"VALUE_IG_DEL_PATH" => CORE::$config["manage"].'intro/group-del/'.$row["ig_id"].'/'
+					));
+				}
+			}else{
+				VIEW::newBlock("TAG_IG_LIST");
+				VIEW::assign(array(
+					"VALUE_IG_ROW" => 1,
+					"VALUE_IG_SORT" => 1,
+				));
+			}
+		}
+
+		private function intro_group_replace(){
+			
+			CHECK::is_array_exist($_REQUEST["ig_id"]);
+			$msg_path = CORE::$config["manage"].'intro/';
+			
+			if(CHECK::is_pass()){
+				
+				$select = array(
+					'table' => CORE::$config["langfix"].'_intro_group',
+					'field' => "*",
+					//'where' => '',
+					//'order' => '',
+					//'limit' => '',
+				);
+				
+				$sql = DB::select($select);
+				while($row = DB::field($sql)){
+					$field_array[] = $row->name;
+				}
+				
+				foreach($_REQUEST["ig_id"] as $key => $ID){
+					unset($args);
+					foreach($field_array as $field){
+						$args[$field] = $_REQUEST[$field][$key];
+					}
+					
+					DB::replace(CORE::$config["langfix"].'_intro_group',$args);
+					
+					if(!empty(DB::$error)){
+						$msg_title = DB::$error;
+					}else{
+						$msg_title = '更新成功';
+					}
+				}
+			}else{
+				$msg_title = '參數錯誤';
+			}
+			
+			CORE::notice($msg_title,$msg_path);
+		}
+
+		private function intro_group_del($args){
+			$sql_args["ig_id"] = $args[0];
+			$msg_path = CORE::$config["manage"].'intro/';
+			
+			if(CHECK::is_must($sql_args["ig_id"])){
+				DB::delete(CORE::$config["langfix"].'_intro_group',$sql_args);
+				
+				if(!empty(DB::$error)){
+					$msg_title = DB::$error;
+				}else{
+					$msg_title = '刪除成功';
+				}
+			}else{
+				$msg_title = '參數錯誤';
+			}
+			
+			CHECK::check_clear();
+			CORE::notice($msg_title,$msg_path);
+		}
+		
+		//--------------------------------------------------------------------------------------
+		
+		// 介紹頁列表
+		private function intro_list(){
+			
+		}
+		
+		//--------------------------------------------------------------------------------------
 		
 		// 管理員列表
 		private function admin_list(){

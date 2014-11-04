@@ -71,6 +71,8 @@
 					$class_name = strtoupper(self::$func);
 					if(class_exists($class_name)){
 						new $class_name($args);
+					}else{
+						new VIEW(CORE::$root."404.htm",false,false,true);
 					}
 				break;
 			}
@@ -211,6 +213,7 @@
 		}
 		
 		// 簡易取得單項資料,並直接以資料欄位名稱輸出至 VIEW
+		/*
 		protected static function simple_load($tb_name,array $where,$no_output=false){
 			foreach($where as $field => $value){
 				$where_array[] = $field." = '".$value."'";
@@ -243,5 +246,6 @@
 				return false;
 			}
 		}
+		*/
 	}
 ?>

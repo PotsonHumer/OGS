@@ -346,3 +346,19 @@ table tr:hover{
 table tr.span,table tr.btn{
 	background: inherit;
 }
+
+/* PAGE */
+#page{
+	width: 80%;
+	margin: 10px auto;
+	text-align: center;
+}
+
+#page li{
+	display: inline-block;
+	margin: 0 5px;
+}
+
+#page li a.current{
+	color: #2F96B4;
+}

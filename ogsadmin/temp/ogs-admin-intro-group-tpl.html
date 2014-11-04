@@ -1,0 +1,105 @@
+<h2>介紹頁管理</h2>
+
+<hr>
+
+<h3>群組管理</h3>
+
+<p>設定介紹頁的分類群組，如不設定，所有的介紹頁將分在同一網址目錄下 (/intro/)</p>
+
+<form name="intro_group_form" method="post" action="{TAG_MANAGE_PATH}intro/group-replace/">
+	<table>
+		<tr>
+			<th width="10%">排序</th>
+			<th width="25%">狀態</th>
+			<th width="25%">名稱</th>
+			<th width="25%">路徑名稱 (限英數)</th>
+			<th width="15%">刪除</th>
+		</tr>
+		<!-- START BLOCK : TAG_IG_LIST -->
+		<tr class="ig_row" rel="{VALUE_IG_ROW}">
+			<td class="center">
+				<input type="text" name="ig_sort[{VALUE_IG_ROW}]" value="{VALUE_IG_SORT}" size="50">
+			</td>
+			<td class="center">
+				<label>開啟</label><input type="radio" name="ig_status[{VALUE_IG_ROW}]" value="1" {VALUE_IG_STATUS_CK1}>
+				<span class="span"></span>
+				<label>關閉</label><input type="radio" name="ig_status[{VALUE_IG_ROW}]" value="0" {VALUE_IG_STATUS_CK0}>
+			</td>
+			<td class="center">
+				<input type="text" name="ig_name[{VALUE_IG_ROW}]" value="{VALUE_IG_NAME}" size="200">
+			</td>
+			<td class="center">
+				<input type="text" name="ig_dir[{VALUE_IG_ROW}]" value="{VALUE_IG_DIR}" size="200">
+			</td>
+			<td class="center">
+				<input type="hidden" name="ig_id[{VALUE_IG_ROW}]" value="{VALUE_IG_ID}">
+				<input type="button" class="goto" name="del_ig" value="刪除此項" rel="{VALUE_IG_DEL_PATH}">
+			</td>
+		</tr>
+		<!-- END BLOCK : TAG_IG_LIST -->
+		<tr class="btn row_end">
+			<td colspan="5">
+				<input type="button" name="add_ig" value="增加群組">
+				<input type="submit" value="紀錄">
+			</td>
+		</tr>
+	</table>
+</form>
+
+<hr>
+
+<script>
+	$(function(){
+		$("input[name=add_ig]").click(function(){
+			var IG_ROW = 1;
+			
+			$(".ig_row").each(function(){
+				var EACH_ROW = Number($(this).attr("rel"));
+				
+				if(EACH_ROW >= IG_ROW){
+					IG_ROW = EACH_ROW;
+				}
+			});
+			
+			IG_ROW++;
+			
+			$(".row_end").before(
+				'<tr class="ig_row" rel="'+ IG_ROW +'">'+
+					'<td class="center">'+
+						'<input type="text" name="ig_sort['+ IG_ROW +']" value="'+ IG_ROW +'" size="50">'+
+					'</td>'+
+					'<td class="center">'+
+						'<label>開啟</label><input type="radio" name="ig_status['+ IG_ROW +']" value="1">'+
+						'<span class="span"></span>'+
+						'<label>關閉</label><input type="radio" name="ig_status['+ IG_ROW +']" value="0">'+
+					'</td>'+
+					'<td class="center">'+
+						'<input type="text" name="ig_name['+ IG_ROW +']" size="200">'+
+					'</td>'+
+					'<td class="center">'+
+						'<input type="text" name="ig_dir['+ IG_ROW +']" size="200">'+
+					'</td>'+
+					'<td class="center">'+
+						'<input type="hidden" name="ig_id['+ IG_ROW +']">'+
+						'<input type="button" name="del_ig" value="刪除此項">'+
+					'</td>'+
+				'</tr>'
+			);
+			
+			pixels_size();
+		});
+		
+		//----
+		$(document).on("click","input[name=del_ig]",function(){
+			if(!confirm('確定刪除此項?')){
+				return false;
+			}
+			
+			var DLE_PATH = $(this).attr("rel");
+			
+			if(!isset(DLE_PATH)){
+				$(this).parents(".ig_row").remove();
+			}
+		});
+	});
+</script>

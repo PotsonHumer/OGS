@@ -1,6 +1,6 @@
 <?php
 
-	class CRUD extends DB{
+	class CRUD{
 		public static $rsnum;
 		public static $call_class; // 回呼方法來源
 		public static $call_func; // 回乎方法來源方法
@@ -9,7 +9,7 @@
 		
 		// 檢查輸入的參數是否符合資料庫
 		// 如有多餘的參數則刪除
-		private static function field_match($tb_name,array $args){
+		public static function field_match($tb_name,array $args){
 			
 			$select = array(
 				'table' => $tb_name,
@@ -39,7 +39,22 @@
 			}
 		}
 		
-		
+		// 重新填入表單欄位
+		// $input : true => 輸入參數 , false => 填入參數
+		public static function refill($input=false){
+			if($input){
+				$_SESSION[CORE::$config["sess"]]["refill"] = $_REQUEST;
+			}else{
+				CHECK::is_array_exist($_SESSION[CORE::$config["sess"]]["refill"]);
+				if(CHECK::is_pass()){
+					foreach($_SESSION[CORE::$config["sess"]]["refill"] as $field => $value){
+						VIEW::assignGlobal('VALUE_'.strtoupper($field),$value);
+					}
+					
+					unset($_SESSION[CORE::$config["sess"]]["refill"]);
+				}
+			}
+		}
 		
 		//-------------------------------------------------------------
 		

@@ -95,8 +95,8 @@
 			$origin_args = $args;
 			$last_arg = array_pop($args);
 			
-			if(preg_match('/page/', $last_arg)){
-				// 處理方法
+			if(preg_match('/page-/', $last_arg)){
+				PAGE::$page_args = $last_arg; // 載入頁次參數
 				return $args;
 			}else{
 				return $origin_args;
