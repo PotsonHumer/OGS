@@ -60,6 +60,12 @@
 			
 		}
 		
+		/*
+		public static function seek($sql,$tag){
+			mysql_data_seek($sql,$tag);
+		}
+		*/
+		
 		public static function field($sql){
 			return mysql_fetch_field($sql);
 		}

@@ -30,8 +30,15 @@
 		
 		// 產生頁次連結
 		private static function make_link($page_num,$link){
+			
+			// 求得目前頁次顯示區段
+			$section = (CORE::$config["list_num"] < self::$now)?ceil(self::$now / CORE::$config["list_num"]):1;
+			$p_start = ($section * CORE::$config["list_num"] - CORE::$config["list_num"]) + 1;
+			$section_end = ($p_start + 9);
+			$p_end = ($section_end > $page_num)?$page_num:$section_end;
+			
 			// 頁次連結
-			for($p=1;$p<=$page_num;$p++){
+			for($p=$p_start;$p<=$p_end;$p++){
 				if(self::$now == $p){
 					$now_p = 'class="current"';
 				}else{

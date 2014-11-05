@@ -18,6 +18,25 @@
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
 					self::intro_group_del($args);
 				break;
+				case "list":
+					$temp_main = array(
+						"MAIN" => self::$temp.'ogs-admin-intro-list-tpl.html',
+						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+						"PAGE" => self::$temp.'ogs-admin-page-tpl.html',
+					);
+					self::intro_list();
+				break;
+				case "add":
+					$temp_main = array(
+						"MAIN" => self::$temp.'ogs-admin-intro-form-tpl.html',
+						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+					);
+					self::intro_add();
+				break;
+				case "open":
+				case "close":
+					self::intro_status();
+				break;
 				default:
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-intro-group-tpl.html');
 					self::intro_group();
@@ -36,7 +55,7 @@
 		// 介紹頁群組
 		private function intro_group(){
 			$select = array(
-				'table' => CORE::$config["langfix"].'_intro_group',
+				'table' => CORE::$config["prefix"].'_intro_group',
 				'field' => "*",
 				//'where' => '',
 				'order' => 'ig_sort '.CORE::$config["sort"],
@@ -76,7 +95,7 @@
 			if(CHECK::is_pass()){
 				
 				$select = array(
-					'table' => CORE::$config["langfix"].'_intro_group',
+					'table' => CORE::$config["prefix"].'_intro_group',
 					'field' => "*",
 					//'where' => '',
 					//'order' => '',
@@ -94,7 +113,7 @@
 						$args[$field] = $_REQUEST[$field][$key];
 					}
 					
-					DB::replace(CORE::$config["langfix"].'_intro_group',$args);
+					DB::replace(CORE::$config["prefix"].'_intro_group',$args);
 					
 					if(!empty(DB::$error)){
 						$msg_title = DB::$error;
@@ -114,7 +133,7 @@
 			$msg_path = CORE::$config["manage"].'intro/';
 			
 			if(CHECK::is_must($sql_args["ig_id"])){
-				DB::delete(CORE::$config["langfix"].'_intro_group',$sql_args);
+				DB::delete(CORE::$config["prefix"].'_intro_group',$sql_args);
 				
 				if(!empty(DB::$error)){
 					$msg_title = DB::$error;
@@ -134,6 +153,32 @@
 		// 介紹頁列表
 		private function intro_list(){
 			
+		}
+		
+		// 介紹頁新增
+		private function intro_add(){
+			
+			VIEW::assignGlobal(array(
+				"MSG_TITLE" => '新增'
+			));
+			
+			
+		}
+		
+		// 介紹頁狀態
+		private function intro_status(){
+			switch(self::$func){
+				case "open":
+					$status = 1;
+				break;
+				case "close":
+					$status = 0;
+				break;
+			}
+			
+			if(CHECK::is_array_exist($_REQUEST["id"])){
+				CRUD::status(CORE::$config["prefix"].'intro','it',$_REQUEST["id"],$status);
+			}
 		}
 		
 		//--------------------------------------------------------------------------------------

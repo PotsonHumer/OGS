@@ -138,6 +138,28 @@
 		public static function D($tb_name,array $args){
 			
 		}
+		
+		// open , close
+		public static function status($tb_name,$field_prefix,$id,$status=false){
+			if(CHECK::is_array_exist($id)){
+				$id_array = $id;
+			}else{
+				$id_array = array($id);
+			}
+			
+			foreach($id_array as $ID){
+				$input = array(
+					$field_prefix."_status" => $status,
+					$field_prefix."_id" => $ID,
+				);
+				
+				print_r($input);
+				
+				//DB::update($tbl_name, $input);
+			}
+			
+			CHECK::check_clear();
+		}
 	}
 	
 
