@@ -13,7 +13,7 @@
 	
 	// 雜項設定
 	$config["sort"]	= 'asc'; // 資料庫排序
-	$config["item_num"]	= 1; // 每分頁幾個項目
+	$config["item_num"]	= 12; // 每分頁幾個項目
 	$config["list_num"]	= 10; // 最多顯示幾個分頁連結
 	
 	// key : 語系名稱參數 , value : 語系資料庫參數
