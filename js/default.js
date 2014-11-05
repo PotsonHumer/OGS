@@ -43,8 +43,26 @@
 		});
 	}
 	
+	// 功能處理
+	function func_handle(){
+		$(".func").click(function(E){
+			E.preventDefault();
+			if(!confirm('確定執行?')){
+				return false;
+			}
+			
+			var HANDLE_PATH = $(this).attr("rel");
+			
+			if(isset(HANDLE_PATH)){
+				$("form[name=func_form]").attr("action",HANDLE_PATH);
+				document.func_form.submit();
+			}
+		});
+	}
+	
 	// 直接啟動項目
 	$(function(){
 		pixels_size();
 		goto();
+		func_handle();
 	});

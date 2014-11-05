@@ -35,7 +35,10 @@
 				break;
 				case "open":
 				case "close":
-					self::intro_status();
+				case "sort":
+				case "del":
+					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
+					self::intro_process();
 				break;
 				default:
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-intro-group-tpl.html');
@@ -152,7 +155,30 @@
 		
 		// 介紹頁列表
 		private function intro_list(){
+			$select = array (
+				'table' => CORE::$config["prefix"].'_intro',
+				'field' => "*",
+				'where' => '',
+				//'order' => '',
+				//'limit' => '',
+			);
 			
+			$sql = DB::select($select);
+			$sql = PAGE::handle($sql, CORE::$config["manage"].'intro/list/');
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				while($row = DB::fetch($sql)){
+					VIEW::newBlock('TAG_INTRO_LIST');
+					VIEW::assign(array(
+						"VALUE_ROW_NUM" => ++$i,
+						"VALUE_IT_ID" => $row["it_id"],
+						"VALUE_IT_SUBJECT" => $row["it_subject"],
+						"VALUE_IT_SORT" => $row["it_sort"],
+						"VALUE_IT_STATUS" => ($row["it_status"])?'開啟':'關閉',
+					));
+				}
+			}
 		}
 		
 		// 介紹頁新增
@@ -162,22 +188,45 @@
 				"MSG_TITLE" => '新增'
 			));
 			
-			
 		}
 		
-		// 介紹頁狀態
-		private function intro_status(){
+		// 介紹頁各項處理
+		private function intro_process(){
 			switch(self::$func){
 				case "open":
-					$status = 1;
+					$rs = CRUD::status(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"],1);
 				break;
 				case "close":
-					$status = 0;
+					$rs = CRUD::status(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"],0);
+				break;
+				case "sort":
+					$rs = CRUD::sort(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"],$_REQUEST["sort"]);
+				break;
+				case "del":
+					$rs = CRUD::delete(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"]);
 				break;
 			}
 			
-			if(CHECK::is_array_exist($_REQUEST["id"])){
-				CRUD::status(CORE::$config["prefix"].'intro','it',$_REQUEST["id"],$status);
+			if($rs){
+				CORE::notice('處理完成',$_SESSION[CORE::$config["sess"]]['last_path']);
+			}
+		}
+		
+		// 介紹頁排序
+		private function intro_sort(){
+			$rs = CRUD::sort(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"],$_REQUEST["sort"]);
+			
+			if($rs){
+				CORE::notice('更新完成',$_SESSION[CORE::$config["sess"]]['last_path']);
+			}
+		}
+		
+		// 介紹頁刪除
+		private function intro_del(){
+			$rs = CRUD::delete(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"]);
+			
+			if($rs){
+				CORE::notice('更新完成',$_SESSION[CORE::$config["sess"]]['last_path']);
 			}
 		}
 		

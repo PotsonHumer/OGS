@@ -5,6 +5,7 @@
 		public static $config; // 設定參數
 		public static $root; // 實體根目錄
 		public static $db; // 資料庫
+		public static $path; // 目前 uri
 		
 		function __construct(){
 			self::$root = self::real_path();

@@ -4,43 +4,46 @@
 
 <h3>介紹頁列表一覽</h3>
 
-<table>
-	<tr class="btn">
-		<td>
-			<a href="{TAG_MANAGE_PATH}intro/add/" class="span"><span class="icon-circle-plus">新增介紹頁</span></a>
-			<a href="{TAG_MANAGE_PATH}intro/open/" class="span"><span class="icon-circle-check">開啟</span></a>
-			<a href="{TAG_MANAGE_PATH}intro/close/" class="span"><span class="icon-ban">關閉</span></a>
-			<a href="{TAG_MANAGE_PATH}intro/sort/" class="span"><span class="icon-repeat">排序</span></a>
-		</td>
-	</tr>
-</table>
-
-<table>
-	<tr>
-		<th width="5%">No.</th>
-		<th width="5%">選取</th>
-		<th width="10%">排序</th>
-		<th width="50%">名稱</th>
-		<th width="10%">狀態</th>
-		<th width="20%">功能</th>
-	</tr>
-	<!-- START BLOCK : TAG_INTRO_LIST -->
-	<tr>
-		<td class="center">{VALUE_ROW_NUM}</td>
-		<td class="center">
-			<input type="checkbox" name="id[]" value="{VALUE_IT_ID}">
-		</td>
-		<td class="center">
-			<input type="text" name="it_sort" value="{VALUE_IT_SORT}" size="20">
-		</td>
-		<td class="center">{VALUE_IT_SUBJECT}</td>
-		<td class="center">{VALUE_IT_STATUS}</td>
-		<td class="center">
-			<a href="{TAG_MANAGE_PATH}intro/mod/{VALUE_IT_ID}/" class="icon-link no-brackets span">修改</a>
-			<a href="{TAG_MANAGE_PATH}intro/del/{VALUE_IT_ID}/" class="icon-link no-brackets span">刪除</a>
-		</td>
-	</tr>
-	<!-- END BLOCK : TAG_INTRO_LIST -->
-</table>
+<form name="func_form" action="" method="post">
+	<table>
+		<tr class="btn">
+			<td>
+				<a href="{TAG_MANAGE_PATH}intro/add/" class="span"><span class="icon-circle-plus">新增介紹頁</span></a>
+				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}intro/open/"><span class="icon-circle-check">開啟</span></a>
+				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}intro/close/"><span class="icon-ban">關閉</span></a>
+				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}intro/sort/"><span class="icon-repeat">排序</span></a>
+				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}intro/del/"><span class="icon-repeat">刪除</span></a>
+			</td>
+		</tr>
+	</table>
+	
+	<table>
+		<tr>
+			<th width="5%">No.</th>
+			<th width="5%">選取</th>
+			<th width="10%">排序</th>
+			<th width="50%">名稱</th>
+			<th width="10%">狀態</th>
+			<th width="20%">功能</th>
+		</tr>
+		<!-- START BLOCK : TAG_INTRO_LIST -->
+		<tr>
+			<td class="center">{VALUE_ROW_NUM}</td>
+			<td class="center">
+				<input type="checkbox" name="id[]" value="{VALUE_IT_ID}">
+			</td>
+			<td class="center">
+				<input type="text" name="sort[]" value="{VALUE_IT_SORT}" size="40">
+			</td>
+			<td class="center">{VALUE_IT_SUBJECT}</td>
+			<td class="center">{VALUE_IT_STATUS}</td>
+			<td class="center">
+				<a href="{TAG_MANAGE_PATH}intro/mod/{VALUE_IT_ID}/" class="icon-link no-brackets span">修改</a>
+				<a href="{TAG_MANAGE_PATH}intro/del/{VALUE_IT_ID}/" class="icon-link no-brackets span">刪除</a>
+			</td>
+		</tr>
+		<!-- END BLOCK : TAG_INTRO_LIST -->
+	</table>
+</form>
 
 <hr>

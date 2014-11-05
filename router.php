@@ -13,6 +13,8 @@
 				$uri = str_replace(self::$config["root"], '', $_SERVER["REQUEST_URI"]);
 			}
 			
+			CORE::$path = $uri; // 記錄當下 uri
+			
 			// 解析位置
 			if(!empty($uri)){
 				$uri_array = explode("/",$uri);
@@ -23,6 +25,9 @@
 				self::temp_path(); // 重組樣板路徑
 				new INDEX;
 			}
+			
+			// 紀錄最後顯示的列表路徑
+			$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$config["root"].CORE::$path;
 		}
 		
 		// 語系偵測

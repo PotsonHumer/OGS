@@ -140,27 +140,78 @@
 		}
 		
 		// open , close
-		public static function status($tb_name,$field_prefix,$id,$status=false){
-			if(CHECK::is_array_exist($id)){
-				$id_array = $id;
-			}else{
-				$id_array = array($id);
+		public static function status($tb_name,$field_prefix,$id,$status){
+			if(!CHECK::is_array_exist($id)){
+				CORE::notice('請選擇項目',$_SESSION[CORE::$config["sess"]]['last_path'],true);
+				return false;
 			}
 			
-			foreach($id_array as $ID){
+			foreach($id as $ID){
 				$input = array(
 					$field_prefix."_status" => $status,
 					$field_prefix."_id" => $ID,
 				);
 				
-				print_r($input);
+				DB::update($tb_name,$input);
 				
-				//DB::update($tbl_name, $input);
+				if(!empty(DB::$error)){
+					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
+					return false;
+				}
 			}
 			
 			CHECK::check_clear();
+			return true;
+		}
+		
+		// sort
+		public static function sort($tb_name,$field_prefix,$id,$sort){
+			if(!CHECK::is_array_exist($id) || !CHECK::is_array_exist($sort)){
+				CORE::notice('請選擇項目',$_SESSION[CORE::$config["sess"]]['last_path'],true);
+				return false;
+			}
+			
+			foreach($id as $key => $ID){
+				$input = array(
+					$field_prefix."_sort" => $sort[$key],
+					$field_prefix."_id" => $ID,
+				);
+				
+				DB::update($tb_name,$input);
+				
+				if(!empty(DB::$error)){
+					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
+					return false;
+				}
+			}
+			
+			CHECK::check_clear();
+			return true;
+		}
+		
+		// delete
+		public static function delete($tb_name,$field_prefix,$id){
+			if(!CHECK::is_array_exist($id)){
+				CORE::notice('請選擇項目',$_SESSION[CORE::$config["sess"]]['last_path'],true);
+				return false;
+			}
+			
+			foreach($id as $ID){
+				$input = array(
+					$field_prefix."_id" => $ID,
+				);
+				
+				DB::delete($tb_name,$input);
+				
+				if(!empty(DB::$error)){
+					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
+					return false;
+				}
+			}
+			
+			CHECK::check_clear();
+			return true;
 		}
 	}
-	
 
 ?>
