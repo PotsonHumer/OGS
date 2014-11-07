@@ -33,7 +33,7 @@
 			</td>
 			<td class="center">
 				<input type="hidden" name="ig_id[{VALUE_IG_ROW}]" value="{VALUE_IG_ID}">
-				<input type="button" class="goto" name="del_ig" value="刪除此項" rel="{VALUE_IG_DEL_PATH}">
+				<input type="button" name="del_ig" value="刪除此項" rel="{VALUE_IG_DEL_PATH}">
 			</td>
 		</tr>
 		<!-- END BLOCK : TAG_IG_LIST -->
@@ -99,6 +99,8 @@
 			
 			if(!isset(DLE_PATH)){
 				$(this).parents(".ig_row").remove();
+			}else{
+				location.href = DLE_PATH;
 			}
 		});
 	});

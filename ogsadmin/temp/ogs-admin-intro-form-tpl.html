@@ -16,7 +16,7 @@
 				<select name="ig_id">
 					<option value="">不指定</option>
 					<!-- START BLOCK : TAG_IG_LIST -->
-					<option value="{VALUE_IG_ID}">{VALUE_IG_NAME}</option>
+					<option value="{VALUE_IG_ID}" {VALUE_IG_CURRENT}>{VALUE_IG_NAME}</option>
 					<!-- END BLOCK : TAG_IG_LIST -->
 				</select>
 			</td>
@@ -35,7 +35,7 @@
 		<tr>
 			<th>內容</th>
 			<td colspan="3">
-				<textarea name="it_content">{VALUE_IT_COTENT}</textarea>
+				<textarea name="it_content">{VALUE_IT_CONTENT}</textarea>
 			</td>
 		</tr>
 		<tr>
@@ -47,8 +47,7 @@
 	</table>
 
 	<input type="hidden" name="it_id" value="{VALUE_IT_ID}">
-	<input type="hidden" name="lang_id" value="{VALUE_LANG_ID}">
-	<input type="hidden" name="oa_type" value="{VALUE_IT_TYPE}">
+	<input type="hidden" name="it_type" value="{VALUE_IT_TYPE}">
 </form>
 
 <hr>

@@ -6,6 +6,7 @@
 		public static $root; // 實體根目錄
 		public static $db; // 資料庫
 		public static $path; // 目前 uri
+		public static $lang_id; // 目前 lang_id
 		
 		function __construct(){
 			self::$root = self::real_path();
@@ -53,6 +54,7 @@
 		public static function permanent(){
 			self::$db = new DB(self::$config["connect"]);
 			self::default_tag();
+			self::lang_fetch();
 		}
 		
 		// 基本標記
@@ -224,6 +226,33 @@
 	                sleep(10000);
 	            }
 	            @mail($to_email[$i], $mail_subject, $mail_content,$MAIL_HEADER);
+			}
+		}
+
+		// 取得最新語系 ID
+		public static function lang_fetch(){
+			// 取得所有資料表
+			$sql = mysql_list_tables(CORE::$config["connect"]["db"],DB::$con);
+			while($row = DB::fetch($sql)){
+				$tb_name = $row["Tables_in_".CORE::$config["connect"]["db"]];
+				
+				// 檢查是否有 lang_id
+				$select = array (
+					'table' => $tb_name,
+					'field' => "lang_id",
+					//'where' => '',
+					//'order' => '',
+					//'limit' => '',
+				);
+				
+				$sql_lang = DB::select($select);
+				$rsnum = DB::num($sql_lang);
+				
+				if(!empty($rsnum)){
+					while($lang_row = DB::fetch($sql_lang)){
+						CORE::$lang_id = (CORE::$lang_id <= $lang_row["lang_id"])?$lang_row["lang_id"]:CORE::$lang_id;
+					}
+				}
 			}
 		}
 	}

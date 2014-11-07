@@ -347,6 +347,10 @@ table tr.span,table tr.btn{
 	background: inherit;
 }
 
+table td:before,table td:after{
+	/*display: none;*/
+}
+
 /* PAGE */
 #page{
 	width: 80%;

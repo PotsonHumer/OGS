@@ -33,12 +33,23 @@
 					);
 					self::intro_add();
 				break;
+				case "mod":
+					$temp_main = array(
+						"MAIN" => self::$temp.'ogs-admin-intro-form-tpl.html',
+						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+					);
+					self::intro_mod($args);
+				break;
 				case "open":
 				case "close":
 				case "sort":
 				case "del":
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
-					self::intro_process();
+					self::intro_process($args);
+				break;
+				case "replace":
+					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
+					self::intro_replace();
 				break;
 				default:
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-intro-group-tpl.html');
@@ -92,7 +103,9 @@
 
 		private function intro_group_replace(){
 			
+			$it_dir_str = "'".implode("','",$_REQUEST["ig_dir"])."'";
 			CHECK::is_array_exist($_REQUEST["ig_id"]);
+			eval("CHECK::is_letter($it_dir_str);");
 			$msg_path = CORE::$config["manage"].'intro/';
 			
 			if(CHECK::is_pass()){
@@ -151,6 +164,31 @@
 			CORE::notice($msg_title,$msg_path);
 		}
 		
+		private function intro_group_select($ig_id=false){
+			$select = array(
+				'table' => CORE::$config["prefix"].'_intro_group',
+				'field' => "*",
+				//'where' => '',
+				'order' => 'ig_sort '.CORE::$config["sort"],
+				//'limit' => '',
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				while($row = DB::fetch($sql)){
+					VIEW::newBlock('TAG_IG_LIST');
+					foreach($row as $field => $value){
+						VIEW::assign("VALUE_".strtoupper($field),$value);
+					}
+					
+					$selected = ($ig_id == $row["ig_id"] && !empty($ig_id))?'selected':'';
+					VIEW::assign("VALUE_IG_CURRENT",$selected);
+				}
+			}
+		}
+		
 		//--------------------------------------------------------------------------------------
 		
 		// 介紹頁列表
@@ -159,7 +197,7 @@
 				'table' => CORE::$config["prefix"].'_intro',
 				'field' => "*",
 				'where' => '',
-				//'order' => '',
+				'order' => 'it_sort '.CORE::$config["sort"],
 				//'limit' => '',
 			);
 			
@@ -185,13 +223,51 @@
 		private function intro_add(){
 			
 			VIEW::assignGlobal(array(
-				"MSG_TITLE" => '新增'
+				"MSG_TITLE" => '新增',
+				"VALUE_IT_TYPE" => 'add',
+				"VALUE_IT_SORT" => CRUD::max_sort(CORE::$config["prefix"].'_intro','it'),
 			));
 			
+			CRUD::refill();
+			self::intro_group_select();
+		}
+				
+		// 更改介紹頁
+		private function intro_mod($args){
+			
+			VIEW::assignGlobal(array(
+				"MSG_TITLE" => '修改',
+				"VALUE_IT_TYPE" => 'mod',
+			));
+			
+			$select = array (
+				'table' => CORE::$config["prefix"].'_intro',
+				'field' => "*",
+				'where' => "it_id = '".$args[0]."'",
+				//'order' => '',
+				//'limit' => '',
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				$row = DB::fetch($sql);
+				self::intro_group_select($row["ig_id"]);
+				
+				foreach($row as $field => $value){
+					switch($field){
+						case "it_status":
+							VIEW::assignGlobal("VALUE_".strtoupper($field).'_CK'.$value,'checked');
+						break;
+					}
+					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
+				}
+			}
 		}
 		
 		// 介紹頁各項處理
-		private function intro_process(){
+		private function intro_process($args=false){
 			switch(self::$func){
 				case "open":
 					$rs = CRUD::status(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"],1);
@@ -203,7 +279,16 @@
 					$rs = CRUD::sort(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"],$_REQUEST["sort"]);
 				break;
 				case "del":
-					$rs = CRUD::delete(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"]);
+					if(!empty($args)){
+						DB::delete(CORE::$config["prefix"].'_intro',array('it_id' => $args[0]));
+						if(!empty(DB::$error)){
+							CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
+						}else{
+							$rs = true;
+						}
+					}else{
+						$rs = CRUD::delete(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"]);
+					}
 				break;
 			}
 			
@@ -212,22 +297,52 @@
 			}
 		}
 		
-		// 介紹頁排序
-		private function intro_sort(){
-			$rs = CRUD::sort(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"],$_REQUEST["sort"]);
+		// 介紹頁儲存
+		private function intro_replace(){
+			CHECK::is_must($_REQUEST["it_subject"]);
+			CHECK::is_number($_REQUEST["it_sort"]);
 			
-			if($rs){
-				CORE::notice('更新完成',$_SESSION[CORE::$config["sess"]]['last_path']);
+			if(CHECK::is_pass()){
+				switch($_REQUEST["it_type"]){
+					case "add":
+						$crud_func = 'C';
+						$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$config["manage"].'intro/list/';
+						
+						// 增加 lang_id
+						$_REQUEST["lang_id"] = ++CORE::$lang_id;
+					break;
+					case "mod":
+						$crud_func = 'U';
+					break;
+					default:
+						CORE::notice('失效的資訊',CORE::$config["manage"].'intro/list/');
+						return false;
+					break;
+				}
+				
+				// 執行 replace
+				CRUD::$crud_func(CORE::$config["prefix"].'_intro',$_REQUEST);
+				
+				if(!empty(DB::$error)){
+					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
+					
+					if($_REQUEST["it_type"] == "add"){
+						CRUD::refill(true);
+					}
+					
+					return false;
+				}
+			}else{
+				CORE::notice('參數錯誤',$_SESSION[CORE::$config["sess"]]['last_path']);
+				
+				if($_REQUEST["it_type"] == "add"){
+					CRUD::refill(true);
+				}
+				
+				return false;
 			}
-		}
-		
-		// 介紹頁刪除
-		private function intro_del(){
-			$rs = CRUD::delete(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"]);
 			
-			if($rs){
-				CORE::notice('更新完成',$_SESSION[CORE::$config["sess"]]['last_path']);
-			}
+			CORE::notice('更新完成',$_SESSION[CORE::$config["sess"]]['last_path']);
 		}
 		
 		//--------------------------------------------------------------------------------------

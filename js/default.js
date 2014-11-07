@@ -60,9 +60,21 @@
 		});
 	}
 	
+	// 連結警告
+	function link_alert(){
+		$(document).on("click",".alert",function(E){
+			var ALERT_MSG = $(this).attr("rel");
+			
+			if(!confirm(ALERT_MSG)){
+				E.preventDefault();
+			}
+		});
+	}
+	
 	// 直接啟動項目
 	$(function(){
 		pixels_size();
 		goto();
 		func_handle();
+		link_alert();
 	});

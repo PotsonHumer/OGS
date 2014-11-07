@@ -6,4 +6,5 @@
 			new VIEW("ogs-index-tpl.html");
 		}
 	}
+	
 ?>

@@ -113,6 +113,24 @@
 				return self::$status[] = $total_rs;
 			}
 		}
+		
+		public static function is_letter(){
+			$args = func_get_args();
+			
+			if(self::is_array_exist($args)){
+				foreach($args as $key => $value){
+					$rs[$key] = !preg_match('/\W+/', $value);
+				}
+				
+				if(self::is_array_exist($rs) && count($rs) == array_sum($rs)){
+					$total_rs = true;
+				}else{
+					$total_rs = false;
+				}
+				
+				return self::$status[] = $total_rs;
+			}
+		}
 	}
 	
 

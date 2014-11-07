@@ -11,6 +11,8 @@
 		// 如有多餘的參數則刪除
 		public static function field_match($tb_name,array $args){
 			
+			$args_keys = array_keys($args);
+			
 			$select = array(
 				'table' => $tb_name,
 				'field' => '*',
@@ -20,23 +22,15 @@
 			);
 			
 			$sql = DB::select($select);
-			$rsnum = DB::num($sql);
-			
-			if(!empty($rsnum)){
-				$args_keys = array_keys($args);
+			while($row = DB::field($sql)){
+				$rs = in_array($row->name,$args_keys);
 				
-				while($row = DB::field($sql)){
-					$rs = in_array($row->name,$args_keys);
-					
-					if($rs){
-						$re_build[$row->name] = $args[$row->name];
-					}
+				if($rs){
+					$re_build[$row->name] = $args[$row->name];
 				}
-				
-				return $re_build;
-			}else{
-				return false;
 			}
+
+			return $re_build;
 		}
 		
 		// 重新填入表單欄位
@@ -109,7 +103,7 @@
 						if(!empty(self::$call_class) && !empty(self::$call_func)){
 							$call_class = self::$call_class;
 							$call_func = self::$call_func;
-							call_user_func($call_class::$call_func($row));
+							$call_class::$call_func($row);
 						}
 						
 						foreach($row as $field => $value){
@@ -211,6 +205,27 @@
 			
 			CHECK::check_clear();
 			return true;
+		}
+		
+		// 取得最大 sort 值
+		public static function max_sort($tb_name,$field_prefix){
+			$select = array(
+				'table' => $tb_name,
+				'field' => $field_prefix.'_sort',
+				//'where' => '',
+				'order' => $field_prefix.'_sort desc',
+				'limit' => "0,1",
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				$row = DB::fetch($sql);
+				return $row[$field_prefix."_sort"] + 1;
+			}else{
+				return 1;
+			}
 		}
 	}
 
