@@ -9,6 +9,7 @@
 		<tr class="btn">
 			<td>
 				<a href="{TAG_MANAGE_PATH}intro/add/" class="span"><span class="icon-circle-plus">新增介紹頁</span></a>
+				<a href="#" class="span all"><span class="icon-square-check">全選 / 取消全選</span></a>
 				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}intro/open/"><span class="icon-circle-check">開啟</span></a>
 				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}intro/close/"><span class="icon-ban">關閉</span></a>
 				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}intro/sort/"><span class="icon-repeat">排序</span></a>
@@ -22,7 +23,8 @@
 			<th width="5%">No.</th>
 			<th width="5%">選取</th>
 			<th width="10%">排序</th>
-			<th width="50%">名稱</th>
+			<th width="15%">群組</th>
+			<th width="35%">名稱</th>
 			<th width="10%">狀態</th>
 			<th width="20%">功能</th>
 		</tr>
@@ -30,11 +32,12 @@
 		<tr>
 			<td class="center">{VALUE_ROW_NUM}</td>
 			<td class="center">
-				<input type="checkbox" name="id[{VALUE_ROW_NUM}]" value="{VALUE_IT_ID}">
+				<input type="checkbox" class="id" name="id[{VALUE_ROW_NUM}]" value="{VALUE_IT_ID}">
 			</td>
 			<td class="center">
 				<input type="text" name="sort[{VALUE_ROW_NUM}]" value="{VALUE_IT_SORT}" size="40">
 			</td>
+			<td class="center">{VALUE_IT_GROUP}</td>
 			<td class="center">{VALUE_IT_SUBJECT}</td>
 			<td class="center">{VALUE_IT_STATUS}</td>
 			<td class="center">
@@ -43,6 +46,11 @@
 			</td>
 		</tr>
 		<!-- END BLOCK : TAG_INTRO_LIST -->
+		<!-- START BLOCK : TAG_INTRO_NONE -->
+		<tr>
+			<td class="center" colspan="7">查無資料</td>
+		</tr>
+		<!-- START BLOCK : TAG_INTRO_NONE -->
 	</table>
 </form>
 

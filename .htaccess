@@ -2,7 +2,7 @@ Options ExecCGI Includes IncludesNOEXEC SymLinksIfOwnerMatch -Indexes
 
 RewriteEngine On
 
-RewriteRule ^(phpmyadmin)([^*]+)$  $1$2 [L]
+RewriteRule ^(phpmyadmin|filemanager)([^*]+)$  $1$2 [L]
 #RewriteRule ^404.html$  404.htm [L]
 RewriteRule ^([^*]+).(css|js|jpg|png|gif|eot|svg|ttf|woff)$  $1.$2 [L]
 RewriteRule ^([^*]+)$  router.php [L]

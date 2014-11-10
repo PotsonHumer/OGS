@@ -71,10 +71,24 @@
 		});
 	}
 	
+	// 全選功能
+	function all_select(){
+		$(document).on("click",".all",function(){
+			var CK = $("input[type=checkbox].id").attr("checked");
+			
+			if(isset(CK) && CK == "checked"){
+				$(".id").removeAttr("checked");
+			}else{
+				$(".id").attr("checked","checked");
+			}
+		});
+	}
+	
 	// 直接啟動項目
 	$(function(){
 		pixels_size();
 		goto();
 		func_handle();
 		link_alert();
+		all_select();
 	});

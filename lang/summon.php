@@ -2,21 +2,16 @@
 
 	class LANG extends CORE{
 		public static $id = 0;
+		public static $manage;
+		public static $msg;
 		
 		function __construct(){
 			
 			$self_path = CORE::real_path(__FILE__);
 			
 			// 讀取語言包
-			$file_array = glob($self_path.'*.php');
-			if(is_array($file_array) && count($file_array) > 1){
-				foreach($file_array as $file_key => $file_path){
-					if(!preg_match('/(summon.php)/',$file_path)){
-						include_once $file_path;
-					}
-				}
-			}
-			
+			self::$manage = include_once $self_path.'lang-cht.php';
+			self::$msg = include_once $self_path.'lang-'.CORE::$config["langfix"].'.php';
 			self::switch_make();
 		}
 		
@@ -69,24 +64,32 @@
 		public static function switch_make($lang_id=false){
 			
 			if(CHECK::is_array_exist(CORE::$config["lang"]) && count(CORE::$config["lang"]) > 1){
+				
+				// 取得目前uri (去除語系與後台目錄)
+				$manage_dir = preg_replace("/\//",'',CORE::$config["manage"]);
+				$now_path = preg_replace("/([^>]*)".$manage_dir."\//",'',CORE::$path);
+				
 				foreach(CORE::$config["lang"] as $lang => $prefix){
 					$i++;
+
+					if(!empty($lang_id)){
+						$now_path = self::link_sync($lang_id,$prefix,$now_path);
+					}
 					
 					if($i == 1){
-						$lang_link = 'http://'.CORE::$config["url"].CORE::$config["root"].CORE::$config["manage"];
+						$lang_link = 'http://'.CORE::$config["url"].CORE::$config["root"].CORE::$config["manage"].$now_path;
 					}else{
-						$lang_link = 'http://'.CORE::$config["url"].CORE::$config["root"].$lang.'/'.CORE::$config["manage"];
+						$lang_link = 'http://'.CORE::$config["url"].CORE::$config["root"].$lang.'/'.CORE::$config["manage"].$now_path;
 					}
 					
 					if($lang == CORE::$config["langfix"]){
 						$lang_link = '#';
+						$lang_current = 'green';
+					}else{
+						$lang_current = '';
 					}
-					
-					if(!empty($lang_id)){
-						self::link_sync($lang_id);
-					}
-					
-					$lang_array[] = '<a href="'.$lang_link.'">'.$lang.'</a>';
+										
+					$lang_array[] = '<a class="span '.$lang_current.'" href="'.$lang_link.'">'.self::$manage[$lang].'</a>';
 				}
 				
 				if(is_array($lang_array)){
@@ -96,9 +99,50 @@
 		}
 		
 		// 語系同頁切換功能
-		private static function link_sync($lang_id){
+		private static function link_sync($lang_id,$prefix,$now_path){
 			
+			$origin_id = self::origin_id($lang_id,$prefix); // 取得原始 id
+			$now_path_array = explode("/",$now_path); // 拆解 uri
 			
+			if(CHECK::is_array_exist($now_path_array) && !empty($origin_id)){
+				CHECK::check_clear();
+				$now_path_array[(count($now_path_array) - 2)] = $origin_id;
+				return implode("/",$now_path_array); // 重組 uri
+			}
+			
+			CHECK::check_clear();
+			return false;
+		}
+		
+		// 取得 lang_id 項目的原始 id
+		private static function origin_id($lang_id,$prefix){
+			
+			$sql = mysql_list_tables(CORE::$config["connect"]["db"],DB::$con);
+			while($row = DB::fetch($sql)){
+				$tb_name = $row["Tables_in_".CORE::$config["connect"]["db"]];
+				$tb_match = preg_match("/".$prefix."_"."/",$tb_name);				
+				
+				// 檢查原始 id
+				if($tb_match){
+					$select = array (
+						'table' => $tb_name,
+						'field' => "*",
+						'where' => "lang_id = '".$lang_id."'",
+						//'order' => '',
+						//'limit' => '',
+					);
+					
+					$sql_lang = DB::select($select);
+					$rsnum = DB::num($sql_lang);
+					
+					if(!empty($rsnum)){
+						$lang_row = DB::fetch($sql_lang,true);
+						return $lang_row[0];
+					}else{
+						return false;
+					}
+				}
+			}
 		}
 	}
 ?>

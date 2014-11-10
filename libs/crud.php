@@ -54,6 +54,7 @@
 		
 		// Create
 		public static function C($tb_name,array $args){
+			LANG::lang_fetch();
 			$args["lang_id"] = ++LANG::$id; // 增加 lang_id
 			$new_args = self::field_match($tb_name,$args);
 			DB::insert($tb_name,$new_args);

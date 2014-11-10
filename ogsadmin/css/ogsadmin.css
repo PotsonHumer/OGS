@@ -44,7 +44,7 @@ a:hover{
 /* default defined */
 
 .green{
-	color: #2F96B4;
+	color: #2F96B4 !important;
 }
 
 hr{
@@ -151,7 +151,7 @@ h3:before{
 
 #main{
 	position: relative;
-	padding: 0 0 0 60px;
+	padding: 0 0 30px 60px;
 }
 
 #main #content{
@@ -168,6 +168,7 @@ footer{
 	padding: 0 2%;
 	text-align: right;
 	display: block;
+	background: rgba(255,255,255,0.8);
 }
 
 label{

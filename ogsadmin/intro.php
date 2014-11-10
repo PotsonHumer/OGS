@@ -164,7 +164,7 @@
 			CORE::notice($msg_title,$msg_path);
 		}
 		
-		private function intro_group_select($ig_id=false){
+		private function intro_group_select($ig_id=false,$output=true){
 			$select = array(
 				'table' => CORE::$config["prefix"].'_intro_group',
 				'field' => "*",
@@ -178,13 +178,21 @@
 			
 			if(!empty($rsnum)){
 				while($row = DB::fetch($sql)){
-					VIEW::newBlock('TAG_IG_LIST');
-					foreach($row as $field => $value){
-						VIEW::assign("VALUE_".strtoupper($field),$value);
-					}
 					
 					$selected = ($ig_id == $row["ig_id"] && !empty($ig_id))?'selected':'';
-					VIEW::assign("VALUE_IG_CURRENT",$selected);
+					
+					if($output){
+						VIEW::newBlock('TAG_IG_LIST');
+						foreach($row as $field => $value){
+							VIEW::assign("VALUE_".strtoupper($field),$value);
+						}
+	
+						VIEW::assign("VALUE_IG_CURRENT",$selected);
+					}
+					
+					if(!empty($selected) && !$output){
+						return $row["ig_name"];
+					}
 				}
 			}
 		}
@@ -207,15 +215,21 @@
 			
 			if(!empty($rsnum)){
 				while($row = DB::fetch($sql)){
+					
+					$ig_name = self::intro_group_select($row["ig_id"],false);
+					
 					VIEW::newBlock('TAG_INTRO_LIST');
 					VIEW::assign(array(
 						"VALUE_ROW_NUM" => ++$i,
 						"VALUE_IT_ID" => $row["it_id"],
+						"VALUE_IT_GROUP" => ($ig_name)?$ig_name:'無',
 						"VALUE_IT_SUBJECT" => $row["it_subject"],
 						"VALUE_IT_SORT" => $row["it_sort"],
 						"VALUE_IT_STATUS" => ($row["it_status"])?'開啟':'關閉',
 					));
 				}
+			}else{
+				VIEW::newBlock("TAG_INTRO_NONE");
 			}
 		}
 		
@@ -264,6 +278,8 @@
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
+				
+				LANG::switch_make($row["lang_id"]);
 			}
 		}
 		
@@ -311,6 +327,7 @@
 					break;
 					case "mod":
 						$crud_func = 'U';
+						$_REQUEST["it_content"] = addslashes($_REQUEST["it_content"]);
 					break;
 					default:
 						CORE::notice('失效的資訊',CORE::$manage.'intro/list/');

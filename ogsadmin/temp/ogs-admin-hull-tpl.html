@@ -9,6 +9,27 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<script type="text/javascript" src="{TAG_JS_PATH}jquery-1.8.3.min.js"></script>
+	<script src="{TAG_ROOT_FILE}js/box_serial/tiny_box.js" type="text/javascript"></script>
+	<script src="{TAG_ROOT_FILE}tinymce/tinymce.min.js" type="text/javascript"></script>
+	<script src="{TAG_ROOT_FILE}tinymce/config.js" type="text/javascript"></script>
+	<script>
+		$(function(){
+			//tiny_load("{TAG_ROOT_FILE}");
+			tiny_load("{TAG_ROOT_FILE}",'.tiny_input');
+			
+			$(document).tiny_box({
+				SWITCH : 1, // 1 => 圖片 , 2 => 檔案
+				ID : ".img_manage", // 綁定元素 (同css選取器)，可設定多個元素，使用 , 分隔
+				ROOT : "{TAG_ROOT_FILE}" // 根目錄位置
+			});
+			
+			$(document).tiny_box({
+				SWITCH : 2, // 1 => 圖片 , 2 => 檔案
+				ID : ".file_manage", // 綁定元素 (同css選取器)，可設定多個元素，使用 , 分隔
+				ROOT : "{TAG_ROOT_FILE}" // 根目錄位置
+			});
+		});
+    </script>    
 	
 	<!-- VAILD FORM -->
 	<!---->
@@ -32,7 +53,7 @@
 		<!-- END BLOCK : TAG_HEADER_OPTION -->
 		
 		<div class="header_option">
-			<label>語系切換</label>
+			<label class="icon-globe">管理語系切換</label>
 			{TAG_LANG_SWITCH}
 		</div>
 	</header>
