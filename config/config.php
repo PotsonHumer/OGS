@@ -8,7 +8,7 @@
 	$config["css"] = $config["root"].'css/'; // css 路徑
 	$config["js"] = $config["root"].'js/'; // js 路徑
 	$config["file"] = $config["root"].'file/'; // 檔案路徑
-	$config["manage"] = $config["root"].'ogsadmin/'; // 後台路徑
+	$config["manage"] = 'ogsadmin/'; // 後台路徑
 	$config["temp"] = CORE::$root.'temp'; // 樣板路徑
 	
 	// 雜項設定

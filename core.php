@@ -6,7 +6,8 @@
 		public static $root; // 實體根目錄
 		public static $db; // 資料庫
 		public static $path; // 目前 uri
-		public static $lang_id; // 目前 lang_id
+		public static $lang; // 目前語系根目錄
+		public static $manage; // 目前語系後台根目錄
 		
 		function __construct(){
 			self::$root = self::real_path();
@@ -14,6 +15,12 @@
 			
 			self::auto_include();
 			self::permanent();
+		}
+		
+		// 常駐程序
+		public static function permanent(){
+			self::$db = new DB(self::$config["connect"]);
+			LANG::lang_fetch();
 		}
 		
 		// 定義當前目錄位置
@@ -50,22 +57,18 @@
 			}
 		}
 		
-		// 常駐程序
-		public static function permanent(){
-			self::$db = new DB(self::$config["connect"]);
-			self::default_tag();
-			self::lang_fetch();
-		}
-		
 		// 基本標記
-		private static function default_tag(){
+		protected static function default_tag(){
 			VIEW::assignGlobal(array(
-				"TAG_ROOT_PATH" => CORE::$config["root"],
+				"TAG_ROOT_PATH" => self::$lang,
+				"TAG_MANAGE_PATH" => self::$manage,
+				"TAG_ROOT_FILE" => CORE::$config["root"],
+				"TAG_MANAGE_FILE" => CORE::$config["manage"],
 				"TAG_FILE_PATH" => CORE::$config["file"],
 				"TAG_IMAGE_PATH" => CORE::$config["img"],
 				"TAG_CSS_PATH" => CORE::$config["css"],
 				"TAG_JS_PATH" => CORE::$config["js"],
-				"TAG_MANAGE_PATH" => CORE::$config["manage"],
+				"TAG_DISABLE" => 'disabled',
 			));
 		}
 		
@@ -229,32 +232,6 @@
 			}
 		}
 
-		// 取得最新語系 ID
-		public static function lang_fetch(){
-			// 取得所有資料表
-			$sql = mysql_list_tables(CORE::$config["connect"]["db"],DB::$con);
-			while($row = DB::fetch($sql)){
-				$tb_name = $row["Tables_in_".CORE::$config["connect"]["db"]];
-				
-				// 檢查是否有 lang_id
-				$select = array (
-					'table' => $tb_name,
-					'field' => "lang_id",
-					//'where' => '',
-					//'order' => '',
-					//'limit' => '',
-				);
-				
-				$sql_lang = DB::select($select);
-				$rsnum = DB::num($sql_lang);
-				
-				if(!empty($rsnum)){
-					while($lang_row = DB::fetch($sql_lang)){
-						CORE::$lang_id = (CORE::$lang_id <= $lang_row["lang_id"])?$lang_row["lang_id"]:CORE::$lang_id;
-					}
-				}
-			}
-		}
 	}
 	
     

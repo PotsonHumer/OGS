@@ -118,7 +118,7 @@
 					VIEW::newBlock("TAG_ORIGIN_PASSWORD");
 
 					if(empty(CRUD::$rsnum)){
-						CORE::notice('查無此項目',CORE::$config["manage"].'admin',true);
+						CORE::notice('查無此項目',CORE::$manage.'admin',true);
 					}
 				break;
 			}
@@ -149,9 +149,9 @@
 			}
 			
 			if(!empty(DB::$error)){
-				CORE::notice(DB::$error,CORE::$config["manage"].'admin/');
+				CORE::notice(DB::$error,CORE::$manage.'admin/');
 			}else{
-				CORE::notice('更新成功',CORE::$config["manage"].'admin/',true);
+				CORE::notice('更新成功',CORE::$manage.'admin/',true);
 			}
 		}
 		
@@ -168,7 +168,7 @@
 					$sql_args["oa_status"] = "1";
 					
 					$crud_func = 'C';
-					$fail_path = CORE::$config["manage"].'admin/add/';
+					$fail_path = CORE::$manage.'admin/add/';
 				break;
 				case "mod":
 					CHECK::is_must($_REQUEST["oa_account"],$_REQUEST["oa_name"]);
@@ -201,11 +201,11 @@
 					}
 					
 					$crud_func = 'U';
-					$fail_path = CORE::$config["manage"].'admin/mod/'.$_REQUEST["oa_id"].'/';
+					$fail_path = CORE::$manage.'admin/mod/'.$_REQUEST["oa_id"].'/';
 				break;
 				default:
 					$fail_msg = '失效的資訊';
-					$fail_path = CORE::$config["manage"].'admin/';
+					$fail_path = CORE::$manage.'admin/';
 					exit;
 				break;
 			}
@@ -243,7 +243,7 @@
 				if($password_chage){
 					CORE::full_logout();
 				}else{
-					CORE::notice('更新成功',CORE::$config["manage"].'admin/');
+					CORE::notice('更新成功',CORE::$manage.'admin/');
 				}
 			}
 		}

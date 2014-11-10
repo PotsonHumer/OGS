@@ -124,15 +124,10 @@ header:after{
 	background: #2F96B4;
 }
 
-h1,#header_option{
+h1,.header_option{
 	float: left;
 	line-height: 35px;
 	color: #FFF;
-}
-
-#header_option{
-	float: right;
-	
 }
 
 h2{
@@ -293,11 +288,17 @@ nav li a:hover,nav li a.current{
 }
 
 /* header_option */
-#header_option a{
+.header_option{
+	float: right;
+	margin-left: 50px;
+	position: relative;
+}
+
+.header_option a{
 	color: #FFF;
 }
 
-#header_option a:hover{
+.header_option a:hover{
 	color: #2F96B4;
 }
 

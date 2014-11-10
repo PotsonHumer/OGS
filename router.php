@@ -38,6 +38,8 @@
 				
 				// 解析語系設定
 				foreach(self::$config["lang"] as $lang => $prefix){
+					$i++;
+					
 					if($lang == $lang_meter){
 						self::$config["langfix"] = $lang; // 語系設定
 						self::$config["prefix"] = $prefix; // 語系資料庫設定
@@ -46,11 +48,16 @@
 				}
 				
 				if($uri_shift && !empty(self::$config["langfix"])){
+					self::$lang = CORE::$config["root"].self::$config["langfix"].'/';
 					self::temp_path(); // 重組樣板路徑
 					array_shift($uri_array);
 				}else{
+					self::$lang = CORE::$config["root"];
 					self::temp_path(); // 重組樣板路徑
 				}
+				
+				self::$manage = self::$lang.CORE::$config["manage"];
+				CORE::default_tag();
 			}
 			
 			return $uri_array;
