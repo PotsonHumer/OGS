@@ -230,6 +230,47 @@
 				return 1;
 			}
 		}
+		
+		// 處理搜尋參數
+		public static function sk_handle(array $sk,$goto_path){
+			if(CHECK::is_array_exist($sk)){
+				foreach($sk as $sk_name => $sk_value){
+					$sk_str_array[] = $sk_name.":".$sk_value;
+				}
+				
+				if(is_array($sk_str_array)){
+					$sk_str = 'sk='.implode("|",$sk_str_array).'/'; // 組合 sk 字串
+
+					$re_router = preg_replace("/sk([^\/])+\//",'',$_SESSION[CORE::$config["sess"]]['last_path'],1);
+					$re_router = $re_router.$sk_str;
+					
+					header("location: ".$re_router);
+				}
+			}
+			
+			CHECK::check_clear();
+		}
+		
+		// 拆解搜尋參數
+		public static function sk_split($args){
+			
+			if(!empty($args)){
+				$sk_str = urldecode($args);
+				$sk_str = str_replace("sk=",'',$sk_str);
+				$sk_array = explode("|",$sk_str);
+				
+				foreach($sk_array as $sk_value){
+					$sk_value_array = explode(":",$sk_value);
+					$sk[$sk_value_array[0]] = $sk_value_array[1];
+				}
+				
+				if(is_array($sk)){
+					return $sk;
+				}
+			}
+			
+			return false;
+		}
 	}
 
 ?>

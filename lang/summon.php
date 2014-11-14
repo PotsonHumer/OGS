@@ -138,11 +138,11 @@
 					if(!empty($rsnum)){
 						$lang_row = DB::fetch($sql_lang,true);
 						return $lang_row[0];
-					}else{
-						return false;
 					}
 				}
 			}
+			
+			return false;
 		}
 	}
 ?>

@@ -1,0 +1,43 @@
+<h2>最新消息管理</h2>
+
+<hr>
+
+<h3>最新消息分類{MSG_TITLE}</h3>
+
+<form name="intro_form" method="post" action="{TAG_MANAGE_PATH}news/cate-replace/">
+	<table>
+		<tr>
+			<th class="must" width="15%">名稱</th>
+			<td width="35%">
+				<input type="text" name="nc_subject" value="{VALUE_NC_SUBJECT}" size="150">
+			</td>
+			<th width="15%">狀態</th>
+			<td width="35%">
+				<label>開啟</label><input type="radio" name="nc_status" value="1" {VALUE_NC_STATUS_CK1}>
+				<label>關閉</label><input type="radio" name="nc_status" value="0" {VALUE_NC_STATUS_CK0}>
+			</td>
+		</tr>
+		<tr>
+			<th>排序</th>
+			<td colspan="3">
+				<input type="text" name="nc_sort" value="{VALUE_NC_SORT}" size="100">
+			</td>
+		</tr>
+		<tr class="btn">
+			<td colspan="4">
+				<label>同步儲存其他語系</label><input type="checkbox" name="lang_sync" value="1" {TAG_DISABLE}>
+			</td>
+		</tr>
+		<tr class="btn">
+			<td colspan="4">
+				<input type="submit" value="儲存">
+				<input class="goto" type="button" value="回列表" rel="{TAG_MANAGE_PATH}news/cate/">
+			</td>
+		</tr>
+	</table>
+
+	<input type="hidden" name="nc_id" value="{VALUE_NC_ID}">
+	<input type="hidden" name="nc_type" value="{VALUE_NC_TYPE}">
+</form>
+
+<hr>

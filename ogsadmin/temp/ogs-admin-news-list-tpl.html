@@ -1,0 +1,74 @@
+<h2>最新消息管理</h2>
+
+<hr>
+
+<h3>最新消息列表</h3>
+
+<form name="func_form" action="" method="post">
+	<table>
+		<tr>
+			<td width="100%">
+				<label>分類檢視</label>
+				<select name="sk[nc_id]">
+					<option value="">無指定</option>
+					<!-- START BLOCK : TAG_NEWS_SELECT -->
+					<option value="{VALUE_NC_ID}" {VALUE_NC_CURRENT}>{VALUE_NC_SUBJECT}</option>
+					<!-- END BLOCK : TAG_NEWS_SELECT -->
+				</select>
+				
+				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}news/sk/"><span class="icon-search">搜尋</span></a>
+				<a href="#" class="goto span" rel="{TAG_MANAGE_PATH}news/list/"><span class="icon-search">清除搜尋</span></a>
+			</td>
+		</tr>
+	</table>
+	
+	<table>
+		<tr class="btn">
+			<td>
+				<a href="{TAG_MANAGE_PATH}news/add/" class="span"><span class="icon-circle-plus">新增</span></a>
+				<a href="#" class="span all"><span class="icon-square-check">全選 / 取消全選</span></a>
+				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}news/open/"><span class="icon-circle-check">開啟</span></a>
+				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}news/close/"><span class="icon-ban">關閉</span></a>
+				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}news/sort/"><span class="icon-repeat">排序</span></a>
+				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}news/del/"><span class="icon-cross">刪除</span></a>
+			</td>
+		</tr>
+	</table>
+	
+	<table>
+		<tr>
+			<th width="5%">No.</th>
+			<th width="5%">選取</th>
+			<th width="10%">排序</th>
+			<th width="20%">分類</th>
+			<th width="30%">名稱</th>
+			<th width="10%">狀態</th>
+			<th width="20%">功能</th>
+		</tr>
+		<!-- START BLOCK : TAG_NEWS_LIST -->
+		<tr>
+			<td class="center">{VALUE_ROW_NUM}</td>
+			<td class="center">
+				<input type="checkbox" class="id" name="id[{VALUE_ROW_NUM}]" value="{VALUE_N_ID}">
+			</td>
+			<td class="center">
+				<input type="text" name="sort[{VALUE_ROW_NUM}]" value="{VALUE_N_SORT}" size="40">
+			</td>
+			<td class="center">{VALUE_NC_SUBJECT}</td>
+			<td class="center">{VALUE_N_SUBJECT}</td>
+			<td class="center">{VALUE_N_STATUS}</td>
+			<td class="center">
+				<a href="{TAG_MANAGE_PATH}news/mod/{VALUE_N_ID}/" class="icon-link no-brackets span">修改</a>
+				<a href="{TAG_MANAGE_PATH}news/del/{VALUE_N_ID}/" class="icon-cross no-brackets span alert" rel="確定刪除?">刪除</a>
+			</td>
+		</tr>
+		<!-- END BLOCK : TAG_NEWS_LIST -->
+		<!-- START BLOCK : TAG_ROW_NONE -->
+		<tr>
+			<td class="center" colspan="7">查無資料</td>
+		</tr>
+		<!-- START BLOCK : TAG_ROW_NONE -->
+	</table>
+</form>
+
+<hr>

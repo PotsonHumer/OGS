@@ -229,7 +229,7 @@
 					));
 				}
 			}else{
-				VIEW::newBlock("TAG_INTRO_NONE");
+				VIEW::newBlock("TAG_ROW_NONE");
 			}
 		}
 		
