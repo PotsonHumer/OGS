@@ -8,16 +8,19 @@
 	<table>
 		<tr>
 			<td width="100%">
-				<label>分類檢視</label>
+				<label>檢視條件</label>
 				<select name="sk[nc_id]">
-					<option value="">無指定</option>
+					<option value="">指定分類</option>
 					<!-- START BLOCK : TAG_NEWS_SELECT -->
 					<option value="{VALUE_NC_ID}" {VALUE_NC_CURRENT}>{VALUE_NC_SUBJECT}</option>
 					<!-- END BLOCK : TAG_NEWS_SELECT -->
 				</select>
-				
+			</td>
+		</tr>
+		<tr>
+			<td>
 				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}news/sk/"><span class="icon-search">搜尋</span></a>
-				<a href="#" class="goto span" rel="{TAG_MANAGE_PATH}news/list/"><span class="icon-search">清除搜尋</span></a>
+				<a href="#" class="goto span" rel="{TAG_MANAGE_PATH}news/list/"><span class="icon-circle-cross">清除搜尋</span></a>
 			</td>
 		</tr>
 	</table>

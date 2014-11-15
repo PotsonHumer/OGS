@@ -29,7 +29,7 @@
 			return $result;
 		}
 		
-		public static function select($options){
+		public static function select($options,$custom=false){
 			/*
 			$default = array (
 				'table' => '',
@@ -54,9 +54,14 @@
 				self::$sql = $sql;
 				return self::execute($sql);
 				
-			} // if $options
-			else
-			{ return false; } // if $options else
+			}elseif($custom){
+				
+				self::$sql = $custom;
+				return self::execute($custom);
+				
+			}else{
+				return false;
+			}
 			
 		}
 		

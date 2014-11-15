@@ -289,23 +289,19 @@
 				switch($field){
 					case "nc_id":
 						if(!empty($value)){
-							$where .= $field."='".$value."'";
+							$where .= 'where n.'.$field."='".$value."'";
 						}
 					break;
 				}
 			}
 			
-			$select = array (
-				'table' => CORE::$config["prefix"].'_news',
-				'field' => "*",
-				'where' => $where,
-				'order' => 'n_sort '.CORE::$config["sort"],
-				//'limit' => '',
-			);
+			 $sql_str = "SELECT * FROM ".CORE::$config["prefix"]."_news as n 
+						left join ".CORE::$config["prefix"]."_news_cate as nc on nc.nc_id = n.nc_id 
+						".$where." order by n.n_sort ".CORE::$config["sort"]; 
 			
 			self::news_cate_select($sk["nc_id"]);
 			
-			$sql = DB::select($select);
+			$sql = DB::select(false,$sql_str);
 			$sql = PAGE::handle($sql, CORE::$manage.'news/list/');
 			$rsnum = DB::num($sql);
 			
@@ -316,7 +312,7 @@
 					VIEW::assign(array(
 						"VALUE_ROW_NUM" => ++$i,
 						"VALUE_N_ID" => $row["n_id"],
-						"VALUE_NC_SUBJECT" => '',
+						"VALUE_NC_SUBJECT" => $row["nc_subject"],
 						"VALUE_N_SUBJECT" => $row["n_subject"],
 						"VALUE_N_SORT" => $row["n_sort"],
 						"VALUE_N_STATUS" => ($row["n_status"])?'開啟':'關閉',
@@ -457,12 +453,6 @@
 
 		// 讀取分類選單
 		private function news_cate_select($nc_id=false){
-			
-			/*
-			if(!empty($nc_id)){
-				$where = "nc_id = '".$nc_id."'";
-			}
-			*/
 			
 			$select = array (
 				'table' => CORE::$config["prefix"].'_news_cate',
