@@ -29,6 +29,10 @@
 				foreach($row as $field => $value){
 					VIEW::assignGlobal("TAG_".strtoupper($field),$value);
 				}
+				
+				return true;
+			}else{
+				return false;
 			}
 		}
 		

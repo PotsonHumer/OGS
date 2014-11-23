@@ -231,6 +231,12 @@
 			}
 		}
 		
+		public static function img_handle($path){
+			return preg_replace("/(.)*file\//",CORE::$config["file"],$path);
+		}
+		
+		//-------------------------------------------------------------
+		
 		// 處理搜尋參數
 		public static function sk_handle(array $sk,$goto_path){
 			if(CHECK::is_array_exist($sk)){
@@ -270,6 +276,56 @@
 			}
 			
 			return false;
+		}
+		
+		//-------------------------------------------------------------
+		
+		// 多層分類選擇處理
+		public static function multi_layer_select($tb_name,$field_prefix,$cur_id=false,$id=0,$timer=0){
+			
+			static $option_array;
+			
+			$where = $field_prefix."_parent = '".$id."'";
+			
+			$select = array(
+				'table' => $tb_name,
+				'field' => "*",
+				'where' => $where,
+				'order' => $field_prefix.'_sort '.CORE::$config["sort"],
+				//'limit' => "",
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				
+				if($timer > 0){
+					for($i=1;$i<=$timer;$i++){
+						$pre_str .= '****';
+					}	
+				}
+				
+				$pre_str .= '├ ';
+				
+				while($row = DB::fetch($sql)){
+					
+					if($cur_id == $row[$field_prefix."_id"]){
+						$cur_str = 'selected';
+					}else{
+						$cur_str = '';
+					}
+					
+					$option_array[] = '<option value="'.$row[$field_prefix."_id"].'" '.$cur_str.'>'.$pre_str.$row[$field_prefix."_name"].'</option>';
+					self::multi_layer_select($tb_name,$field_prefix,$cur_id,$row[$field_prefix."_id"],($timer + 1));
+				}
+				
+				if(empty($timer) && is_array($option_array)){
+					return $option_str = implode("",$option_array);
+				}
+			}else{
+				return false;
+			}
 		}
 	}
 

@@ -22,6 +22,8 @@
 				self::func_switch($uri_array);
 			}else{
 				// 首頁
+				self::$lang = CORE::$config["root"];
+				CORE::default_tag();
 				self::temp_path(); // 重組樣板路徑
 				new INDEX;
 			}

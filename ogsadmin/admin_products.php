@@ -1,7 +1,7 @@
 <?php
 
 	// 管理員設定
-	class NEWS extends OGSADMIN{
+	class ADMIN_PRODUCTS extends OGSADMIN{
 		protected static $func;
 		
 		function __construct($args){
@@ -11,81 +11,85 @@
 			
 			switch(self::$func){
 				
-				// NEWS CATE
+				// CATE
 				case "cate":
 					$temp_main = array(
-						"MAIN" => self::$temp.'ogs-admin-news-cate-tpl.html',
+						"MAIN" => self::$temp.'ogs-admin-products-cate-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
 						"PAGE" => self::$temp.'ogs-admin-page-tpl.html',
 					);
-					self::news_cate();
+					self::products_cate($args);
 				break;
 				case "cate-add":
 					$temp_main = array(
-						"MAIN" => self::$temp.'ogs-admin-news-cate-form-tpl.html',
+						"MAIN" => self::$temp.'ogs-admin-products-cate-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
 					);
-					self::news_cate_add();
+					self::products_cate_add();
 				break;
 				case "cate-mod":
 					$temp_main = array(
-						"MAIN" => self::$temp.'ogs-admin-news-cate-form-tpl.html',
+						"MAIN" => self::$temp.'ogs-admin-products-cate-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
 					);
-					self::news_cate_mod($args);
+					self::products_cate_mod($args);
 				break;
 				case "cate-open":
 				case "cate-close":
 				case "cate-sort":
 				case "cate-del":
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
-					self::news_cate_process($args);
+					self::products_cate_process($args);
 				break;
 				case "cate-replace":
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
-					self::news_cate_replace();
+					self::products_cate_replace();
 				break;
+				/*
 				case "cate-del":
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
-					self::news_cate_del($args);
+					self::products_cate_del($args);
 				break;
+				*/
 				
-				// NEWS
+				// Porducts
 				case "list":
 					$temp_main = array(
-						"MAIN" => self::$temp.'ogs-admin-news-list-tpl.html',
+						"MAIN" => self::$temp.'ogs-admin-products-list-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
 						"PAGE" => self::$temp.'ogs-admin-page-tpl.html',
 					);
-					self::news_list($args);
+					self::products_list($args);
 				break;
 				case "add":
 					$temp_main = array(
-						"MAIN" => self::$temp.'ogs-admin-news-form-tpl.html',
+						"MAIN" => self::$temp.'ogs-admin-products-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+						"IMG" => self::$temp.'ogs-admin-img-tpl.html',
 					);
-					self::news_add();
+					self::products_add();
 				break;
 				case "mod":
 					$temp_main = array(
-						"MAIN" => self::$temp.'ogs-admin-news-form-tpl.html',
+						"MAIN" => self::$temp.'ogs-admin-products-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+						"IMG" => self::$temp.'ogs-admin-img-tpl.html',
 					);
-					self::news_mod($args);
+					self::products_mod($args);
 				break;
 				case "open":
 				case "close":
 				case "sort":
 				case "del":
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
-					self::news_process($args);
+					self::products_process($args);
 				break;
 				case "sk":
-					CRUD::sk_handle($_REQUEST["sk"],CORE::$manage.'news/list/');
+					CRUD::sk_handle($_REQUEST["sk"],CORE::$manage.'admin_products/list/');
 				break;
 				case "replace":
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
-					self::news_replace();
+					self::products_replace();
 				break;
 				default:
 					//$temp_main = array("MAIN" => self::$temp.'ogs-admin-intro-group-tpl.html');
@@ -103,29 +107,35 @@
 		//--------------------------------------------------------------------------------------
 		
 		// 分類列表
-		private function news_cate(){
+		private function products_cate($args){
+			
+			$sk = CRUD::sk_split($args[0]);
+			$cate_option = CRUD::multi_layer_select(CORE::$config["prefix"].'_products_cate','pc',$sk["pc_id"]);
+			VIEW::assignGlobal("TAG_PC_SELECT",$cate_option);
+			
 			$select = array (
-				'table' => CORE::$config["prefix"].'_news_cate',
+				'table' => CORE::$config["prefix"].'_products_cate',
 				'field' => "*",
-				'where' => '',
-				'order' => 'nc_sort '.CORE::$config["sort"],
+				'where' => (!empty($sk["pc_id"]))?"pc_parent = '".$sk["pc_id"]."'":"pc_parent = '0'",
+				'order' => 'pc_sort '.CORE::$config["sort"],
 				//'limit' => '',
 			);
 			
 			$sql = DB::select($select);
-			$sql = PAGE::handle($sql, CORE::$manage.'news/cate/');
+			$sql = PAGE::handle($sql, CORE::$manage.'admin_products/cate/');
 			$rsnum = DB::num($sql);
 			
 			if(!empty($rsnum)){
 				while($row = DB::fetch($sql)){
 					
-					VIEW::newBlock('TAG_NEWS_LIST');
+					VIEW::newBlock('TAG_PC_LIST');
 					VIEW::assign(array(
 						"VALUE_ROW_NUM" => ++$i,
-						"VALUE_NC_ID" => $row["nc_id"],
-						"VALUE_NC_SUBJECT" => $row["nc_subject"],
-						"VALUE_NC_SORT" => $row["nc_sort"],
-						"VALUE_NC_STATUS" => ($row["nc_status"])?'開啟':'關閉',
+						"VALUE_PC_ID" => $row["pc_id"],
+						"VALUE_PC_NAME" => $row["pc_name"],
+						"VALUE_PC_IMG" => CRUD::img_handle($row["pc_img"]),
+						"VALUE_PC_SORT" => $row["pc_sort"],
+						"VALUE_PC_STATUS" => ($row["pc_status"])?'開啟':'關閉',
 					));
 				}
 			}else{
@@ -134,30 +144,33 @@
 		}
 		
 		// 分類新增
-		private function news_cate_add(){
+		private function products_cate_add(){
+			
+			$cate_option = CRUD::multi_layer_select(CORE::$config["prefix"].'_products_cate','pc');
 			
 			VIEW::assignGlobal(array(
 				"MSG_TITLE" => '新增',
-				"VALUE_NC_TYPE" => 'add',
-				"VALUE_NC_SORT" => CRUD::max_sort(CORE::$config["prefix"].'_news_cate','nc'),
+				"VALUE_PC_TYPE" => 'add',
+				"VALUE_PC_SORT" => CRUD::max_sort(CORE::$config["prefix"].'_products_cate','pc'),
 				"TAG_DISABLE" => '',
+				"TAG_PC_SELECT" => $cate_option,
 			));
 			
 			CRUD::refill();
 		}
 		
 		// 分類修改
-		private function news_cate_mod($args){
+		private function products_cate_mod($args){
 			
 			VIEW::assignGlobal(array(
 				"MSG_TITLE" => '修改',
-				"VALUE_NC_TYPE" => 'mod',
+				"VALUE_PC_TYPE" => 'mod',
 			));
 			
 			$select = array (
-				'table' => CORE::$config["prefix"].'_news_cate',
+				'table' => CORE::$config["prefix"].'_products_cate',
 				'field' => "*",
-				'where' => "nc_id = '".$args[0]."'",
+				'where' => "pc_id = '".$args[0]."'",
 				//'order' => '',
 				//'limit' => '',
 			);
@@ -170,39 +183,45 @@
 				
 				foreach($row as $field => $value){
 					switch($field){
-						case "nc_status":
+						case "pc_status":
 							VIEW::assignGlobal("VALUE_".strtoupper($field).'_CK'.$value,'checked');
 						break;
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
 				
+				$cate_option = CRUD::multi_layer_select(CORE::$config["prefix"].'_products_cate','pc',$row["pc_parent"]);
+				VIEW::assignGlobal("TAG_PC_SELECT",$cate_option);
+				
 				LANG::switch_make($row["lang_id"]);
 			}
 		}
 		
 		// 介紹頁各項處理
-		private function news_cate_process($args=false){
+		private function products_cate_process($args=false){
 			switch(self::$func){
 				case "cate-open":
-					$rs = CRUD::status(CORE::$config["prefix"].'_news_cate','nc',$_REQUEST["id"],1);
+					$rs = CRUD::status(CORE::$config["prefix"].'_products_cate','pc',$_REQUEST["id"],1);
 				break;
 				case "cate-close":
-					$rs = CRUD::status(CORE::$config["prefix"].'_news_cate','nc',$_REQUEST["id"],0);
+					$rs = CRUD::status(CORE::$config["prefix"].'_products_cate','pc',$_REQUEST["id"],0);
 				break;
 				case "cate-sort":
-					$rs = CRUD::sort(CORE::$config["prefix"].'_news_cate','nc',$_REQUEST["id"],$_REQUEST["sort"]);
+					$rs = CRUD::sort(CORE::$config["prefix"].'_products_cate','pc',$_REQUEST["id"],$_REQUEST["sort"]);
 				break;
 				case "cate-del":
 					if(!empty($args)){
-						DB::delete(CORE::$config["prefix"].'_news_cate',array('nc_id' => $args[0]));
-						if(!empty(DB::$error)){
-							CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
+						DB::delete(CORE::$config["prefix"].'_products_cate',array('pc_id' => $args[0]));
+						$error_1 = DB::$error;
+						DB::delete(CORE::$config["prefix"].'_products_cate',array('pc_parent' => $args[0]));
+						$error_2 = DB::$error;
+						if(!empty($error_1) || !empty($error_2)){
+							CORE::notice($error_1.$error_2,$_SESSION[CORE::$config["sess"]]['last_path']);
 						}else{
 							$rs = true;
 						}
 					}else{
-						$rs = CRUD::delete(CORE::$config["prefix"].'_news_cate','nc',$_REQUEST["id"]);
+						$rs = CRUD::delete(CORE::$config["prefix"].'_products_cate','pc',$_REQUEST["id"]);
 					}
 				break;
 			}
@@ -213,32 +232,33 @@
 		}
 		
 		// 分類儲存
-		private function news_cate_replace(){
-			CHECK::is_must($_REQUEST["nc_subject"]);
-			CHECK::is_number($_REQUEST["nc_sort"]);
+		private function products_cate_replace(){
+			CHECK::is_must($_REQUEST["pc_name"]);
+			CHECK::is_number($_REQUEST["pc_sort"]);
 			
 			if(CHECK::is_pass()){
-				switch($_REQUEST["nc_type"]){
+				switch($_REQUEST["pc_type"]){
 					case "add":
 						$crud_func = 'C';
-						$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$manage.'news/cate/';
+						$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$manage.'admin_products/cate/';
 					break;
 					case "mod":
 						$crud_func = 'U';
 					break;
 					default:
-						CORE::notice('失效的資訊',CORE::$manage.'news/cate/');
+						CORE::notice('失效的資訊',CORE::$manage.'admin_products/cate/');
 						return false;
 					break;
 				}
 				
 				// 執行 replace
-				CRUD::$crud_func(CORE::$config["prefix"].'_news_cate',$_REQUEST);
+				$_REQUEST["pc_img"] = CRUD::img_handle($_REQUEST["pc_img"]);
+				CRUD::$crud_func(CORE::$config["prefix"].'_products_cate',$_REQUEST);
 				
 				if(!empty(DB::$error)){
 					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
 					
-					if($_REQUEST["it_type"] == "add"){
+					if($_REQUEST["pc_type"] == "add"){
 						CRUD::refill(true);
 					}
 					
@@ -247,7 +267,7 @@
 			}else{
 				CORE::notice('參數錯誤',$_SESSION[CORE::$config["sess"]]['last_path']);
 				
-				if($_REQUEST["it_type"] == "add"){
+				if($_REQUEST["pc_type"] == "add"){
 					CRUD::refill(true);
 				}
 				
@@ -258,7 +278,8 @@
 		}
 		
 		// 分類刪除
-		private function news_cate_del($args){
+		/*
+		private function products_cate_del($args){
 			$sql_args["ig_id"] = $args[0];
 			$msg_path = CORE::$manage.'news/cate/';
 			
@@ -277,78 +298,82 @@
 			CHECK::check_clear();
 			CORE::notice($msg_title,$msg_path);
 		}
+		*/
 		
 		//--------------------------------------------------------------------------------------
 		
 		// 介紹頁列表
-		private function news_list($args=false){
+		private function products_list($args=false){
 			
 			$sk = CRUD::sk_split($args[0]);
+			$cate_option = CRUD::multi_layer_select(CORE::$config["prefix"].'_products_cate','pc',$sk["pc_id"]);
+			VIEW::assignGlobal("TAG_PC_SELECT",$cate_option);
 			
 			foreach($sk as $field => $value){
 				switch($field){
-					case "nc_id":
+					case "pc_id":
 						if(!empty($value)){
-							$where .= 'where n.'.$field."='".$value."'";
+							$where .= 'where p.'.$field."='".$value."'";
 						}
 					break;
 				}
 			}
 			
-			 $sql_str = "SELECT * FROM ".CORE::$config["prefix"]."_news as n 
-						left join ".CORE::$config["prefix"]."_news_cate as nc on nc.nc_id = n.nc_id 
-						".$where." order by n.n_sort ".CORE::$config["sort"]; 
-			
-			self::news_cate_select($sk["nc_id"]);
+			 $sql_str = "SELECT * FROM ".CORE::$config["prefix"]."_products as p 
+						left join ".CORE::$config["prefix"]."_products_cate as pc on pc.pc_id = p.pc_id 
+						".$where." order by pc.pc_sort ".CORE::$config["sort"].",p.p_sort ".CORE::$config["sort"];
 			
 			$sql = DB::select(false,$sql_str);
-			$sql = PAGE::handle($sql, CORE::$manage.'news/list/');
+			$sql = PAGE::handle($sql, CORE::$manage.'admin_products/list/');
 			$rsnum = DB::num($sql);
 			
 			if(!empty($rsnum)){
 				while($row = DB::fetch($sql)){
 					
-					VIEW::newBlock('TAG_NEWS_LIST');
+					VIEW::newBlock('TAG_P_LIST');
 					VIEW::assign(array(
 						"VALUE_ROW_NUM" => ++$i,
-						"VALUE_N_ID" => $row["n_id"],
-						"VALUE_NC_SUBJECT" => $row["nc_subject"],
-						"VALUE_N_SUBJECT" => $row["n_subject"],
-						"VALUE_N_SORT" => $row["n_sort"],
-						"VALUE_N_STATUS" => ($row["n_status"])?'開啟':'關閉',
+						"VALUE_P_ID" => $row["p_id"],
+						"VALUE_PC_NAME" => $row["pc_name"],
+						"VALUE_P_NAME" => $row["p_name"],
+						"VALUE_P_SORT" => $row["p_sort"],
+						"VALUE_P_IMG" => $row["p_s_img"],
+						"VALUE_P_STATUS" => ($row["p_status"])?'開啟':'關閉',
 					));
 				}
 			}else{
-				VIEW::newBlock("TAG_INTRO_NONE");
+				VIEW::newBlock("TAG_ROW_NONE");
 			}
 		}
 		
 		// 介紹頁新增
-		private function news_add(){
+		private function products_add(){
+			
+			$cate_option = CRUD::multi_layer_select(CORE::$config["prefix"].'_products_cate','pc');
 			
 			VIEW::assignGlobal(array(
 				"MSG_TITLE" => '新增',
-				"VALUE_N_TYPE" => 'add',
-				"VALUE_N_SORT" => CRUD::max_sort(CORE::$config["prefix"].'_news','n'),
+				"VALUE_P_TYPE" => 'add',
+				"VALUE_P_SORT" => CRUD::max_sort(CORE::$config["prefix"].'_products','p'),
 				"TAG_DISABLE" => '',
+				"TAG_PC_SELECT" => $cate_option,
 			));
-			
-			self::news_cate_select($_SESSION[CORE::$config["sess"]]["refill"]["nc_id"]);
+
 			CRUD::refill();
 		}
 
 		// 更改介紹頁
-		private function news_mod($args){
+		private function products_mod($args){
 			
 			VIEW::assignGlobal(array(
 				"MSG_TITLE" => '修改',
-				"VALUE_N_TYPE" => 'mod',
+				"VALUE_P_TYPE" => 'mod',
 			));
 			
 			$select = array (
-				'table' => CORE::$config["prefix"].'_news',
+				'table' => CORE::$config["prefix"].'_products',
 				'field' => "*",
-				'where' => "n_id = '".$args[0]."'",
+				'where' => "p_id = '".$args[0]."'",
 				//'order' => '',
 				//'limit' => '',
 			);
@@ -358,43 +383,45 @@
 			
 			if(!empty($rsnum)){
 				$row = DB::fetch($sql);
-				self::news_cate_select($row["nc_id"]);
 				
 				foreach($row as $field => $value){
 					switch($field){
-						case "n_status":
+						case "p_status":
 							VIEW::assignGlobal("VALUE_".strtoupper($field).'_CK'.$value,'checked');
 						break;
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
 				
+				$cate_option = CRUD::multi_layer_select(CORE::$config["prefix"].'_products_cate','pc',$row["pc_id"]);
+				VIEW::assignGlobal("TAG_PC_SELECT",$cate_option);
+				
 				LANG::switch_make($row["lang_id"]);
 			}
 		}
 			
 		// 介紹頁各項處理
-		private function news_process($args=false){
+		private function products_process($args=false){
 			switch(self::$func){
 				case "open":
-					$rs = CRUD::status(CORE::$config["prefix"].'_news','n',$_REQUEST["id"],1);
+					$rs = CRUD::status(CORE::$config["prefix"].'_products','p',$_REQUEST["id"],1);
 				break;
 				case "close":
-					$rs = CRUD::status(CORE::$config["prefix"].'_news','n',$_REQUEST["id"],0);
+					$rs = CRUD::status(CORE::$config["prefix"].'_products','p',$_REQUEST["id"],0);
 				break;
 				case "sort":
-					$rs = CRUD::sort(CORE::$config["prefix"].'_news','n',$_REQUEST["id"],$_REQUEST["sort"]);
+					$rs = CRUD::sort(CORE::$config["prefix"].'_products','p',$_REQUEST["id"],$_REQUEST["sort"]);
 				break;
 				case "del":
 					if(!empty($args)){
-						DB::delete(CORE::$config["prefix"].'_news',array('n_id' => $args[0]));
+						DB::delete(CORE::$config["prefix"].'_products',array('p_id' => $args[0]));
 						if(!empty(DB::$error)){
 							CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
 						}else{
 							$rs = true;
 						}
 					}else{
-						$rs = CRUD::delete(CORE::$config["prefix"].'_news','n',$_REQUEST["id"]);
+						$rs = CRUD::delete(CORE::$config["prefix"].'_products','p',$_REQUEST["id"]);
 					}
 				break;
 			}
@@ -405,34 +432,33 @@
 		}
 		
 		// 介紹頁儲存
-		private function news_replace(){
-			CHECK::is_must($_REQUEST["n_subject"]);
-			CHECK::is_must($_REQUEST["nc_id"]);
-			CHECK::is_number($_REQUEST["n_sort"]);
+		private function products_replace(){
+			CHECK::is_must($_REQUEST["p_name"]);
+			CHECK::is_number($_REQUEST["p_sort"]);
 			
 			if(CHECK::is_pass()){
-				switch($_REQUEST["n_type"]){
+				switch($_REQUEST["p_type"]){
 					case "add":
 						$crud_func = 'C';
-						$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$manage.'news/list/';
+						$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$manage.'products/list/';
 					break;
 					case "mod":
 						$crud_func = 'U';
-						$_REQUEST["n_content"] = addslashes($_REQUEST["n_content"]);
 					break;
 					default:
-						CORE::notice('失效的資訊',CORE::$manage.'news/list/');
+						CORE::notice('失效的資訊',CORE::$manage.'admin_products/list/');
 						return false;
 					break;
 				}
 				
 				// 執行 replace
-				CRUD::$crud_func(CORE::$config["prefix"].'_news',$_REQUEST);
+				$_REQUEST["p_s_img"] = CRUD::img_handle($_REQUEST["p_s_img"]);
+				CRUD::$crud_func(CORE::$config["prefix"].'_products',$_REQUEST);
 				
 				if(!empty(DB::$error)){
 					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
 					
-					if($_REQUEST["n_type"] == "add"){
+					if($_REQUEST["p_type"] == "add"){
 						CRUD::refill(true);
 					}
 					
@@ -441,7 +467,7 @@
 			}else{
 				CORE::notice('參數錯誤',$_SESSION[CORE::$config["sess"]]['last_path']);
 				
-				if($_REQUEST["n_type"] == "add"){
+				if($_REQUEST["p_type"] == "add"){
 					CRUD::refill(true);
 				}
 				
@@ -451,34 +477,13 @@
 			CORE::notice('更新完成',$_SESSION[CORE::$config["sess"]]['last_path']);
 		}
 
-		// 讀取分類選單
-		private function news_cate_select($nc_id=false){
-			
-			$select = array (
-				'table' => CORE::$config["prefix"].'_news_cate',
-				'field' => "*",
-				'where' => $where,
-				//'order' => '',
-				//'limit' => '',
-			);
-			
-			$sql = DB::select($select);
-			$rsnum = DB::num($sql);
-			
-			if(!empty($rsnum)){
-				while($row = DB::fetch($sql)){
-					VIEW::newBlock("TAG_NEWS_SELECT");
-					VIEW::assign(array(
-						"VALUE_NC_ID" => $row["nc_id"],
-						"VALUE_NC_SUBJECT" => $row["nc_subject"],
-						"VALUE_NC_CURRENT" => ($nc_id == $row["nc_id"] && !empty($nc_id))?'selected':'',
-					));
-				}
-			}
-		}
-		
 		//--------------------------------------------------------------------------------------
 		
+		public static function img_replace($p_id){
+			if(is_array($_REQUEST["pi_id"])){
+				
+			}
+		}
 	}
 
 ?>

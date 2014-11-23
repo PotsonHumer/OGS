@@ -1,5 +1,13 @@
 	// OGS default js function
 	
+	function log(OUTPUT){
+		try{
+			console.log(OUTPUT);
+		}catch(e){
+			alert(OUTPUT);
+		}
+	}
+	
 	// js 提示功能
 	function js_notice(MSG,HEADING){
 		
@@ -84,6 +92,46 @@
 		});
 	}
 	
+	// 圖片選取框
+	var IMG_ARRAY = new Array();
+	function img_block(){
+		
+		$(".img_block").each(function(KEY){
+			var IMG = $(this).find("img");
+			var TXT = $(this).find("p");
+			var IMG_PATH = IMG.attr("src");
+			if(!isset(IMG_PATH)){
+				IMG.hide();
+				TXT.show();
+			}else{
+				IMG.show();
+				TXT.hide();
+			}
+			
+			var NOW_IMG_PATH = $(this).find("input").val();
+			if(IMG_ARRAY[KEY] != NOW_IMG_PATH && isset(NOW_IMG_PATH)){
+				var ROOT_PATH_EXIST = NOW_IMG_PATH.search(TAG_FILE_PATH);
+				IMG_ARRAY[KEY] = (ROOT_PATH_EXIST >= 0)?NOW_IMG_PATH:TAG_ROOT_PATH + NOW_IMG_PATH;
+				IMG.attr("src",IMG_ARRAY[KEY]);
+				$(this).fix_box();
+			}
+		});
+		
+		setTimeout(img_block,50);
+	}
+	
+	// 圖片選取框 - 刪除圖片
+	function img_block_del(){
+		$(document).on("click",".img_del",function(){
+			var OBJ = $(this).parents(".img_block");			
+			var IMG = OBJ.find("img");
+			var TXT = OBJ.find("p");
+			OBJ.find("input").val("");
+			IMG.removeAttr("src").hide();
+			TXT.show();
+		});
+	}
+	
 	// 直接啟動項目
 	$(function(){
 		pixels_size();
@@ -91,4 +139,6 @@
 		func_handle();
 		link_alert();
 		all_select();
+		img_block();
+		img_block_del();
 	});

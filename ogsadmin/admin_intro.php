@@ -1,7 +1,7 @@
 <?php
 
 	// 管理員設定
-	class INTRO extends OGSADMIN{
+	class ADMIN_INTRO extends OGSADMIN{
 		protected static $func;
 		
 		function __construct($args){
@@ -89,7 +89,7 @@
 						"VALUE_IG_STATUS_CK".$row["ig_status"] => 'checked',
 						"VALUE_IG_NAME" => $row["ig_name"],
 						"VALUE_IG_DIR" => $row["ig_dir"],
-						"VALUE_IG_DEL_PATH" => CORE::$manage.'intro/group-del/'.$row["ig_id"].'/'
+						"VALUE_IG_DEL_PATH" => CORE::$manage.'admin_intro/group-del/'.$row["ig_id"].'/'
 					));
 				}
 			}else{
@@ -106,7 +106,7 @@
 			$it_dir_str = "'".implode("','",$_REQUEST["ig_dir"])."'";
 			CHECK::is_array_exist($_REQUEST["ig_id"]);
 			eval("CHECK::is_letter($it_dir_str);");
-			$msg_path = CORE::$manage.'intro/';
+			$msg_path = CORE::$manage.'admin_intro/';
 			
 			if(CHECK::is_pass()){
 				
@@ -146,7 +146,7 @@
 
 		private function intro_group_del($args){
 			$sql_args["ig_id"] = $args[0];
-			$msg_path = CORE::$manage.'intro/';
+			$msg_path = CORE::$manage.'admin_intro/';
 			
 			if(CHECK::is_must($sql_args["ig_id"])){
 				DB::delete(CORE::$config["prefix"].'_intro_group',$sql_args);
@@ -210,7 +210,7 @@
 			);
 			
 			$sql = DB::select($select);
-			$sql = PAGE::handle($sql, CORE::$manage.'intro/list/');
+			$sql = PAGE::handle($sql, CORE::$manage.'admin_intro/list/');
 			$rsnum = DB::num($sql);
 			
 			if(!empty($rsnum)){
@@ -323,14 +323,14 @@
 				switch($_REQUEST["it_type"]){
 					case "add":
 						$crud_func = 'C';
-						$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$manage.'intro/list/';
+						$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$manage.'admin_intro/list/';
 					break;
 					case "mod":
 						$crud_func = 'U';
 						$_REQUEST["it_content"] = addslashes($_REQUEST["it_content"]);
 					break;
 					default:
-						CORE::notice('失效的資訊',CORE::$manage.'intro/list/');
+						CORE::notice('失效的資訊',CORE::$manage.'admin_intro/list/');
 						return false;
 					break;
 				}

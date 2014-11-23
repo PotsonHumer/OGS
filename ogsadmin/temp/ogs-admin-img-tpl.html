@@ -1,0 +1,48 @@
+<hr>
+
+<h3>產品大圖管理</h3>
+
+<p class="icon-speech-bubble">請利用滑鼠拖曳(點住後拉動)來改變順序</p>
+
+<table>
+	<tr class="btn">
+		<td class="sort" width="100%">
+			<div style="float: left; margin: 10px;">
+				<input type="hidden" name="pi_id[]" value="{VALUE_PI_ID}">
+				<div class="img_block">
+					<input type="hidden" name="p_img[]" value="{VALUE_P_IMG}">
+					<a class="img_manage"></a>
+					<img src="{VALUE_P_IMG}">
+					<p class="center green">按此選擇圖片</p>
+					<div class="img_del icon-square-cross"></div>
+				</div>
+			</div>
+			<div style="float: left; margin: 10px;">
+				<div id="img_add" class="img_block">
+					<p class="center green">按此增加圖片</p>
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>
+
+<script>
+	$(function(){
+		$("#img_add").click(function(){
+			$(this).parent("div").before(
+				'<div style="float: left; margin: 10px;">'+
+					'<input type="hidden" name="pi_id[]">'+
+					'<div class="img_block">'+
+						'<input type="hidden" name="p_img[]">'+
+						'<a class="img_manage"></a>'+
+						'<img>'+
+						'<p class="center green">按此選擇圖片</p>'+
+						'<div class="img_del icon-square-cross"></div>'+
+					'</div>'+
+				'</div>'
+			);
+		});
+		
+		$(".sort").sortable();
+	});
+</script>

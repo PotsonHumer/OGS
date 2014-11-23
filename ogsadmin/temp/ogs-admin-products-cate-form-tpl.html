@@ -1,0 +1,62 @@
+<h2>產品管理</h2>
+
+<hr>
+
+<h3>產品分類{MSG_TITLE}</h3>
+
+<form name="intro_form" method="post" action="{TAG_MANAGE_PATH}admin_products/cate-replace/">
+	<table>
+		<tr>
+			<th class="must" width="15%">名稱</th>
+			<td width="35%">
+				<input type="text" name="pc_name" value="{VALUE_PC_NAME}" size="150">
+			</td>
+			<th width="15%">狀態</th>
+			<td width="35%">
+				<label>開啟</label><input type="radio" name="pc_status" value="1" {VALUE_PC_STATUS_CK1}>
+				<label>關閉</label><input type="radio" name="pc_status" value="0" {VALUE_PC_STATUS_CK0}>
+			</td>
+		</tr>
+		<tr>
+			<th>所屬分類</th>
+			<td>
+				<select name="pc_parent">
+					<option value="">無分類</option>
+					{TAG_PC_SELECT}
+				</select>
+			</td>
+			<th>排序</th>
+			<td>
+				<input type="text" name="pc_sort" value="{VALUE_PC_SORT}" size="100">
+			</td>
+		</tr>
+		<tr>
+			<th>圖片</th>
+			<td colspan="3">
+				<div class="img_block">
+					<input type="hidden" name="pc_img" value="{VALUE_PC_IMG}">
+					<a class="img_manage"></a>
+					<img src="{VALUE_PC_IMG}">
+					<p class="center green">按此選擇圖片</p>
+					<div class="img_del icon-square-cross"></div>
+				</div>
+			</td>
+		</tr>
+		<tr class="btn">
+			<td colspan="4">
+				<label>同步儲存其他語系</label><input type="checkbox" name="lang_sync" value="1" {TAG_DISABLE}>
+			</td>
+		</tr>
+		<tr class="btn">
+			<td colspan="4">
+				<input type="submit" value="儲存">
+				<input class="goto" type="button" value="回列表" rel="{TAG_MANAGE_PATH}admin_products/cate/">
+			</td>
+		</tr>
+	</table>
+
+	<input type="hidden" name="pc_id" value="{VALUE_PC_ID}">
+	<input type="hidden" name="pc_type" value="{VALUE_PC_TYPE}">
+</form>
+
+<hr>

@@ -16,6 +16,7 @@
 			// 檢查是否登入
 			self::$is_login = (!empty($_SESSION[CORE::$config["sess"]]["ogsadmin"]["oa_id"]))?true:false;
 			CORE::res_init(CORE::$config["root"].CORE::$config["manage"].'css/ogsadmin.css','custom'); // 載入 CSS
+			CORE::res_init('fix','box');
 			CORE::res_init('font','css'); // 載入 CSS
 			CORE::res_init('default','js');
 			self::$func = array_shift($args); // 功能名稱
