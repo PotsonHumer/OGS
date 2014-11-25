@@ -4,6 +4,7 @@
 		public static $rsnum;
 		public static $call_class; // 回呼方法來源
 		public static $call_func; // 回乎方法來源方法
+		public static $insert_id; // 紀錄最後一次 insert 的 id
 		
 		function __construct(){} // no need
 		
@@ -58,7 +59,8 @@
 			$args["lang_id"] = ++LANG::$id; // 增加 lang_id
 			$new_args = self::field_match($tb_name,$args);
 			DB::insert($tb_name,$new_args);
-			LANG::lang_sync($tb_name,$new_args,$args);
+			self::$insert_id = DB::get_id();
+			LANG::lang_sync($tb_name,$new_args,$args); // 其他語系儲存
 		}
 		
 		// Updata

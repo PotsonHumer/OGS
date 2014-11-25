@@ -30,6 +30,7 @@
 					$temp_main = array(
 						"MAIN" => self::$temp.'ogs-admin-intro-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
 					self::intro_add();
 				break;
@@ -37,6 +38,7 @@
 					$temp_main = array(
 						"MAIN" => self::$temp.'ogs-admin-intro-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
 					self::intro_mod($args);
 				break;
@@ -280,6 +282,7 @@
 				}
 				
 				LANG::switch_make($row["lang_id"]);
+				new SEO($row["seo_id"]);
 			}
 		}
 		
@@ -337,6 +340,9 @@
 				
 				// 執行 replace
 				CRUD::$crud_func(CORE::$config["prefix"].'_intro',$_REQUEST);
+				
+				// 儲存 SEO
+				SEO::save($_REQUEST,CORE::$config["prefix"].'_intro','it');
 				
 				if(!empty(DB::$error)){
 					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);

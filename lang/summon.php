@@ -47,7 +47,7 @@
 			
 			if(CHECK::is_array_exist(CORE::$config["lang"]) && !empty($args["lang_sync"])){
 				$nofix_tb_name = preg_replace("/".CORE::$config["prefix"]."/", '', $tb_name,1); // 資料表名稱去除 prefix
-				
+
 				// 取得其他語系資料庫 prefix
 				foreach(CORE::$config["lang"] as $lang => $prefix){
 					if($prefix != CORE::$config["prefix"]){

@@ -429,3 +429,13 @@ table td:before,table td:after{
 .ui-sortable-placeholder{
 	float: left;
 }
+
+/* SEO */
+#seo_table input{
+	width: 50%;
+}
+
+#seo_table textarea{
+	width: 80%;
+	height: 80px;
+}

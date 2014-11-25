@@ -27,7 +27,7 @@
 			if(!empty($rsnum)){
 				$row = DB::fetch($sql);
 				foreach($row as $field => $value){
-					VIEW::assignGlobal("TAG_".strtoupper($field),$value);
+					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
 				
 				return true;
@@ -37,17 +37,26 @@
 		}
 		
 		// 儲存 seo
-		public static function save(array $args,$tb_name=false,$input=false){
+		public static function save(array $args,$tb_name=false,$table_prefix=false){
+			
 			if(CHECK::is_must($args["seo_id"])){
-				CRUD::U(CORE::$config["preifx"].'_seo',$args);
+				CRUD::U(CORE::$config["prefix"].'_seo',$args);
 				return true;
 			}else{
-				CRUD::C(CORE::$config["preifx"].'_seo',$args);
+				if(!CHECK::is_must($args[$table_prefix."_id"])){
+					$args[$table_prefix."_id"] = CRUD::$insert_id;
+				}
 				
+				$new_args = CRUD::field_match(CORE::$config["prefix"].'_seo',$args);
+				DB::insert(CORE::$config["prefix"].'_seo',$new_args);
+				//CRUD::C(CORE::$config["prefix"].'_seo',$args);
+
 				// seo_id 回存原資料表
-				if(CHECK::is_must($tb_name) && CHECK::is_array_exist($input)){
+				if(CHECK::is_must($tb_name,$table_prefix,$args[$table_prefix."_id"])){
 					$input["seo_id"] = DB::get_id();
-					CRUD::U(CORE::$config["preifx"].'_seo',$input);
+					$input[$table_prefix."_id"] = $args[$table_prefix."_id"];
+					
+					CRUD::U($tb_name,$input);
 				}
 				return true;
 			}
