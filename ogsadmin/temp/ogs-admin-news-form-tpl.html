@@ -33,11 +33,28 @@
 			</td>
 		</tr>
 		<tr>
+			<th>圖片</th>
+			<td colspan="3">
+				<div class="img_block">
+					<input type="hidden" name="n_img" value="{VALUE_N_IMG}">
+					<a class="img_manage"></a>
+					<img src="{VALUE_N_IMG}">
+					<p class="center green">按此選擇圖片</p>
+					<div class="img_del icon-square-cross"></div>
+				</div>
+			</td>
+		</tr>
+		<tr>
 			<th>內容</th>
 			<td colspan="3">
 				<textarea class="tiny_input" name="n_content">{VALUE_N_CONTENT}</textarea>
 			</td>
 		</tr>
+	</table>
+	
+	<!-- INCLUDE BLOCK : SEO -->
+	
+	<table>
 		<tr class="btn">
 			<td colspan="4">
 				<label>同步儲存其他語系</label><input type="checkbox" name="lang_sync" value="1" {TAG_DISABLE}>

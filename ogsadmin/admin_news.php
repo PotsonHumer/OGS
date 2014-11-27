@@ -24,6 +24,7 @@
 					$temp_main = array(
 						"MAIN" => self::$temp.'ogs-admin-news-cate-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
 					self::news_cate_add();
 				break;
@@ -31,6 +32,7 @@
 					$temp_main = array(
 						"MAIN" => self::$temp.'ogs-admin-news-cate-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
 					self::news_cate_mod($args);
 				break;
@@ -65,6 +67,7 @@
 					$temp_main = array(
 						"MAIN" => self::$temp.'ogs-admin-news-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
 					self::news_add();
 				break;
@@ -72,6 +75,7 @@
 					$temp_main = array(
 						"MAIN" => self::$temp.'ogs-admin-news-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
 					self::news_mod($args);
 				break;
@@ -180,6 +184,7 @@
 				}
 				
 				LANG::switch_make($row["lang_id"]);
+				new SEO($row["seo_id"]);
 			}
 		}
 		
@@ -223,7 +228,7 @@
 				switch($_REQUEST["nc_type"]){
 					case "add":
 						$crud_func = 'C';
-						$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$manage.'news/cate/';
+						$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$manage.'admin_news/cate/';
 					break;
 					case "mod":
 						$crud_func = 'U';
@@ -236,6 +241,9 @@
 				
 				// 執行 replace
 				CRUD::$crud_func(CORE::$config["prefix"].'_news_cate',$_REQUEST);
+				
+				// 儲存 SEO
+				SEO::save($_REQUEST,CORE::$config["prefix"].'_news_cate','nc');
 				
 				if(!empty(DB::$error)){
 					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -318,6 +326,7 @@
 						"VALUE_N_SUBJECT" => $row["n_subject"],
 						"VALUE_N_SORT" => $row["n_sort"],
 						"VALUE_N_STATUS" => ($row["n_status"])?'開啟':'關閉',
+						"VALUE_N_IMG" => CRUD::img_handle($row["n_img"]),
 					));
 				}
 			}else{
@@ -367,11 +376,15 @@
 						case "n_status":
 							VIEW::assignGlobal("VALUE_".strtoupper($field).'_CK'.$value,'checked');
 						break;
+						case "n_img":
+							$value = CRUD::img_handle($value);
+						break;
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
 				
 				LANG::switch_make($row["lang_id"]);
+				new SEO($row["seo_id"]);
 			}
 		}
 			
@@ -430,6 +443,9 @@
 				
 				// 執行 replace
 				CRUD::$crud_func(CORE::$config["prefix"].'_news',$_REQUEST);
+				
+				// 儲存 SEO
+				SEO::save($_REQUEST,CORE::$config["prefix"].'_news','n');
 				
 				if(!empty(DB::$error)){
 					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);

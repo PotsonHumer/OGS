@@ -24,6 +24,7 @@
 					$temp_main = array(
 						"MAIN" => self::$temp.'ogs-admin-products-cate-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
 					self::products_cate_add();
 				break;
@@ -31,6 +32,7 @@
 					$temp_main = array(
 						"MAIN" => self::$temp.'ogs-admin-products-cate-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
 					self::products_cate_mod($args);
 				break;
@@ -66,6 +68,7 @@
 						"MAIN" => self::$temp.'ogs-admin-products-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
 						"IMG" => self::$temp.'ogs-admin-img-tpl.html',
+						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
 					self::products_add();
 				break;
@@ -74,6 +77,7 @@
 						"MAIN" => self::$temp.'ogs-admin-products-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
 						"IMG" => self::$temp.'ogs-admin-img-tpl.html',
+						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
 					self::products_mod($args);
 				break;
@@ -194,6 +198,7 @@
 				VIEW::assignGlobal("TAG_PC_SELECT",$cate_option);
 				
 				LANG::switch_make($row["lang_id"]);
+				new SEO($row["seo_id"]);
 			}
 		}
 		
@@ -254,6 +259,9 @@
 				// 執行 replace
 				$_REQUEST["pc_img"] = CRUD::img_handle($_REQUEST["pc_img"]);
 				CRUD::$crud_func(CORE::$config["prefix"].'_products_cate',$_REQUEST);
+				
+				// 儲存 SEO
+				SEO::save($_REQUEST,CORE::$config["prefix"].'_products_cate','pc');
 				
 				if(!empty(DB::$error)){
 					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -397,6 +405,8 @@
 				VIEW::assignGlobal("TAG_PC_SELECT",$cate_option);
 				
 				LANG::switch_make($row["lang_id"]);
+				P_SUB::img_row($row["p_id"]);
+				new SEO($row["seo_id"]);
 			}
 		}
 			
@@ -454,6 +464,12 @@
 				// 執行 replace
 				$_REQUEST["p_s_img"] = CRUD::img_handle($_REQUEST["p_s_img"]);
 				CRUD::$crud_func(CORE::$config["prefix"].'_products',$_REQUEST);
+				
+				// 儲存 SEO
+				SEO::save($_REQUEST,CORE::$config["prefix"].'_products','p');
+				
+				// 儲存圖片
+				P_SUB::img_save($_REQUEST["p_id"]);
 				
 				if(!empty(DB::$error)){
 					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
