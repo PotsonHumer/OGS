@@ -318,7 +318,13 @@
 		}
 		
 		// 介紹頁儲存
-		private function intro_replace(){
+		public function intro_replace($tb_array=false){
+			
+			if(!CHECK::is_array_exist($tb_array)){
+				$tb_array = array(CORE::$config["prefix"].'_intro',CORE::$config["prefix"].'_seo');
+				CHECK::check_clear();
+			}
+			
 			CHECK::is_must($_REQUEST["it_subject"]);
 			CHECK::is_number($_REQUEST["it_sort"]);
 			
@@ -339,10 +345,7 @@
 				}
 				
 				// 執行 replace
-				CRUD::$crud_func(CORE::$config["prefix"].'_intro',$_REQUEST);
-				
-				// 儲存 SEO
-				SEO::save($_REQUEST,CORE::$config["prefix"].'_intro','it');
+				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){
 					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -352,6 +355,14 @@
 					}
 					
 					return false;
+				}else{
+					// 儲存 SEO
+					SEO::save($tb_array[1],$_REQUEST,$tb_array[0],'it');
+					
+					// 其他語系儲存
+					if($crud_func == "C"){
+						LANG::lang_sync($tb_array,$_REQUEST,__CLASS__,__FUNCTION__);
+					}
 				}
 			}else{
 				CORE::notice('參數錯誤',$_SESSION[CORE::$config["sess"]]['last_path']);

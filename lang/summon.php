@@ -4,6 +4,7 @@
 		public static $id = 0;
 		public static $manage;
 		public static $msg;
+		private static $sync_count = 0;
 		
 		function __construct(){
 			
@@ -40,19 +41,28 @@
 					}
 				}
 			}
+			
+			return self::$id;
 		}
 		
 		// 同步儲存多語系
-		public static function lang_sync($tb_name,array $new_args,array $args){
+		public static function lang_sync(array $tb_array,array $args,$class,$func){
 			
-			if(CHECK::is_array_exist(CORE::$config["lang"]) && !empty($args["lang_sync"])){
-				$nofix_tb_name = preg_replace("/".CORE::$config["prefix"]."/", '', $tb_name,1); // 資料表名稱去除 prefix
+			self::$sync_count++;
+			
+			if(CHECK::is_array_exist(CORE::$config["lang"]) && !empty($args["lang_sync"]) && self::$sync_count == 1){
 
-				// 取得其他語系資料庫 prefix
+				// 取得其他語系資料表 prefix
 				foreach(CORE::$config["lang"] as $lang => $prefix){
 					if($prefix != CORE::$config["prefix"]){
-						$other_tb_name = $prefix.$nofix_tb_name;
-						DB::insert($other_tb_name,$new_args);
+						
+						// 組合資料表
+						foreach($tb_array as $tb_key => $tb_name){
+							$nofix_tb_name = preg_replace("/".CORE::$config["prefix"]."/", '', $tb_name,1); // 資料表名稱去除 prefix
+							$other_tb_array[$tb_key] = $prefix.$nofix_tb_name;
+						}
+						
+						$class::$func($other_tb_array);
 					}
 				}
 			}

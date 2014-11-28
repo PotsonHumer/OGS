@@ -20,7 +20,7 @@
 		// 常駐程序
 		public static function permanent(){
 			self::$db = new DB(self::$config["connect"]);
-			LANG::lang_fetch();
+			//LANG::lang_fetch();
 		}
 		
 		// 定義當前目錄位置
@@ -168,8 +168,7 @@
 		// 顯示提示 (提示內容,提示後前往路徑,true => js 提示; false => tpl 提示)
 		public static function notice($msg,$heading=false,$type=false){
 			if(!$type){
-				VIEW::newBlock("TAG_NOTICE_BLOCK");
-				VIEW::assign("MSG_NOTICE",$msg);
+				VIEW::assignGlobal("MSG_NOTICE",$msg);
 				
 				if(!empty($heading)){
 					header('refresh: 2; url='.$heading);

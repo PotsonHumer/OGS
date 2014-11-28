@@ -220,7 +220,13 @@
 		}
 		
 		// 分類儲存
-		private function news_cate_replace(){
+		public function news_cate_replace($tb_array=false){
+			
+			if(!CHECK::is_array_exist($tb_array)){
+				$tb_array = array(CORE::$config["prefix"].'_news_cate',CORE::$config["prefix"].'_seo');
+				CHECK::check_clear();
+			}
+			
 			CHECK::is_must($_REQUEST["nc_subject"]);
 			CHECK::is_number($_REQUEST["nc_sort"]);
 			
@@ -234,16 +240,13 @@
 						$crud_func = 'U';
 					break;
 					default:
-						CORE::notice('失效的資訊',CORE::$manage.'news/cate/');
+						CORE::notice('失效的資訊',CORE::$manage.'admin_news/cate/');
 						return false;
 					break;
 				}
 				
 				// 執行 replace
-				CRUD::$crud_func(CORE::$config["prefix"].'_news_cate',$_REQUEST);
-				
-				// 儲存 SEO
-				SEO::save($_REQUEST,CORE::$config["prefix"].'_news_cate','nc');
+				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){
 					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -253,6 +256,14 @@
 					}
 					
 					return false;
+				}else{
+					// 儲存 SEO
+					SEO::save($tb_array[1],$_REQUEST,$tb_array[0],'nc');
+					
+					// 其他語系儲存
+					if($crud_func == "C"){
+						LANG::lang_sync($tb_array,$_REQUEST,__CLASS__,__FUNCTION__);
+					}
 				}
 			}else{
 				CORE::notice('參數錯誤',$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -270,7 +281,7 @@
 		// 分類刪除
 		private function news_cate_del($args){
 			$sql_args["ig_id"] = $args[0];
-			$msg_path = CORE::$manage.'news/cate/';
+			$msg_path = CORE::$manage.'admin_news/cate/';
 			
 			if(CHECK::is_must($sql_args["nc_id"])){
 				DB::delete(CORE::$config["prefix"].'_news_cate',$sql_args);
@@ -420,7 +431,13 @@
 		}
 		
 		// 介紹頁儲存
-		private function news_replace(){
+		public function news_replace($tb_array=false){
+			
+			if(!CHECK::is_array_exist($tb_array)){
+				$tb_array = array(CORE::$config["prefix"].'_news',CORE::$config["prefix"].'_seo');
+				CHECK::check_clear();
+			}
+			
 			CHECK::is_must($_REQUEST["n_subject"]);
 			CHECK::is_must($_REQUEST["nc_id"]);
 			CHECK::is_number($_REQUEST["n_sort"]);
@@ -442,10 +459,7 @@
 				}
 				
 				// 執行 replace
-				CRUD::$crud_func(CORE::$config["prefix"].'_news',$_REQUEST);
-				
-				// 儲存 SEO
-				SEO::save($_REQUEST,CORE::$config["prefix"].'_news','n');
+				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){
 					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -455,6 +469,14 @@
 					}
 					
 					return false;
+				}else{
+					// 儲存 SEO
+					SEO::save($tb_array[1],$_REQUEST,$tb_array[0],'n');
+					
+					// 其他語系儲存
+					if($crud_func == "C"){
+						LANG::lang_sync($tb_array,$_REQUEST,__CLASS__,__FUNCTION__);
+					}
 				}
 			}else{
 				CORE::notice('參數錯誤',$_SESSION[CORE::$config["sess"]]['last_path']);

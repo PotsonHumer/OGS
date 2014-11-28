@@ -55,12 +55,16 @@
 		
 		// Create
 		public static function C($tb_name,array $args){
-			LANG::lang_fetch();
-			$args["lang_id"] = ++LANG::$id; // 增加 lang_id
+			if(empty(LANG::$id)){
+				LANG::lang_fetch();
+				$args["lang_id"] = ++LANG::$id; // 增加 lang_id
+			}else{
+				$args["lang_id"] = LANG::$id; // 儲存既有 lang_id
+			}
+			
 			$new_args = self::field_match($tb_name,$args);
 			DB::insert($tb_name,$new_args);
 			self::$insert_id = DB::get_id();
-			LANG::lang_sync($tb_name,$new_args,$args); // 其他語系儲存
 		}
 		
 		// Updata

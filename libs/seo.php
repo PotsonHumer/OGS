@@ -37,18 +37,18 @@
 		}
 		
 		// 儲存 seo
-		public static function save(array $args,$tb_name=false,$table_prefix=false){
+		public static function save($tb_seo,array $args,$tb_name=false,$table_prefix=false){
 			
 			if(CHECK::is_must($args["seo_id"])){
 				CRUD::U(CORE::$config["prefix"].'_seo',$args);
-				return true;
+				$return_args = true;
 			}else{
 				if(!CHECK::is_must($args[$table_prefix."_id"])){
 					$args[$table_prefix."_id"] = CRUD::$insert_id;
 				}
 				
 				$new_args = CRUD::field_match(CORE::$config["prefix"].'_seo',$args);
-				DB::insert(CORE::$config["prefix"].'_seo',$new_args);
+				DB::insert($tb_seo,$new_args);
 				//CRUD::C(CORE::$config["prefix"].'_seo',$args);
 
 				// seo_id 回存原資料表
@@ -58,11 +58,16 @@
 					
 					CRUD::U($tb_name,$input);
 				}
-				return true;
+				$return_args = true;
 			}
 			
 			CHECK::check_clear();
-			return false;
+			
+			if($return_args){
+				return true;
+			}else{
+				return false;
+			}
 		}
 	}
 

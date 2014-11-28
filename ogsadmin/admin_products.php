@@ -67,7 +67,8 @@
 					$temp_main = array(
 						"MAIN" => self::$temp.'ogs-admin-products-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
-						"IMG" => self::$temp.'ogs-admin-img-tpl.html',
+						"IMG" => self::$temp.'ogs-admin-products-img-tpl.html',
+						"DESC" => self::$temp.'ogs-admin-products-desc-tpl.html',
 						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
 					self::products_add();
@@ -76,7 +77,8 @@
 					$temp_main = array(
 						"MAIN" => self::$temp.'ogs-admin-products-form-tpl.html',
 						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
-						"IMG" => self::$temp.'ogs-admin-img-tpl.html',
+						"IMG" => self::$temp.'ogs-admin-products-img-tpl.html',
+						"DESC" => self::$temp.'ogs-admin-products-desc-tpl.html',
 						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
 					self::products_mod($args);
@@ -366,7 +368,8 @@
 				"TAG_DISABLE" => '',
 				"TAG_PC_SELECT" => $cate_option,
 			));
-
+			
+			P_SUB::img_row($row["p_id"]);
 			CRUD::refill();
 		}
 
@@ -450,7 +453,7 @@
 				switch($_REQUEST["p_type"]){
 					case "add":
 						$crud_func = 'C';
-						$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$manage.'products/list/';
+						$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$manage.'admin_products/list/';
 					break;
 					case "mod":
 						$crud_func = 'U';
@@ -495,11 +498,6 @@
 
 		//--------------------------------------------------------------------------------------
 		
-		public static function img_replace($p_id){
-			if(is_array($_REQUEST["pi_id"])){
-				
-			}
-		}
 	}
 
 ?>

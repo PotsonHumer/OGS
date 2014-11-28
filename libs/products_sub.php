@@ -61,6 +61,8 @@
 						DB::delete(CORE::$config["prefix"].'_products_img',$input);
 					}
 					
+					CHECK::check_clear();
+					
 					if(!empty(DB::$error)){
 						CORE::notice('參數錯誤',$_SESSION[CORE::$config["sess"]]['last_path']);
 						return false;
@@ -74,8 +76,23 @@
 		//------------------------------------------------------------------------------------------
 		
 		// 描述 - 列表
-		public static function desc_row(){
+		public static function desc_row($p_id){
 			
+			$select = array (
+				'table' => CORE::$config["prefix"].'_products_desc',
+				'field' => "*",
+				'where' => "p_id = '".$p_id."'",
+				'order' => "pi_sort asc",
+				//'limit' => '',
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				while($row = DB::fetch($sql)){
+				}
+			}
 		}
 	}
 

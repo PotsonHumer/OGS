@@ -1,0 +1,37 @@
+<h3>產品描述管理</h3>
+
+<!-- START BLOCK : TAG_PD_LIST -->
+<table>
+	<tr>
+		<th width="15%">描述抬頭</th>
+		<td>
+			<input type="text" name="pd_title[]" value="{VALUE_PD_TITLE}" size="200">
+		</td>
+		<th width="15%">描述排序</th>
+		<td>
+			<input type="text" name="pd_sort[]" value="{VALUE_PD_SORT}" size="50">
+		</td>
+	</tr>
+	<tr>
+		<th>描述狀態</th>
+		<td colspan="3">
+			<label>關閉</label><input type="radio" name="pd_status[]" value="0" {VALUE_PD_STATUS_CK0}>
+			<label>開啟</label><input type="radio" name="pd_status[]" value="1" {VALUE_PD_STATUS_CK1}>
+		</td>
+	</tr>
+	<tr>
+		<th>描述內容</th>
+		<td colspan="3">
+			<textarea class="tiny_input" name="pd_content[]">{VALUE_PD_CONTENT}</textarea>
+		</td>
+	</tr>
+</table>
+<!-- END BLOCK : TAG_PD_LIST -->
+
+<table id="pd_end">
+	<tr class="btn">
+		<td>
+			<input type="button" name="pd_add" value="增加描述">
+		</td>
+	</tr>
+</table>
