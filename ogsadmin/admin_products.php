@@ -239,7 +239,13 @@
 		}
 		
 		// 分類儲存
-		private function products_cate_replace(){
+		public function products_cate_replace($tb_array=false){
+			
+			if(!CHECK::is_array_exist($tb_array)){
+				$tb_array = array(CORE::$config["prefix"].'_products_cate',CORE::$config["prefix"].'_seo');
+				CHECK::check_clear();
+			}
+			
 			CHECK::is_must($_REQUEST["pc_name"]);
 			CHECK::is_number($_REQUEST["pc_sort"]);
 			
@@ -260,10 +266,7 @@
 				
 				// 執行 replace
 				$_REQUEST["pc_img"] = CRUD::img_handle($_REQUEST["pc_img"]);
-				CRUD::$crud_func(CORE::$config["prefix"].'_products_cate',$_REQUEST);
-				
-				// 儲存 SEO
-				SEO::save($_REQUEST,CORE::$config["prefix"].'_products_cate','pc');
+				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){
 					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -273,6 +276,14 @@
 					}
 					
 					return false;
+				}else{
+					// 儲存 SEO
+					SEO::save($tb_array[1],$_REQUEST,$tb_array[0],'pc');
+					
+					// 其他語系儲存
+					if($crud_func == "C"){
+						LANG::lang_sync($tb_array,$_REQUEST,__CLASS__,__FUNCTION__);
+					}
 				}
 			}else{
 				CORE::notice('參數錯誤',$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -286,30 +297,7 @@
 			
 			CORE::notice('更新完成',$_SESSION[CORE::$config["sess"]]['last_path']);
 		}
-		
-		// 分類刪除
-		/*
-		private function products_cate_del($args){
-			$sql_args["ig_id"] = $args[0];
-			$msg_path = CORE::$manage.'news/cate/';
-			
-			if(CHECK::is_must($sql_args["nc_id"])){
-				DB::delete(CORE::$config["prefix"].'_news_cate',$sql_args);
 				
-				if(!empty(DB::$error)){
-					$msg_title = DB::$error;
-				}else{
-					$msg_title = '刪除成功';
-				}
-			}else{
-				$msg_title = '參數錯誤';
-			}
-			
-			CHECK::check_clear();
-			CORE::notice($msg_title,$msg_path);
-		}
-		*/
-		
 		//--------------------------------------------------------------------------------------
 		
 		// 介紹頁列表
@@ -370,6 +358,7 @@
 			));
 			
 			P_SUB::img_row($row["p_id"]);
+			P_SUB::desc_row($row["p_id"]);
 			CRUD::refill();
 		}
 
@@ -409,6 +398,7 @@
 				
 				LANG::switch_make($row["lang_id"]);
 				P_SUB::img_row($row["p_id"]);
+				P_SUB::desc_row($row["p_id"]);
 				new SEO($row["seo_id"]);
 			}
 		}
@@ -445,7 +435,18 @@
 		}
 		
 		// 介紹頁儲存
-		private function products_replace(){
+		public function products_replace($tb_array=false){
+			
+			if(!CHECK::is_array_exist($tb_array)){
+				$tb_array = array(
+					0 => CORE::$config["prefix"].'_products',
+					1 => CORE::$config["prefix"].'_seo',
+					2 => CORE::$config["prefix"].'_products_img',
+					3 => CORE::$config["prefix"].'_products_desc',
+				);
+				CHECK::check_clear();
+			}
+			
 			CHECK::is_must($_REQUEST["p_name"]);
 			CHECK::is_number($_REQUEST["p_sort"]);
 			
@@ -466,13 +467,7 @@
 				
 				// 執行 replace
 				$_REQUEST["p_s_img"] = CRUD::img_handle($_REQUEST["p_s_img"]);
-				CRUD::$crud_func(CORE::$config["prefix"].'_products',$_REQUEST);
-				
-				// 儲存 SEO
-				SEO::save($_REQUEST,CORE::$config["prefix"].'_products','p');
-				
-				// 儲存圖片
-				P_SUB::img_save($_REQUEST["p_id"]);
+				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){
 					CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -482,6 +477,20 @@
 					}
 					
 					return false;
+				}else{
+					// 儲存 SEO
+					SEO::save($tb_array[1],$_REQUEST,$tb_array[0],'p');
+					
+					// 儲存圖片
+					P_SUB::img_save($_REQUEST["p_id"],$tb_array[2]);
+					
+					// 儲存描述
+					P_SUB::desc_save($_REQUEST["p_id"],$tb_array[3]);
+					
+					// 其他語系儲存
+					if($crud_func == "C"){
+						LANG::lang_sync($tb_array,$_REQUEST,__CLASS__,__FUNCTION__);
+					}
 				}
 			}else{
 				CORE::notice('參數錯誤',$_SESSION[CORE::$config["sess"]]['last_path']);

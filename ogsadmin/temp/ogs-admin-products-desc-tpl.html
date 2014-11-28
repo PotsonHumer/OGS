@@ -1,28 +1,29 @@
 <h3>產品描述管理</h3>
 
 <!-- START BLOCK : TAG_PD_LIST -->
-<table>
+<table class="pd_row">
 	<tr>
 		<th width="15%">描述抬頭</th>
 		<td>
-			<input type="text" name="pd_title[]" value="{VALUE_PD_TITLE}" size="200">
+			<input type="text" name="pd_title[{VALUE_PD_ROW}]" value="{VALUE_PD_TITLE}" size="200">
 		</td>
 		<th width="15%">描述排序</th>
 		<td>
-			<input type="text" name="pd_sort[]" value="{VALUE_PD_SORT}" size="50">
+			<input type="text" name="pd_sort[{VALUE_PD_ROW}]" value="{VALUE_PD_SORT}" size="50">
 		</td>
 	</tr>
 	<tr>
 		<th>描述狀態</th>
 		<td colspan="3">
-			<label>關閉</label><input type="radio" name="pd_status[]" value="0" {VALUE_PD_STATUS_CK0}>
-			<label>開啟</label><input type="radio" name="pd_status[]" value="1" {VALUE_PD_STATUS_CK1}>
+			<label>關閉</label><input type="radio" name="pd_status[{VALUE_PD_ROW}]" value="0" {VALUE_PD_STATUS_CK0}>
+			<label>開啟</label><input type="radio" name="pd_status[{VALUE_PD_ROW}]" value="1" {VALUE_PD_STATUS_CK1}>
 		</td>
 	</tr>
 	<tr>
 		<th>描述內容</th>
 		<td colspan="3">
-			<textarea class="tiny_input" name="pd_content[]">{VALUE_PD_CONTENT}</textarea>
+			<textarea class="tiny_input" name="pd_content[{VALUE_PD_ROW}]">{VALUE_PD_CONTENT}</textarea>
+			<input type="hidden" name="pd_id[{VALUE_PD_ROW}]" value="{VALUE_PD_ID}">
 		</td>
 	</tr>
 </table>
@@ -35,3 +36,43 @@
 		</td>
 	</tr>
 </table>
+
+<script>
+	$(function(){		
+		$("input[name=pd_add]").click(function(){
+			var PD_ROW = Number($(".pd_row").length) + 1;
+			
+			$("#pd_end").before(
+				'<table class="pd_row">'+
+					'<tr>'+
+						'<th width="15%">描述抬頭</th>'+
+						'<td>'+
+							'<input type="text" name="pd_title['+ PD_ROW +']" size="200">'+
+						'</td>'+
+						'<th width="15%">描述排序</th>'+
+						'<td>'+
+							'<input type="text" name="pd_sort['+ PD_ROW +']" size="50">'+
+						'</td>'+
+					'</tr>'+
+					'<tr>'+
+						'<th>描述狀態</th>'+
+						'<td colspan="3">'+
+							'<label>關閉</label><input type="radio" name="pd_status['+ PD_ROW +']" value="0" checked>'+
+							'<label>開啟</label><input type="radio" name="pd_status['+ PD_ROW +']" value="1">'+
+						'</td>'+
+					'</tr>'+
+					'<tr>'+
+						'<th>描述內容</th>'+
+						'<td colspan="3">'+
+							'<textarea class="tiny_input_live" name="pd_content['+ PD_ROW +']"></textarea>'+
+							'<input type="hidden" name="pd_id['+ PD_ROW +']">'+
+						'</td>'+
+					'</tr>'+
+				'</table>'
+			);
+			
+			pixels_size();
+			tiny_load("{TAG_ROOT_FILE}",'.tiny_input_live');
+		});
+	});
+</script>
