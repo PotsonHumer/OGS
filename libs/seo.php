@@ -69,6 +69,43 @@
 				return false;
 			}
 		}
+		
+		// 刪除 seo
+		public static function del($tb_name,$field,$args){
+			
+			// 取得 seo_id
+			if(CHECK::is_array_exist($args)){
+				$args_str = "'".implode("','",$args)."'";
+				$where = $field." in(".$args_str.")";
+			}else{
+				$where = $field."='".$args."'";
+			}
+			
+			CHECK::check_clear();
+			
+			$select = array(
+				'table' => $tb_name,
+				'field' => "seo_id",
+				"where" => $where,
+				//"order" => "",
+				//"limit" => "",
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				while($row = DB::fetch($sql)){
+					DB::delete(CORE::$config["prefix"].'_seo',array('seo_id' => $row['seo_id'])); // 實際刪除 seo
+					if(!empty(DB::$error)){
+						CORE::notice(DB::$error,false,true);
+						return false;
+					}
+				}
+			}else{
+				return false;
+			}
+		}
 	}
 
 ?>

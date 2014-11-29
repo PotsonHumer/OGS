@@ -300,6 +300,7 @@
 				break;
 				case "del":
 					if(!empty($args)){
+						SEO::del(CORE::$config["prefix"].'_intro','it_id',$args[0]);
 						DB::delete(CORE::$config["prefix"].'_intro',array('it_id' => $args[0]));
 						if(!empty(DB::$error)){
 							CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -307,6 +308,7 @@
 							$rs = true;
 						}
 					}else{
+						SEO::del(CORE::$config["prefix"].'_intro','it_id',$_REQUEST["id"]);
 						$rs = CRUD::delete(CORE::$config["prefix"].'_intro','it',$_REQUEST["id"]);
 					}
 				break;

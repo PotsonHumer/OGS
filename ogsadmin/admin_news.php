@@ -202,6 +202,7 @@
 				break;
 				case "cate-del":
 					if(!empty($args)){
+						SEO::del(CORE::$config["prefix"].'_news_cate','nc_id',$args[0]);
 						DB::delete(CORE::$config["prefix"].'_news_cate',array('nc_id' => $args[0]));
 						if(!empty(DB::$error)){
 							CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -209,6 +210,7 @@
 							$rs = true;
 						}
 					}else{
+						SEO::del(CORE::$config["prefix"].'_news_cate','nc_id',$_REQUEST["id"]);
 						$rs = CRUD::delete(CORE::$config["prefix"].'_news_cate','nc',$_REQUEST["id"]);
 					}
 				break;
@@ -279,6 +281,7 @@
 		}
 		
 		// 分類刪除
+		/*
 		private function news_cate_del($args){
 			$sql_args["ig_id"] = $args[0];
 			$msg_path = CORE::$manage.'admin_news/cate/';
@@ -298,6 +301,7 @@
 			CHECK::check_clear();
 			CORE::notice($msg_title,$msg_path);
 		}
+		*/
 		
 		//--------------------------------------------------------------------------------------
 		
@@ -413,6 +417,7 @@
 				break;
 				case "del":
 					if(!empty($args)){
+						SEO::del(CORE::$config["prefix"].'_news','n_id',$args[0]);
 						DB::delete(CORE::$config["prefix"].'_news',array('n_id' => $args[0]));
 						if(!empty(DB::$error)){
 							CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -420,6 +425,7 @@
 							$rs = true;
 						}
 					}else{
+						SEO::del(CORE::$config["prefix"].'_news','n_id',$_REQUEST["id"]);
 						$rs = CRUD::delete(CORE::$config["prefix"].'_news','n',$_REQUEST["id"]);
 					}
 				break;

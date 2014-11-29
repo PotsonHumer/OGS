@@ -218,8 +218,10 @@
 				break;
 				case "cate-del":
 					if(!empty($args)){
+						SEO::del(CORE::$config["prefix"].'_products_cate','pc_id',$args[0]);
 						DB::delete(CORE::$config["prefix"].'_products_cate',array('pc_id' => $args[0]));
 						$error_1 = DB::$error;
+
 						DB::delete(CORE::$config["prefix"].'_products_cate',array('pc_parent' => $args[0]));
 						$error_2 = DB::$error;
 						if(!empty($error_1) || !empty($error_2)){
@@ -228,6 +230,7 @@
 							$rs = true;
 						}
 					}else{
+						SEO::del(CORE::$config["prefix"].'_products_cate','pc_id',$_REQUEST["id"]);
 						$rs = CRUD::delete(CORE::$config["prefix"].'_products_cate','pc',$_REQUEST["id"]);
 					}
 				break;
@@ -417,14 +420,21 @@
 				break;
 				case "del":
 					if(!empty($args)){
+						SEO::del(CORE::$config["prefix"].'_products','p_id',$args[0]);
 						DB::delete(CORE::$config["prefix"].'_products',array('p_id' => $args[0]));
+						DB::delete(CORE::$config["prefix"].'_products_img',array('p_id' => $args[0]));
+						DB::delete(CORE::$config["prefix"].'_products_desc',array('p_id' => $args[0]));
+						
 						if(!empty(DB::$error)){
 							CORE::notice(DB::$error,$_SESSION[CORE::$config["sess"]]['last_path']);
 						}else{
 							$rs = true;
 						}
 					}else{
+						SEO::del(CORE::$config["prefix"].'_products','p_id',$_REQUEST["id"]);
 						$rs = CRUD::delete(CORE::$config["prefix"].'_products','p',$_REQUEST["id"]);
+						$rs = CRUD::delete(CORE::$config["prefix"].'_products_img','p',$_REQUEST["id"]);
+						$rs = CRUD::delete(CORE::$config["prefix"].'_products_desc','p',$_REQUEST["id"]);
 					}
 				break;
 			}
