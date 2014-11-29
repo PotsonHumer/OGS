@@ -15,6 +15,9 @@
 			$temp_option = array(
 				"HEADER" => 'ogs-header-tpl.html',
 				"MAIN" => 'ogs-intro-tpl.html',
+				"TOP" => 'ogs-top-tpl.html',
+				"SIDE" => 'ogs-side-tpl.html',
+				"FOOTER" => 'ogs-footer-tpl.html',
 			);
 			
 			self::show($seo);
@@ -56,6 +59,9 @@
 				$row = DB::fetch($sql);
 				
 				foreach($row as $field => $value){
+					if($field == "it_content"){
+						$value = stripslashes($value);
+					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
 			}else{

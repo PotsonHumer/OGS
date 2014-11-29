@@ -5,7 +5,7 @@
 	$config["host"] = 'http://'.$config["rul"].$config["root"];
 	
 	// 初始路徑
-	$config["img"] = $config["root"].'img/'; // 圖片路徑
+	$config["img"] = $config["root"].'images/'; // 圖片路徑
 	$config["css"] = $config["root"].'css/'; // css 路徑
 	$config["js"] = $config["root"].'js/'; // js 路徑
 	$config["file"] = $config["root"].'file/'; // 檔案路徑

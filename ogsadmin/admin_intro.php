@@ -347,6 +347,7 @@
 				}
 				
 				// 執行 replace
+				$_REQUEST["it_content"] = addslashes($_REQUEST["it_content"]);
 				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){
