@@ -8,11 +8,15 @@
 	<meta name="description" content="" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
+	<link href="{TAG_JS_PATH}Zebra_Datepicker/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
 	<script type="text/javascript" src="{TAG_JS_PATH}jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="{TAG_JS_PATH}jquery-ui.min.js"></script>
-	<script src="{TAG_ROOT_FILE}js/box_serial/tiny_box.js" type="text/javascript"></script>
-	<script src="{TAG_ROOT_FILE}tinymce/tinymce.min.js" type="text/javascript"></script>
-	<script src="{TAG_ROOT_FILE}tinymce/config.js" type="text/javascript"></script>
+	<script type="text/javascript" src="{TAG_JS_PATH}Zebra_Datepicker/zebra_datepicker.src.js"></script>
+	
+	<script type="text/javascript" src="{TAG_ROOT_FILE}js/box_serial/tiny_box.js"></script>
+	<script type="text/javascript" src="{TAG_ROOT_FILE}tinymce/tinymce.min.js"></script>
+	<script type="text/javascript" src="{TAG_ROOT_FILE}tinymce/config.js"></script>
 	<script>
 		$(function(){
 			//tiny_load("{TAG_ROOT_FILE}");
@@ -29,6 +33,9 @@
 				ID : ".file_manage", // 綁定元素 (同css選取器)，可設定多個元素，使用 , 分隔
 				ROOT : "{TAG_ROOT_FILE}" // 根目錄位置
 			});
+			
+			// JS DATEPICKER
+			$("input[rel=date]").Zebra_DatePicker();
 		});
 		
 		var TAG_ROOT_PATH = '{TAG_ROOT_PATH}';
