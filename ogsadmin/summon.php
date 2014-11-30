@@ -79,6 +79,9 @@
 					}
 				break;
 			}
+			
+			// 紀錄最後顯示的列表路徑
+			$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$config["root"].CORE::$path;
 		}
 		
 		// 檢查登入

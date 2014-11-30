@@ -14,12 +14,12 @@
 			self::$config = include_once self::$root.'config/config.php';
 			
 			self::auto_include();
-			self::permanent();
 		}
 		
 		// 常駐程序
 		public static function permanent(){
 			self::$db = new DB(self::$config["connect"]);
+			INTRO::submenu();
 			//LANG::lang_fetch();
 		}
 		
@@ -231,6 +231,15 @@
 			}
 		}
 
+		// 文章處理
+		public static function content_handle($content,$put=false){
+			if($put){
+				return $content = stripslashes($content);
+				return preg_replace("/(<img src=\")*(.)*file\//",'$1'.CORE::$config["file"],$content);
+			}else{
+				return addslashes($content);
+			}
+		}
 	}
 	
     

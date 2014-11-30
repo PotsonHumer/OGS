@@ -277,6 +277,9 @@
 						case "it_status":
 							VIEW::assignGlobal("VALUE_".strtoupper($field).'_CK'.$value,'checked');
 						break;
+						case "it_content":
+							$value = CORE::content_handle($value,true);
+						break;
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
@@ -347,7 +350,7 @@
 				}
 				
 				// 執行 replace
-				$_REQUEST["it_content"] = addslashes($_REQUEST["it_content"]);
+				$_REQUEST["it_content"] = CORE::content_handle($_REQUEST["it_content"]);
 				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){

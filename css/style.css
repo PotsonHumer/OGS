@@ -24,7 +24,7 @@ a {text-decoration:none; border:none;}
 }
 .menu ul{padding-left:1%; border-right:#FFF 1px solid; width:96%;  height:40px;}
 .menu li{float:left;border-left:#FFF 1px solid; height:40px;}
-.menu li a{color:#FFF; line-height:40px; padding:0 26px;}
+.menu li a{color:#FFF; line-height:40px; padding:0 26px; display: block;}
 .menu li a:hover{color:#FF0;}
 .menu ul ul{display:none; border-right:none; }
 .menu ul li:hover > ul {display:block;}

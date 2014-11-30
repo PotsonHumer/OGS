@@ -100,10 +100,17 @@
 				while($row = DB::fetch($sql)){
 					VIEW::newBlock("TAG_PD_LIST");
 					foreach($row as $field => $value){
-						if($field == "pd_status"){
-							VIEW::assign("VALUE_".strtoupper($field).'_CK'.$value,'checked');
-						}else{
-							VIEW::assign("VALUE_".strtoupper($field),$value);
+						switch($field){
+							case "pd_status":
+								VIEW::assign("VALUE_".strtoupper($field).'_CK'.$value,'checked');
+							break;
+							case "pd_content":
+								$value = CORE::content_handle($value,true);
+								VIEW::assign("VALUE_".strtoupper($field),$value);
+							break;
+							default:
+								VIEW::assign("VALUE_".strtoupper($field),$value);
+							break;
 						}
 						
 						VIEW::assign("VALUE_PD_ROW",++$i);

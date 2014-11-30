@@ -1,9 +1,11 @@
 <?php
 
 	class SEO{
+		
+		public static $array;
 
 		// 讀取 seo (實體化)
-		function __construct($args){
+		function __construct($args,$tpl=true){
 			
 			if(CHECK::is_number($args)){
 				$where = "seo_id = '".$args."'";
@@ -26,9 +28,14 @@
 			
 			if(!empty($rsnum)){
 				$row = DB::fetch($sql);
-				foreach($row as $field => $value){
-					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
+				
+				if($tpl){
+					foreach($row as $field => $value){
+						VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
+					}
 				}
+				
+				self::$array = $row;
 				
 				return true;
 			}else{
@@ -40,6 +47,7 @@
 		public static function save($tb_seo,array $args,$tb_name=false,$table_prefix=false){
 			
 			if(CHECK::is_must($args["seo_id"])){
+				$args["seo_short_desc"] = CORE::content_handle($args["seo_short_desc"]);
 				CRUD::U(CORE::$config["prefix"].'_seo',$args);
 				$return_args = true;
 			}else{
@@ -48,6 +56,7 @@
 				}
 				
 				$new_args = CRUD::field_match(CORE::$config["prefix"].'_seo',$args);
+				$new_args["seo_short_desc"] = CORE::content_handle($new_args["seo_short_desc"]);
 				DB::insert($tb_seo,$new_args);
 				//CRUD::C(CORE::$config["prefix"].'_seo',$args);
 

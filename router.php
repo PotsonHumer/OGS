@@ -19,17 +19,16 @@
 			if(!empty($uri)){
 				$uri_array = explode("/",$uri);
 				$uri_array = self::lang_switch($uri_array);
+				parent::permanent();
 				self::func_switch($uri_array);
 			}else{
 				// 首頁
 				self::$lang = CORE::$config["root"];
 				CORE::default_tag();
+				parent::permanent();
 				self::temp_path(); // 重組樣板路徑
 				new INDEX;
 			}
-			
-			// 紀錄最後顯示的列表路徑
-			$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$config["root"].CORE::$path;
 		}
 		
 		// 語系偵測
