@@ -19,105 +19,57 @@
 			$temp_option = array(
 				"HEADER" => 'ogs-header-tpl.html',
 				"TOP" => 'ogs-top-tpl.html',
-				"SIDE" => 'ogs-left-tpl.html',
+				"SIDE" => 'ogs-side-tpl.html',
 				"FOOTER" => 'ogs-footer-tpl.html',
 			);
 			
 			switch(self::$func){
 				case "detail":
-					$temp_option = $temp_option + array("MAIN" => 'ogs-products-detail-tpl.html');
-					CORE::res_init('jQueryAssets/jquery.ui.core.min','jQueryAssets/jquery.ui.theme.min','jQueryAssets/jquery.ui.tabs.min','css');
-					CORE::res_init('jQueryAssets/jquery.ui-1.10.4.tabs.min','js');
+					$temp_option = $temp_option + array("MAIN" => 'ogs-news-detail-tpl.html');
 					self::detail();
 				break;
-				case "cate":
-					$temp_option = $temp_option + array("MAIN" => 'ogs-products-cate-tpl.html');
-					self::cate();
-				break;
 				default:
-					$temp_option = $temp_option + array("MAIN" => 'ogs-products-tpl.html');
+					$temp_option = $temp_option + array("MAIN" => 'ogs-news-tpl.html',"PAGE" => 'ogs-page-tpl.html');
 					self::show();
 				break;
 			}
-			
-			self::show(true);
 			
 			new VIEW("ogs-hull-tpl.html",$temp_option,false,false);
 		}
 		
 		// 主分類列表
-		protected static function show($left=false){
+		protected static function show(){
 			$select = array(
-				'table' => CORE::$config["prefix"].'_products_cate',
+				'table' => CORE::$config["prefix"].'_news',
 				'field' => '*',
-				'where' => "pc_status = '1' and pc_parent = '0'",
-				'order' => 'pc_sort '.CORE::$config["sort"],
+				'where' => "n_status = '1'",
+				'order' => 'n_showdate desc,n_sort '.CORE::$config["sort"],
 				//'limit' => '0,1',
 			);
 		
 			$sql = DB::select($select);
+			$sql = PAGE::handle($sql, CORE::$lang.'news/');
 			$rsnum = DB::num($sql);
 			
-			if(!$left){
-				//new SEO('products');
-			}
+			new SEO('news');
+			$nav[0] = array('name' => 'News','link' => false);
+			BREAD::make($nav);
 			
 			if(!empty($rsnum)){
 				while($row = DB::fetch($sql)){
 					
-					new SEO($row["seo_id"],false);
-					
-					if(!$left){
-						VIEW::newBlock("TAG_PC_LIST");
-					}else{
-						VIEW::newBlock("TAG_PC_LEFT");
-					}
-					
+					VIEW::newBlock("TAG_N_LIST");
 					foreach($row as $field => $value){
 						VIEW::assign("VALUE_".strtoupper($field),$value);
 					}
 					
-					$link_pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row['pc_id'];
-					VIEW::assign("VALUE_PC_LINK",CORE::$lang.'products/cate/'.$link_pointer);
-				}
-			}
-		}
-		
-		// 次分類與產品列表
-		protected static function cate(){
-			
-			$pc_row = self::pc_detail();
-			new SEO($pc_row["seo_id"]);
-			
-			$cate_h1 = (!empty(SEO::$array["seo_h1"]))?SEO::$array["seo_h1"]:$pc_row["pc_name"];
-			VIEW::assignGlobal("VALUE_H1",$cate_h1);
-
-			$select = "SELECT p.*,pc.pc_id,pc.pc_name FROM ".CORE::$config["prefix"]."_products as p 
-						LEFT JOIN ".CORE::$config["prefix"]."_products_cate as pc on pc.pc_id = p.pc_id 
-						WHERE pc.pc_status = '1' and p.p_status = '1' and pc.pc_parent = '".$pc_row["pc_id"]."' 
-						ORDER BY pc.pc_sort ".CORE::$config["sort"].", p.p_sort ".CORE::$config["sort"];
-			
-			$sql = DB::select(false,$select);
-			$rsnum = DB::num($sql);
-			
-			if(!empty($rsnum)){
-				while($row = DB::fetch($sql)){
-					VIEW::newBlock("TAG_P_LIST");
-					foreach($row as $field => $value){
-						VIEW::assign("VALUE_".strtoupper($field),$value);
-					}
-					
-					if($last_pc_id != $row["pc_id"]){
-						VIEW::assign("TAG_PC_NAME",'<h2>'.$row["pc_name"].'</h2>');
-					}
-					
 					new SEO($row["seo_id"],false);
-
-					$pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row["p_id"];
-
-					VIEW::assign("VALUE_P_LINK",CORE::$lang.'products/detail/'.$pointer);
-
-					$last_pc_id = $row["pc_id"];
+					$link_pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row['n_id'];
+					VIEW::assign(array(
+						"VALUE_N_LINK" => CORE::$lang.'news/detail/'.$link_pointer,
+						"VALUE_N_ROW" => ++$i,
+						"VALUE_N_HOT" => (strtotime(date("Y-m-d")) - strtotime($row["n_showdate"]) <= (2 * 24 * 60 * 60))?'style="display: inline-block"':''
+					));
 				}
 			}
 		}
@@ -128,28 +80,31 @@
 			if(self::$seo){
 				$where = " and seo.seo_file_name = '".self::$pointer."'";
 			}else{
-				$where = " and p.p_id = '".self::$pointer."'";
+				$where = " and n.n_id = '".self::$pointer."'";
 			}
 			
-			$select = "SELECT * FROM ".CORE::$config["prefix"]."_products as p 
-						LEFT JOIN ".CORE::$config["prefix"]."_seo as seo on seo.seo_id = p.seo_id 
-						WHERE p.p_status = '1'".$where;
+			$select = "SELECT * FROM ".CORE::$config["prefix"]."_news as n 
+						LEFT JOIN ".CORE::$config["prefix"]."_seo as seo on seo.seo_id = n.seo_id 
+						WHERE n.n_status = '1'".$where;
 
 			$sql = DB::select(false,$select);
 			$rsnum = DB::num($sql);
 			
 			if(!empty($rsnum)){
 				$row = DB::fetch($sql);
+				
+				$nav[0] = array('name' => 'News','link' => CORE::$lang.'news/');
+				$nav[1] = array('name' => $row["n_subject"],'link' => false);
+				BREAD::make($nav);
+				
 				foreach($row as $field => $value){
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
-				
-				self::p_img($row["p_id"]);
-				self::p_desc($row["p_id"]);
 			}
 		}
 		
 		// 取得上層分類資料
+		/*
 		private static function pc_detail(){
 			
 			if(self::$seo){
@@ -161,7 +116,7 @@
 			$select = "SELECT * FROM ".CORE::$config["prefix"]."_products_cate as pc 
 						LEFT JOIN ".CORE::$config["prefix"]."_seo as seo on seo.seo_id = pc.seo_id 
 						WHERE pc.pc_status = '1' ".$where;
-		
+
 			$sql = DB::select(false,$select);
 			$rsnum = DB::num($sql);
 			
@@ -171,57 +126,7 @@
 				return false;
 			}
 		}
-		
-		// 取得產品圖片
-		private static function p_img($p_id){
-			$select = array(
-				'table' => CORE::$config["prefix"].'_products_img',
-				'field' => '*',
-				'where' => "p_id = '".$p_id."'",
-				'order' => 'pi_sort '.CORE::$config["sort"],
-				//'limit' => '0,1',
-			);
-		
-			$sql = DB::select($select);
-			$rsnum = DB::num($sql);
-			
-			if(!empty($rsnum)){
-				while($row = DB::fetch($sql)){
-					VIEW::newBlock("TAG_P_IMG");
-					VIEW::assign("VALUE_P_IMG",$row["pi_img"]);
-				}
-			}
-		}
-		
-		// 取得產品描述
-		private static function p_desc($p_id){
-			$select = array(
-				'table' => CORE::$config["prefix"].'_products_desc',
-				'field' => '*',
-				'where' => "p_id = '".$p_id."'",
-				'order' => 'pd_sort '.CORE::$config["sort"],
-				//'limit' => '0,1',
-			);
-		
-			$sql = DB::select($select);
-			$rsnum = DB::num($sql);
-			
-			if(!empty($rsnum)){
-				while($row = DB::fetch($sql)){
-					VIEW::newBlock("TAG_PD_TITLE");
-					VIEW::assign(array(
-						"VALUE_PD_ROW" => ++$i,
-						"VALUE_PD_TITLE" => $row["pd_title"],
-					));
-					
-					VIEW::newBlock("TAG_PD_CONTENT");
-					VIEW::assign(array(
-						"VALUE_PD_ROW" => $i,
-						"VALUE_PD_CONTENT" => $row["pd_content"],
-					));
-				}
-			}
-		}
+		*/
 	}
 	
 

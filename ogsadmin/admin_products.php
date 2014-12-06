@@ -204,7 +204,7 @@
 			}
 		}
 		
-		// 介紹頁各項處理
+		// 產品各項處理
 		private function products_cate_process($args=false){
 			switch(self::$func){
 				case "cate-open":
@@ -303,7 +303,7 @@
 				
 		//--------------------------------------------------------------------------------------
 		
-		// 介紹頁列表
+		// 產品列表
 		private function products_list($args=false){
 			
 			$sk = CRUD::sk_split($args[0]);
@@ -320,7 +320,7 @@
 				}
 			}
 			
-			 $sql_str = "SELECT * FROM ".CORE::$config["prefix"]."_products as p 
+			$sql_str = "SELECT * FROM ".CORE::$config["prefix"]."_products as p 
 						left join ".CORE::$config["prefix"]."_products_cate as pc on pc.pc_id = p.pc_id 
 						".$where." order by pc.pc_sort ".CORE::$config["sort"].",p.p_sort ".CORE::$config["sort"];
 			
@@ -347,7 +347,7 @@
 			}
 		}
 		
-		// 介紹頁新增
+		// 產品新增
 		private function products_add(){
 			
 			$cate_option = CRUD::multi_layer_select(CORE::$config["prefix"].'_products_cate','pc');
@@ -356,6 +356,7 @@
 				"MSG_TITLE" => '新增',
 				"VALUE_P_TYPE" => 'add',
 				"VALUE_P_SORT" => CRUD::max_sort(CORE::$config["prefix"].'_products','p'),
+				"VALUE_P_RELATE_SELECT" => self::relate_select(),
 				"TAG_DISABLE" => '',
 				"TAG_PC_SELECT" => $cate_option,
 			));
@@ -365,7 +366,7 @@
 			CRUD::refill();
 		}
 
-		// 更改介紹頁
+		// 更改產品
 		private function products_mod($args){
 			
 			VIEW::assignGlobal(array(
@@ -392,6 +393,9 @@
 						case "p_status":
 							VIEW::assignGlobal("VALUE_".strtoupper($field).'_CK'.$value,'checked');
 						break;
+						case "p_relate":
+							VIEW::assignGlobal("VALUE_P_RELATE_SELECT",self::relate_select($value));
+						break;
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
@@ -406,7 +410,7 @@
 			}
 		}
 			
-		// 介紹頁各項處理
+		// 產品各項處理
 		private function products_process($args=false){
 			switch(self::$func){
 				case "open":
@@ -444,7 +448,7 @@
 			}
 		}
 		
-		// 介紹頁儲存
+		// 產品儲存
 		public function products_replace($tb_array=false){
 			
 			if(!CHECK::is_array_exist($tb_array)){
@@ -477,6 +481,14 @@
 				
 				// 執行 replace
 				$_REQUEST["p_s_img"] = CRUD::img_handle($_REQUEST["p_s_img"]);
+				
+				if(CHECK::is_array_exist($_REQUEST["p_relate"])){
+					$_REQUEST["p_relate"] = serialize($_REQUEST["p_relate"]);
+				}else{
+					$_REQUEST["p_relate"] = $_REQUEST["p_relate"];
+				}
+				CHECK::check_clear();
+				
 				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){
@@ -513,6 +525,31 @@
 			}
 			
 			CORE::notice('更新完成',$_SESSION[CORE::$config["sess"]]['last_path']);
+		}
+
+		// 相關產品選項
+		private static function relate_select($relate_str=false){
+			
+			$sql_str = "SELECT p.p_id,p.p_name FROM ".CORE::$config["prefix"]."_products as p 
+						left join ".CORE::$config["prefix"]."_products_cate as pc on pc.pc_id = p.pc_id 
+						where pc.pc_status='1' and p.p_status='1' 
+						order by pc.pc_sort ".CORE::$config["sort"].",p.p_sort ".CORE::$config["sort"];
+			
+			$sql = DB::select(false,$sql_str);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				$relate_array = unserialize($relate_str);
+				
+				while($row = DB::fetch($sql)){
+					$current = (in_array($row["p_id"],$relate_array))?'selected':'';
+					$option_array[] = '<option value="'.$row["p_id"].'" '.$current.'>'.$row["p_name"].'</option>';
+				}
+				
+				return implode("",$option_array);
+			}else{
+				return false;
+			}
 		}
 
 		//--------------------------------------------------------------------------------------

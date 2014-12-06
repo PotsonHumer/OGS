@@ -8,10 +8,12 @@
 		public static $path; // 目前 uri
 		public static $lang; // 目前語系根目錄
 		public static $manage; // 目前語系後台根目錄
+		public static $msg; // 語言包
 		
 		function __construct(){
 			self::$root = self::real_path();
 			self::$config = include_once self::$root.'config/config.php';
+			self::$msg = include_once self::$root.'lang/lang-'.CORE::$config["langfix"].'.php';
 			
 			self::auto_include();
 		}
@@ -19,6 +21,9 @@
 		// 常駐程序
 		public static function permanent(){
 			self::$db = new DB(self::$config["connect"]);
+			self::res_init('default','js');
+			self::system_load();
+			
 			INTRO::submenu();
 			//LANG::lang_fetch();
 		}
@@ -118,7 +123,7 @@
 				break;
 				case "custom":
 					$res_tag = "TAG_CUSTOM_INCLUDE";
-					$res_title = 'custom_title';					
+					$res_title = 'custom_title';
 				break;
 			}
 			
@@ -231,6 +236,24 @@
 			}
 		}
 
+		// 國家選單
+		public static function country_select($current=false,$output=false){
+			if(CHECK::is_array_exist(self::$config["country"])){
+				foreach(self::$config["country"] as $country){
+					$option_array[] = '<option value="'.$country.'">'.$country.'</option>';
+				}
+				
+				$option_str = implode("\n",$option_array);
+				
+				if(!$output){
+					VIEW::assignGlobal("TAG_COUNTRY_SELECT",$option_str);
+				}
+			}
+			
+			CHECK::check_clear();
+			return $option_str;
+		}
+
 		// 文章處理
 		public static function content_handle($content,$put=false){
 			if($put){
@@ -238,6 +261,25 @@
 				return preg_replace("/(<img src=\")*(.)*file\//",'$1'.CORE::$config["file"],$content);
 			}else{
 				return addslashes($content);
+			}
+		}
+		
+		// 讀取系統基本設定
+		protected static function system_load(){
+			
+			$select = array(
+				'table' => 'ogs_system',
+				'field' => "*",
+				'where' => "sys_id='1'",
+				//'order' => "",
+				//'limit' => '',
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				$_SESSION[CORE::$config["sess"]]["system"] = DB::fetch($sql);
 			}
 		}
 	}

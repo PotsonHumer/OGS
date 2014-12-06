@@ -193,7 +193,8 @@ input[type=text],input[type=password],select{
 }
 
 input[type=button],input[type=reset],input[type=submit]{
-	padding: 5px 20px;
+	padding: 4.5px 20px;
+	vertical-align: bottom;
 }
 
 p{
@@ -353,6 +354,11 @@ table td:before,table td:after{
 	/*display: none;*/
 }
 
+/* LIST */
+.list{
+	margin: 0 0 10px 0;
+}
+
 /* PAGE */
 #page{
 	width: 80%;
@@ -431,11 +437,24 @@ table td:before,table td:after{
 }
 
 /* SEO */
-#seo_table input{
+.seo_table input,#seo_table input{
 	width: 50%;
 }
 
-#seo_table textarea{
+.seo_table textarea,#seo_table textarea{
 	width: 80%;
 	height: 80px;
+}
+
+.seo_table{
+	display: none;
+}
+
+.seo_btn{
+	cursor: pointer;
+	display: inline-block;
+}
+
+.seo_btn.current{
+	border: 1px solid #2F96B4;
 }

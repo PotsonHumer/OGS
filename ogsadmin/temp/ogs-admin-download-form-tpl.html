@@ -1,0 +1,108 @@
+<h2>檔案下載管理</h2>
+
+<hr>
+
+<h3>檔案下載{MSG_TITLE}</h3>
+
+<form name="data_form" method="post" action="{TAG_MANAGE_PATH}admin_download/replace/">
+	<table>
+		<tr>
+			<th class="must" width="15%">名稱</th>
+			<td width="35%">
+				<input type="text" name="d_subject" value="{VALUE_D_SUBJECT}" size="250">
+			</td>
+			<th>分類</th>
+			<td>
+				<select name="dc_id">
+					<option value="">無</option>
+					<!-- START BLOCK : TAG_DOWNLOAD_SELECT -->
+					<option value="{VALUE_DC_ID}" {VALUE_DC_CURRENT}>{VALUE_DC_SUBJECT}</option>
+					<!-- END BLOCK : TAG_DOWNLOAD_SELECT -->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>狀態</th>
+			<td>
+				<label>開啟</label><input type="radio" name="d_status" value="1" {VALUE_D_STATUS_CK1}>
+				<label>關閉</label><input type="radio" name="d_status" value="0" {VALUE_D_STATUS_CK0}>
+			</td>
+			<th width="15%">排序</th>
+			<td width="35%">
+				<input type="text" name="d_sort" value="{VALUE_D_SORT}" size="100">
+			</td>
+		</tr>
+		<tr>
+			<th>圖片</th>
+			<td colspan="3">
+				<div class="img_block" title="{VALUE_D_IMG}">
+					<input type="hidden" name="d_img" value="{VALUE_D_IMG}">
+					<a class="img_manage"></a>
+					<img src="{VALUE_D_IMG}">
+					<p class="center green">按此選擇圖片</p>
+					<div class="img_del icon-square-cross"></div>
+				</div>
+			</td>
+			<!--
+			<th>顯示時間</th>
+			<td>
+				<input type="text" name="d_showdate" value="{VALUE_D_SHOWDATE}" rel="date" size="100">
+			</td>
+			-->
+		</tr>
+		<tr>
+			<th>下載檔案</th>
+			<td colspan="3">
+				<!-- START BLOCK : TAG_FILE_LIST -->
+				<div class="list">
+					<label>檔案名稱</label><input type="text" name="d_file_name[]" value="{VALUE_D_FILE_NAME}" size="150"><br />
+					<label>檔案設定</label><input type="text" name="d_file[]" value="{VALUE_D_FILE}" size="300">
+					<input type="button" class="file_manage" value="按此選擇檔案">
+					<input type="button" name="file_del" value="刪除此項">
+				</div>
+				<!-- END BLOCK : TAG_FILE_LIST -->
+				<input type="button" name="add_file" value="增加檔案">
+			</td>
+		</tr>
+	</table>
+	
+	<table>
+		<tr class="btn">
+			<td colspan="4">
+				<label>同步儲存其他語系</label><input type="checkbox" name="lang_sync" value="1" {TAG_DISABLE}>
+			</td>
+		</tr>
+		<tr class="btn">
+			<td colspan="4">
+				<input type="submit" value="儲存">
+				<input class="goto" type="button" value="回列表" rel="{TAG_MANAGE_PATH}admin_download/list/">
+			</td>
+		</tr>
+	</table>
+
+	<input type="hidden" name="d_id" value="{VALUE_D_ID}">
+	<input type="hidden" name="d_type" value="{VALUE_D_TYPE}">
+</form>
+
+<hr>
+
+<script>
+	$(function(){
+		$("input[name=add_file]").click(function(){
+			$(this).before(
+				'<div class="list">'+
+					'<label>檔案名稱</label><input type="text" name="d_file_name[]" size="150"><br />'+
+					'<label>檔案設定</label><input type="text" name="d_file[]" size="300"> '+
+					'<input type="button" class="file_manage" value="按此選擇檔案"> '+
+					'<input type="button" name="file_del" value="刪除此項">'+
+				'</div>'
+			);
+			
+			pixels_size();
+		});
+		
+		$(document).on("click","input[name=file_del]",function(){
+			$(this).parents(".list").remove();
+		});
+	});
+</script>

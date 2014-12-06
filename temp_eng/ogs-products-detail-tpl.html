@@ -12,12 +12,26 @@
 				<!-- START BLOCK : TAG_PD_TITLE -->
 				<li><a href="#tabs-{VALUE_PD_ROW}">{VALUE_PD_TITLE}</a></li>
 				<!-- END BLOCK : TAG_PD_TITLE -->
+				
+				<!-- START BLOCK : TAG_RELATE_TITLE -->
+				<li><a href="#tabs-{VALUE_P_ROW}">APPLICATION</a></li>
+				<!-- END BLOCK : TAG_RELATE_TITLE -->
 			</ul>
 			<!-- START BLOCK : TAG_PD_CONTENT -->
 			<div id="tabs-{VALUE_PD_ROW}">
 				{VALUE_PD_CONTENT}
 			</div>
 			<!-- END BLOCK : TAG_PD_CONTENT -->
+			
+			<!-- START BLOCK : TAG_RELATE_BLOCK -->
+			<div id="tabs-{VALUE_P_ROW}">
+				<div class="application">
+					<!-- START BLOCK : TAG_RELATE_LIST -->
+					<a href="{VALUE_P_LINK}"><img src="{VALUE_P_IMG}" /></a>
+					<!-- END BLOCK : TAG_RELATE_LIST -->
+				</div>
+			</div>
+			<!-- END BLOCK : TAG_RELATE_BLOCK -->
 		</div>
 	</div>
 	
@@ -31,7 +45,8 @@
 
 <script>
 	$(function(){
-		$( "#Tabs1" ).tabs(); 
+		$( "#Tabs1" ).tabs();
+		$(".application a").fix_box();
 	});
 </script>
 

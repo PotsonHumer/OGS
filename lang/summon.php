@@ -71,7 +71,7 @@
 		}
 		
 		// 顯示語系切換按鍵
-		public static function switch_make($lang_id=false){
+		public static function switch_make($lang_id=false,$custom_path=false){
 			
 			if(CHECK::is_array_exist(CORE::$config["lang"]) && count(CORE::$config["lang"]) > 1){
 				
@@ -82,8 +82,12 @@
 				foreach(CORE::$config["lang"] as $lang => $prefix){
 					$i++;
 
-					if(!empty($lang_id)){
+					if(!empty($lang_id) && empty($custom_path)){
 						$now_path = self::link_sync($lang_id,$prefix,$now_path);
+					}
+					
+					if(!empty($custom_path)){
+						$now_path = $custom_path;
 					}
 					
 					if($i == 1){

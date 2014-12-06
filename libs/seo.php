@@ -39,6 +39,8 @@
 				
 				return true;
 			}else{
+				self::$array = false;
+				
 				return false;
 			}
 		}

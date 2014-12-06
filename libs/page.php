@@ -14,8 +14,8 @@
 			
 			// 確定資料數
 			if($item_num > CORE::$config["item_num"]){
-				// 資料數超過一頁
 				
+				// 資料數超過一頁
 				$page_num = ceil($item_num / CORE::$config["item_num"]); // 總頁次
 				self::$page_args = (empty(self::$page_args))?1:self::$page_args; // 如果沒有頁次參數強制為 1
 				self::$now = str_replace('page-', '', self::$page_args);

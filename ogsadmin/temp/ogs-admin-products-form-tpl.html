@@ -32,7 +32,7 @@
 		</tr>
 		<tr>
 			<th>圖片</th>
-			<td colspan="3">
+			<td>
 				<div class="img_block">
 					<input type="hidden" name="p_s_img" value="{VALUE_P_S_IMG}">
 					<a class="img_manage"></a>
@@ -40,6 +40,12 @@
 					<p class="center green">按此選擇圖片</p>
 					<div class="img_del icon-square-cross"></div>
 				</div>
+			</td>
+			<th>相關產品</th>
+			<td>
+				<select name="p_relate[]" size="10" multiple style="width: 80%">
+					{VALUE_P_RELATE_SELECT}
+				</select>
 			</td>
 		</tr>
 	</table>

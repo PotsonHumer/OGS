@@ -1,0 +1,114 @@
+<div class="content">
+	<h1>CONTACT US</h1>
+	<div class="contact min-height">
+		<form name="ct_form" action="{TAG_ROOT_PATH}contact/add/" method="post">
+		<table width="100%" border="1" class="contact-tab">
+			<tr>
+				<th><span class="red">*</span> Company Name :</th>
+				<td>
+					<input type="text" name="ct_company" value="{VALUE_CT_COMPANY}" size="400">
+				</td>
+			</tr>
+			<tr>
+				<th><span class="red">*</span> Contact person / Position:</th>
+				<td>
+					<input type="text" name="ct_name" value="{VALUE_CT_NAME}"> / <input type="text" name="ct_position" value="{VALUE_CT_POSITION}">
+				</td>
+			</tr>
+			<tr>
+				<th>Address :</th>
+				<td>
+					<input type="text" name="ct_address" value="{VALUE_CT_ADDRESS}" size="400">
+				</td>
+			</tr>
+			<tr>
+				<th><span class="red">*</span> City :</th>
+				<td>
+					<input type="text" name="ct_city" value="{VALUE_CT_CITY}"> Zip cold : <input type="text" name="ct_zip" value="{VALUE_CT_ZIP}">
+				</td>
+			</tr>
+			<tr>
+				<th>Country :</th>
+				<td>
+				<select name="ct_country">
+					<option value="">Select country</option>
+					{TAG_COUNTRY_SELECT}
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<th><span class="red">*</span> TEL :</th>
+				<td>
+					<input type="text" name="ct_tel" value="{VALUE_CT_TEL}">
+				</td>
+			</tr>
+			<tr>
+				<th><span class="red">*</span> Mobile :</th>
+				<td>
+					<input type="text" name="ct_cellphone" value="{VALUE_CT_CELLPHONE}">
+				</td>
+			</tr>
+			<tr>
+				<th>Fax :</th>
+				<td>
+					<input type="text" name="ct_fax" value="{VALUE_CT_FAX}">
+				</td>
+			</tr>
+			<tr>
+				<th>Website :</th>
+				<td>
+					<input type="text" name="ct_url" value="{VALUE_CT_URL}" size="300">
+				</td>
+			</tr>
+			<tr>
+				<th><span class="red">*</span> E-mail :</th>
+				<td>
+					<input type="text" name="ct_email" value="{VALUE_CT_EMAIL}" size="300">
+				</td>
+			</tr>
+			<tr>
+				<th>Company type :</th>
+				<td>
+					<!-- START BLOCK : TAG_CT_TYPE -->
+					<input type="checkbox" name="{VALUE_CHECKBOX_NAME}[{VALUE_CHECKBOX_ROW}]" value="{VALUE_CHECKBOX_ADDON}" {VALUE_CHECKBOX_CURRENT}> {VALUE_CHECKBOX_ADDON}
+					<!-- END BLOCK : TAG_CT_TYPE -->
+				</td>
+			</tr>
+			<tr>
+				<th>Ask for :</th>
+				<td>
+					<!-- START BLOCK : TAG_CT_QUEST -->
+					<input type="checkbox" name="{VALUE_CHECKBOX_NAME}[{VALUE_CHECKBOX_ROW}]" value="{VALUE_CHECKBOX_ADDON}" {VALUE_CHECKBOX_CURRENT}> {VALUE_CHECKBOX_ADDON}
+					<!-- END BLOCK : TAG_CT_QUEST -->
+				</td>
+			</tr>
+			<tr>
+				<th>Contact Way :</th>
+				<td>
+					<!-- START BLOCK : TAG_CT_CONTACT -->
+					<input type="checkbox" name="{VALUE_CHECKBOX_NAME}[{VALUE_CHECKBOX_ROW}]" value="{VALUE_CHECKBOX_ADDON}" {VALUE_CHECKBOX_CURRENT}> {VALUE_CHECKBOX_ADDON}
+					<!-- END BLOCK : TAG_CT_CONTACT -->
+				</td>
+			</tr>
+			<tr>
+				<th><span class="red">*</span> Comments :</th>
+				<td>
+					<textarea name="ct_content" cols="60" rows="8">{VALUE_CT_CONTENT}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><input type="submit" value="Send"></td>
+			</tr>
+		</table>
+		</form>
+	</div>
+	
+	
+	<div class="share">
+		<!-- AddToAny BEGIN -->
+		<a class="a2a_dd" href="http://www.addtoany.com/share_save"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" border="0" alt="Share"/></a>
+		<script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
+		<!-- AddToAny END -->
+	</div>
+</div>

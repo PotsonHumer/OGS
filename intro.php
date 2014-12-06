@@ -58,6 +58,7 @@
 				$row = DB::fetch($sql);
 				
 				new SEO($row["seo_id"]);
+				BREAD::fetch($row);
 				
 				foreach($row as $field => $value){
 					switch($field){

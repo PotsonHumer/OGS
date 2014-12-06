@@ -22,6 +22,7 @@
 	        		self::$tpl->assignInclude($tpl_title,self::$config["temp"].$tpl_path);
 				}
 			}
+			
 	        self::$tpl->prepare();
 			
 			// 建立輸出功能

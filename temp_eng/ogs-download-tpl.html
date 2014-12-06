@@ -1,0 +1,45 @@
+<div class="content">
+	<h1>E-Catalog</h1>
+	
+    <div class="article min-height">
+		<table border="0" cellspacing="0" cellpadding="0" class="download-tab">
+			<tr>
+				<th><img src="{TAG_IMAGE_PATH}news_no.gif" /></th>
+				<th><img src="{TAG_IMAGE_PATH}news_catalogue.gif" /></th>
+				<th><img src="{TAG_IMAGE_PATH}news_download.gif" /></th>
+			</tr>
+			
+			<!-- START BLOCK : TAG_D_LIST -->
+			<tr>
+				<td>{VALUE_D_ROW}</td>
+				<td class="subject">
+					<div class="hot"><img src="{TAG_IMAGE_PATH}icon-hot.gif" {VALUE_D_HOT} /> {VALUE_D_SUBJECT} (Format: PDF)</div>
+					<div class="down-pic"><img src="{VALUE_D_IMG}" /></div>
+					
+					<!-- START BLOCK : TAG_FILE_BLOCK -->
+					<ul class="down-page">
+						<!-- START BLOCK : TAG_FILE_LIST -->
+						<li><a href="{VALUE_D_FILE}" target="_blank">{VALUE_D_FILE_NAME}</a></li>
+						<!-- END BLOCK : TAG_FILE_LIST -->
+					</ul>
+					<!-- END BLOCK : TAG_FILE_BLOCK -->
+				</td>
+				<td class="download">
+					<a href="http://get.adobe.com/reader/otherversions/" target="_blank">系統、軟體需求<br>(免費軟體下載)<br>Download</a>
+					<a href="http://get.adobe.com/reader/otherversions/" target="_blank"><img src="{TAG_IMAGE_PATH}pdf.gif" /></a>
+				</td>
+			</tr>
+			<!-- END BLOCK : TAG_D_LIST -->
+			
+		</table>
+    </div>
+		
+	<!-- INCLUDE BLOCK : PAGE -->
+	
+	<div class="share">
+		<!-- AddToAny BEGIN -->
+		<a class="a2a_dd" href="http://www.addtoany.com/share_save"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" border="0" alt="Share"/></a>
+		<script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
+		<!-- AddToAny END -->
+	</div>
+</div>

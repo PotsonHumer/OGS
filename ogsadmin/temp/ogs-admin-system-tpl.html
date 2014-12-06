@@ -1,0 +1,93 @@
+<h2>基本設定管理</h2>
+
+<hr>
+
+<form name="data_form" method="post" action="{TAG_MANAGE_PATH}system/replace/">
+	<h3>系統設定</h3>
+	
+	<table>
+		<tr>
+			<th width="15%">系統 E-mail</th>
+			<td>
+				<input type="text" name="sys_email" value="{VALUE_SYS_EMAIL}" size="300">
+			</td>
+		</tr>
+	</table>
+	
+	<h3>功能起始頁 SEO 設定</h3>
+	
+	<div style="width: 90%; margin: auto;">
+		<!-- START BLOCK : TAG_SEO_BTN -->
+		<input type="button" class="seo_btn" value="{MSG_SEO_NAME}">
+		<!-- END BLOCK : TAG_SEO_BTN -->
+	</div>
+		
+	<!-- START BLOCK : TAG_SEO_FUNC -->
+	<table class="seo_table">
+		<tr>
+			<th width="15%">功能</th>
+			<td>
+				{MSG_SEO_NAME}
+				<input type="hidden" name="seo_name[]" value="{VALUE_SEO_NAME}">
+				<input type="hidden" name="seo_id[]" value="{VALUE_SEO_ID}">
+			</td>
+			<th width="15%">網頁標題 (TITLE)</th>
+			<td>
+				<input type="text" name="seo_title[]" value="{VALUE_SEO_TITLE}">
+			</td>
+		</tr>
+		<tr>
+			<th>H1 標題</th>
+			<td colspan="3">
+				<input type="text" name="seo_h1[]" value="{VALUE_SEO_H1}">
+			</td>
+		</tr>
+		<tr>
+			<th>關鍵字 <br/>(Keyword)</th>
+			<td colspan="3">
+				<textarea name="seo_keyword[]">{VALUE_SEO_KEYWORD}</textarea>
+			</td>
+		</tr>
+		<tr>
+			<th>網頁描述 <br/>(Description)</th>
+			<td colspan="3">
+				<textarea name="seo_desc[]">{VALUE_SEO_DESC}</textarea>
+			</td>
+		</tr>
+		<tr>
+			<th>網頁上方描述</th>
+			<td colspan="3">
+				<textarea class="tiny_input" name="seo_short_desc[]">{VALUE_SEO_SHORT_DESC}</textarea>
+			</td>
+		</tr>
+	</table>
+	<!-- END BLOCK : TAG_SEO_FUNC -->
+	
+	<table>
+		<tr class="btn">
+			<td>
+				<input type="submit" value="儲存">
+			</td>
+		</tr>
+	</table>
+	
+	<input type="hidden" name="sys_id" value="1">
+</form>
+
+<hr>
+
+<script>
+	$(function(){
+		$(".seo_table:eq(0)").show();
+		$(".seo_btn:eq(0)").addClass("current");
+		
+		$(".seo_btn").click(function(){
+			var BTN_INDEX = $(this).index();
+			
+			$(".seo_btn").removeClass("current");
+			$(".seo_btn:eq("+ BTN_INDEX +")").addClass("current");
+			$(".seo_table").not(".seo_table:eq("+ BTN_INDEX +")").fadeOut('fast');
+			$(".seo_table:eq("+ BTN_INDEX +")").fadeToggle('fast');
+		});
+	});
+</script>

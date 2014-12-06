@@ -44,8 +44,9 @@
 	function pixels_size(){
 		$("input,select,textarea").each(function(){
 			var INPUT_SIZE = $(this).attr("size");
+			var MULTI = $(this).attr("multiple");
 			
-			if(isset(INPUT_SIZE)){
+			if(isset(INPUT_SIZE) && !isset(MULTI)){
 				$(this).css({ "width":INPUT_SIZE +"px" });
 			}
 		});

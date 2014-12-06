@@ -102,7 +102,7 @@ ul.search-list li a:hover{color:#FFF; background:#999;}
 
 .product-main{background-image:none;}
 .pro-large{text-align:center;}
-.application img{border:#ccc 3px solid; margin:10px 4px; border-radius:5px;}
+/*.application img{}*/
 
 .ui-widget-content{border:none;}
 .ui-widget-header{background:url(../images/tabs_bg.jpg) no-repeat 0px 4px; border:none; height:27px;}
@@ -362,3 +362,45 @@ ul.search-list li a:hover{color:#FFF; background:#999;}
         top: 10px;  
     }  
 }*/
+
+/* ADD */
+.n_hot{
+	display: none;
+}
+
+/* PAGE */
+#page{
+	width: 100%;
+	text-align: center;
+}
+
+#page li{
+	display: inline-block;
+	margin: 0 5px;
+}
+
+#page li a{
+	color: #333;
+}
+
+#page li a.current,#page li a:hover{
+	color: red;
+}
+
+#page li a.current:before{
+	content: '[ ';
+}
+
+#page li a.current:after{
+	content: ' ]';
+}
+
+.application a{
+	border:#ccc 3px solid;
+	margin:10px 3px;
+	border-radius:5px;
+	display: block;
+	width: 156px;
+	height: 156px;
+	float: left;
+}

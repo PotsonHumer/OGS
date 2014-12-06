@@ -59,7 +59,10 @@
 			$rsnum = DB::num($sql);
 			
 			if(!$left){
-				//new SEO('products');
+				new SEO('products');
+				
+				$nav[0] = array('name' => 'Products','link' => false);
+				BREAD::make($nav);
 			}
 			
 			if(!empty($rsnum)){
@@ -145,7 +148,9 @@
 				}
 				
 				self::p_img($row["p_id"]);
-				self::p_desc($row["p_id"]);
+				$desc_num = self::p_desc($row["p_id"]);
+				self::p_relate($row["p_relate"],$desc_num);
+				BREAD::fetch($row);
 			}
 		}
 		
@@ -166,7 +171,9 @@
 			$rsnum = DB::num($sql);
 			
 			if(!empty($rsnum) && !empty(self::$pointer)){
-				return DB::fetch($sql);
+				$row = DB::fetch($sql);
+				BREAD::fetch($row);
+				return $row;
 			}else{
 				return false;
 			}
@@ -219,6 +226,43 @@
 						"VALUE_PD_ROW" => $i,
 						"VALUE_PD_CONTENT" => $row["pd_content"],
 					));
+				}
+			}
+			
+			return $i;
+		}
+		
+		// 相關產品
+		private static function p_relate($p_relate,$desc_num=1){
+			if(!empty($p_relate)){
+				$p_id_array = unserialize($p_relate);
+				$p_id_str = "'".implode("','",$p_id_array)."'";
+				
+				$select = "SELECT *,p.seo_id FROM ".CORE::$config["prefix"]."_products as p 
+							LEFT JOIN ".CORE::$config["prefix"]."_products_cate as pc on pc.pc_id = p.pc_id 
+							WHERE pc.pc_status='1' and p.p_status='1' and p.p_id in(".$p_id_str.") ORDER BY pc.pc_parent asc,pc.pc_sort ".CORE::$config["sort"].",p.p_sort ".CORE::$config["sort"];
+			
+				$sql = DB::select(false,$select);
+				$rsnum = DB::num($sql);
+				
+				if(!empty($rsnum)){
+					VIEW::newBlock("TAG_RELATE_TITLE");
+					VIEW::assign("VALUE_P_ROW",++$desc_num);
+					
+					VIEW::newBlock("TAG_RELATE_BLOCK");
+					VIEW::assign("VALUE_P_ROW",$desc_num);
+					
+					while($row = DB::fetch($sql)){
+						new SEO($row["seo_id"],false);
+						$pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row["p_id"];
+						
+						VIEW::newBlock("TAG_RELATE_LIST");
+						VIEW::assign(array(
+							//"VALUE_P_NAME" => $row["p_name"],
+							"VALUE_P_IMG" => CRUD::img_handle($row["p_s_img"]),
+							"VALUE_P_LINK" => CORE::$lang.'products/detail/'.$pointer,
+						));
+					}
 				}
 			}
 		}

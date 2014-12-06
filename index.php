@@ -11,6 +11,7 @@
 			);
 			
 			CORE::res_init('super_slide','box');
+			new SEO('index');
 			new VIEW("ogs-index-tpl.html",$temp_option,false,false);
 		}
 	}
