@@ -38,11 +38,11 @@
 		}
 		
 		// 主分類列表
-		protected static function show(){
+		public static function show($cate=2){
 			$select = array(
 				'table' => CORE::$config["prefix"].'_news',
 				'field' => '*',
-				'where' => "n_status = '1'",
+				'where' => "n_status = '1' and nc_id = '".$cate."'",
 				'order' => 'n_showdate desc,n_sort '.CORE::$config["sort"],
 				//'limit' => '0,1',
 			);
@@ -60,6 +60,11 @@
 					
 					VIEW::newBlock("TAG_N_LIST");
 					foreach($row as $field => $value){
+						switch($field){
+							case "n_img":
+								$value = CRUD::img_handle($value);
+							break;
+						}
 						VIEW::assign("VALUE_".strtoupper($field),$value);
 					}
 					
@@ -75,7 +80,7 @@
 		}
 
 		// 產品詳細頁
-		private static function detail(){
+		public static function detail(){
 
 			if(self::$seo){
 				$where = " and seo.seo_file_name = '".self::$pointer."'";
