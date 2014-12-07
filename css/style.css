@@ -162,7 +162,7 @@ ul.search-list li a:hover{color:#FFF; background:#999;}
 
 
 .show{margin:10px 0px; clear:both; border-bottom:#CCC 1px dashed;}
-.show-pic{float:left; margin-right:20px;}
+.show-pic{float:left; margin-right:20px; width: 200px; height: 88px;}
 .show-info{padding-bottom:30px;}
 .show .right{float:right}
 .show .more{color:#F00; background-color:inherit;}

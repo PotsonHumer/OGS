@@ -23,6 +23,7 @@
 			self::$db = new DB(self::$config["connect"]);
 			self::res_init('default','js');
 			self::system_load();
+			EXHIBITION::side_list();
 			
 			INTRO::submenu();
 			//LANG::lang_fetch();

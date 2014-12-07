@@ -322,7 +322,7 @@
 			
 			 $sql_str = "SELECT * FROM ".CORE::$config["prefix"]."_news as n 
 						left join ".CORE::$config["prefix"]."_news_cate as nc on nc.nc_id = n.nc_id 
-						".$where." order by n.n_sort ".CORE::$config["sort"]; 
+						".$where." order by n.nc_id asc,n.n_sort ".CORE::$config["sort"]; 
 			
 			self::news_cate_select($sk["nc_id"]);
 			
