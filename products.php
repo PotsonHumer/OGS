@@ -32,6 +32,7 @@
 				break;
 				case "cate":
 					$temp_option = $temp_option + array("MAIN" => 'ogs-products-cate-tpl.html');
+					CORE::res_init('fix','box');
 					self::cate();
 				break;
 				default:
@@ -46,7 +47,7 @@
 		}
 		
 		// 主分類列表
-		protected static function show($left=false){
+		public static function show($left=false){
 			$select = array(
 				'table' => CORE::$config["prefix"].'_products_cate',
 				'field' => '*',

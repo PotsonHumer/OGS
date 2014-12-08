@@ -317,12 +317,20 @@
 							$where .= 'where p.'.$field."='".$value."'";
 						}
 					break;
+					case "p_new":
+						if(!empty($value)){
+							$where .= 'where p.'.$field."='".$value."'";
+							$checked = 'checked';
+						}
+						
+						VIEW::assignGlobal("TAG_P_NEW_CK",$checked);
+					break;
 				}
 			}
 			
 			$sql_str = "SELECT * FROM ".CORE::$config["prefix"]."_products as p 
 						left join ".CORE::$config["prefix"]."_products_cate as pc on pc.pc_id = p.pc_id 
-						".$where." order by pc.pc_sort ".CORE::$config["sort"].",p.p_sort ".CORE::$config["sort"];
+						".$where." order by pc.pc_parent asc, pc.pc_sort ".CORE::$config["sort"].",p.p_sort ".CORE::$config["sort"];
 			
 			$sql = DB::select(false,$sql_str);
 			$sql = PAGE::handle($sql, CORE::$manage.'admin_products/list/');
@@ -395,6 +403,9 @@
 						break;
 						case "p_relate":
 							VIEW::assignGlobal("VALUE_P_RELATE_SELECT",self::relate_select($value));
+						break;
+						case "p_new":
+							VIEW::assignGlobal("VALUE_P_NEW_CK",($value)?'checked':'');
 						break;
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
@@ -481,6 +492,7 @@
 				
 				// 執行 replace
 				$_REQUEST["p_s_img"] = CRUD::img_handle($_REQUEST["p_s_img"]);
+				$_REQUEST["p_new"] = (empty($_REQUEST["p_new"]))?'0':'1';
 				
 				if(CHECK::is_array_exist($_REQUEST["p_relate"])){
 					$_REQUEST["p_relate"] = serialize($_REQUEST["p_relate"]);

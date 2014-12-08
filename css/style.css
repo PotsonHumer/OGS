@@ -87,8 +87,13 @@ h1{border-bottom:#CCC 1px solid; font-size:30px; background:url(../images/h1_bg.
 .product-inner h2{background:url(../images/h2_bg.png) no-repeat; line-height:26px; font-size:18px; color:#a3238e; padding-left:6x; clear:both;}
 .product-inner ol{margin:20px;}
 .product-inner ol li{list-style-type:decimal; margin-left:20px;}
-.pro-list{width:112px; float:left; text-align:center; margin:10px 14px;}
-.pro-pic img{border:#6e6e6e 1px solid;}
+.pro-list{width:114px; float:left; text-align:center; margin:10px 14px;}
+.pro-pic{
+	width: 112px;
+	height: 97px;
+	border:#6e6e6e 1px solid;
+}
+/*/.pro-pic img{}*/
 .inquiry{text-align:right; margin:10px;}
 
 .search-list-input{width:160px;}
@@ -403,4 +408,20 @@ ul.search-list li a:hover{color:#FFF; background:#999;}
 	width: 156px;
 	height: 156px;
 	float: left;
+}
+
+/* TAB */
+.tab{
+	width: 100%;
+}
+
+.tab th{
+	background: #E8E8E8;
+	text-align: center;
+}
+
+.tab td{
+	text-align: center;
+	vertical-align: middle;
+	border-bottom: 1px solid #CCC;
 }

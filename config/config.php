@@ -53,6 +53,15 @@
 	
 	$config["sess"] = 'ogs';
 	
+	#### agents ####
+	$config["ag_zone"] = array(
+		1 => "Asia",
+		2 => "Europe",
+		3 => "Middle East",
+		4 => "America"
+	);
+	################
+	
 	#### country ####
 	$config["country"] = array(
 		"Afghanistan",

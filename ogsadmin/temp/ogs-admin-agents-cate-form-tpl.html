@@ -1,0 +1,52 @@
+<h2>代理商管理</h2>
+
+<hr>
+
+<h3>代理商國家{MSG_TITLE}</h3>
+
+<form name="intro_form" method="post" action="{TAG_MANAGE_PATH}admin_agents/cate-replace/">
+	<table>
+		<tr>
+			<th class="must" width="15%">名稱</th>
+			<td width="35%">
+				<input type="text" name="agc_subject" value="{VALUE_AGC_SUBJECT}" size="150">
+			</td>
+			<th width="15%">狀態</th>
+			<td width="35%">
+				<label>開啟</label><input type="radio" name="agc_status" value="1" {VALUE_AGC_STATUS_CK1}>
+				<label>關閉</label><input type="radio" name="agc_status" value="0" {VALUE_AGC_STATUS_CK0}>
+			</td>
+		</tr>
+		<tr>
+			<th>排序</th>
+			<td>
+				<input type="text" name="agc_sort" value="{VALUE_AGC_SORT}" size="100">
+			</td>
+			<th>所屬地區</th>
+			<td>
+				<select name="zone_id">
+					{VALUE_ZONE_SELECT}
+				</select>
+			</td>
+		</tr>
+	</table>
+	
+	<table>
+		<tr class="btn">
+			<td colspan="4">
+				<label>同步儲存其他語系</label><input type="checkbox" name="lang_sync" value="1" {TAG_DISABLE}>
+			</td>
+		</tr>
+		<tr class="btn">
+			<td colspan="4">
+				<input type="submit" value="儲存">
+				<input class="goto" type="button" value="回列表" rel="{TAG_MANAGE_PATH}admin_agents/cate/">
+			</td>
+		</tr>
+	</table>
+
+	<input type="hidden" name="agc_id" value="{VALUE_AGC_ID}">
+	<input type="hidden" name="agc_type" value="{VALUE_AGC_TYPE}">
+</form>
+
+<hr>

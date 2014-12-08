@@ -16,7 +16,7 @@
 		
 		<div class="pro-list">
 			<div class="new-pro"><img src="{TAG_IMAGE_PATH}title-new-products.png" alt=""/>
-				<div class="more"><a href="#">more</a> <img src="{TAG_IMAGE_PATH}arrow.png" /></div>
+				<div class="more"><a href="{TAG_ROOT_PATH}products/">more</a> <img src="{TAG_IMAGE_PATH}arrow.png" /></div>
 			</div>
 			<div class="quick">
 				<img src="{TAG_IMAGE_PATH}index-quick.png" alt=""/>
@@ -25,9 +25,14 @@
 			</div>
 			<div class="pro">
 				<ul id="flexiselDemo3">
-					<li><a href="#"><img src="{TAG_IMAGE_PATH}index-pro-list01.png" alt=""/></a></li>
-					<li><a href="#"><img src="{TAG_IMAGE_PATH}index-pro-list01.png" alt=""/></a></li>
-					<li><a href="#"><img src="{TAG_IMAGE_PATH}index-pro-list01.png" alt=""/></a></li>
+					<!-- START BLOCK : TAG_P_LIST -->
+					<li>
+						<a href="{VALUE_P_LINK}">
+							<p class="pro-pic"><img src="{VALUE_P_S_IMG}" alt=""/></p>
+							<p>{VALUE_P_NAME}</p>
+						</a>
+					</li>
+					<!-- END BLOCK : TAG_P_LIST -->
 				</ul> 
 			</div>
 			
@@ -36,27 +41,25 @@
 
 		<div class="content">
 			<div class="news">
-				<div class="title"><img src="{TAG_IMAGE_PATH}title-news.png" alt=""/><div class="more more-r"><a href="news.html">more</a> <img src="{TAG_IMAGE_PATH}arrow.png" /></div></div>
+				<div class="title"><img src="{TAG_IMAGE_PATH}title-news.png" alt=""/><div class="more more-r"><a href="{TAG_ROOT_PATH}news/">more</a> <img src="{TAG_IMAGE_PATH}arrow.png" /></div></div>
 				<ul>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt=""/> <img src="{TAG_IMAGE_PATH}icon-n.gif" alt=""/></div><a href="#">Turning Tool holder with Coolant (Video) - Cutting tools, turning tool holders</a></li>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-n.gif" alt=""/></div><a href="#">See you at EMO 2013-Turning tool holders, Milling tools, Inserts, Cutting tools</a></li>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-n.gif" alt=""/></div><a href="#">Turning tools - ER Collet Chuck- Machine Accessories</a></li>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-n.gif" alt=""/></div><a href="#">Turning tools - Sleeve EHRMT- Machine Accessories</a></li>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-n.gif" alt=""/></div><a href="#">ACMEE 2014 in Chennai India Turning tools, Milling tools, Inserts, Cutting tools</a></li>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-n.gif" alt=""/></div><a href="#">ACMEE 2014 in Chennai India Turning tools, Milling tools, Inserts, Cutting tools</a></li>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-n.gif" alt=""/></div><a href="#">ACMEE 2014 in Chennai India Turning tools, Milling tools, Inserts, Cutting tools</a></li>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-n.gif" alt=""/></div><a href="#">ACMEE 2014 in Chennai India Turning tools, Milling tools, Inserts, Cutting tools</a></li>
+					<!-- START BLOCK : TAG_N_LIST -->
+					<li>
+						<div class="pic"><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt="" {VALUE_N_HOT} /> <img src="{TAG_IMAGE_PATH}icon-n.gif" alt=""/></div>
+						<a href="{VALUE_N_LINK}">{VALUE_N_SUBJECT}</a>
+					</li>
+					<!-- END BLOCK : TAG_N_LIST -->
 				</ul>
 			</div>
 			<div class="download">
-				<div class="title"><img src="{TAG_IMAGE_PATH}title-download.png" alt=""/><div class="more more-r"><a href="#">more</a> <img src="{TAG_IMAGE_PATH}arrow.png" /></div></div>
+				<div class="title"><img src="{TAG_IMAGE_PATH}title-download.png" alt=""/><div class="more more-r"><a href="{TAG_ROOT_PATH}download/">more</a> <img src="{TAG_IMAGE_PATH}arrow.png" /></div></div>
 				<ul>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt=""/><img src="{TAG_IMAGE_PATH}icon-pdf.gif" alt=""/></div><a href="#">2013 Catalogue of Echain Cutting tool (No. 15 &amp;16)new Catalogue</a></li>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt=""/><img src="{TAG_IMAGE_PATH}icon-pdf.gif" alt=""/></div><a href="#">2013 Catalogue of Echain Cutting tool (No. 15 &amp;16)new Catalogue</a></li>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt=""/><img src="{TAG_IMAGE_PATH}icon-pdf.gif" alt=""/></div><a href="#">2013 Catalogue of Echain Cutting tool (No. 15 &amp;16)new Catalogue</a></li>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt=""/><img src="{TAG_IMAGE_PATH}icon-pdf.gif" alt=""/></div><a href="#">2013 Catalogue of Echain Cutting tool (No. 15 &amp;16)new Catalogue</a></li>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt=""/><img src="{TAG_IMAGE_PATH}icon-pdf.gif" alt=""/></div><a href="#">2013 Catalogue of Echain Cutting tool (No. 15 &amp;16)new Catalogue</a></li>
-					<li><div class="pic"><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt=""/><img src="{TAG_IMAGE_PATH}icon-pdf.gif" alt=""/></div><a href="#">2013 Catalogue of Echain Cutting tool (No. 15 &amp;16)new Catalogue</a></li>
+					<!-- START BLOCK : TAG_FILE_LIST -->
+					<li>
+						<div class="pic"><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt="" {VALUE_D_HOT} /><img src="{TAG_IMAGE_PATH}icon-pdf.gif" alt=""/></div>
+						<a href="{VALUE_D_FILE}" target="_blank">{VALUE_D_FILE_NAME}</a>
+					</li>
+					<!-- END BLOCK : TAG_FILE_LIST -->
 				</ul>
 			</div>
 			<div class="certificate">

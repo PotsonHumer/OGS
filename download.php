@@ -27,7 +27,7 @@
 		}
 		
 		// 主分類列表
-		protected static function show(){
+		public static function show(){
 			$select = array(
 				'table' => CORE::$config["prefix"].'_download',
 				'field' => '*',
