@@ -1,6 +1,7 @@
 <?php
 session_start();
-$config = include_once("../conf/config.php");
+include_once("../core.php");
+new CORE(true);
 
 mb_internal_encoding('UTF-8');
 //------------------------------------------------------------------------------
@@ -30,7 +31,7 @@ $base_url =
    $_SERVER['HTTP_HOST']; // DON'T TOUCH (base url (only domain) of site (without final /)).
 */
 
-$base_url= $config["host"];
+$base_url= CORE::$config["host"];
 $upload_dir = 'file/'; // path from base_url to base of upload folder (with start and final /)
 $current_path = '../file/'; // relative path from filemanager folder to upload folder (with final /)
 //thumbs folder can't put inside upload folder

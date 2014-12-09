@@ -10,12 +10,14 @@
 		public static $manage; // 目前語系後台根目錄
 		public static $msg; // 語言包
 		
-		function __construct(){
+		function __construct($no_auto=false){
 			self::$root = self::real_path();
 			self::$config = include_once self::$root.'config/config.php';
 			self::$msg = include_once self::$root.'lang/lang-'.CORE::$config["langfix"].'.php';
 			
-			self::auto_include();
+			if(!$no_auto){
+				self::auto_include();
+			}
 		}
 		
 		// 常駐程序
@@ -264,6 +266,61 @@
 				return addslashes($content);
 			}
 		}
+		
+		// 文章處理 from AMG
+	    public static function content_file_str_replace($content,$put='in'){
+	        $replace_option = array(
+	            'in' => array(
+	                'pattern' => array(
+	                    '%(https://)('.CORE::$config["url"].')*('.CORE::$config["file"].')((file/|tiny_mce/|tinymce/)[^\s"><]+\.(png|gif|jpg|jpeg|js|css))%i',
+	                    '%(https://)('.CORE::$config["url"].')*('.CORE::$config["root"].')([^\s"><]+\.(png|gif|jpg|jpeg))%i',
+	                    '%(https://)('.CORE::$config["url"].')*('.CORE::$config["file"].')([^\s"><]+\.(png|gif|jpg|jpeg))%i',
+	                    '%(http://)('.CORE::$config["url"].')*('.CORE::$config["file"].')((file/|tiny_mce/|tinymce/)[^\s"><]+\.(png|gif|jpg|jpeg|js|css))%i',
+	                    '%(http://)('.CORE::$config["url"].')*('.CORE::$config["root"].')([^\s"><]+\.(png|gif|jpg|jpeg))%i',
+	                    '%(http://)('.CORE::$config["url"].')*('.CORE::$config["file"].')([^\s"><]+\.(png|gif|jpg|jpeg))%i',
+	                    '%('.CORE::$config["file"].')((file/|tiny_mce/|tinymce/)[^\s"><]+\.(png|gif|jpg|jpeg|js|css))%i',
+	                    '%('.CORE::$config["root"].')([^\s"><]+\.(png|gif|jpg|jpeg))%i',
+	                    '%('.CORE::$config["file"].')([^\s"><]+\.(png|gif|jpg|jpeg))%i',
+	                    '%(["\'])(\.\./)*(file/[^"\']+)%i',
+	                    '%(["\'])(\.\./)*(images/[^"\']+)%i',
+	                ),
+	                'replace' => array(
+	                    '{TAG_SECURE_SCHEME}{TAG_SERVER}{TAG_FILE_ROOT}$4',
+	                    '{TAG_SECURE_SCHEME}{TAG_SERVER}{TAG_ROOT_PATH}$4',
+	                    '{TAG_SECURE_SCHEME}{TAG_SERVER}{TAG_FILE_ROOT}$4',
+	                    '{TAG_SCHEME}{TAG_SERVER}{TAG_FILE_ROOT}$4',
+	                    '{TAG_SCHEME}{TAG_SERVER}{TAG_ROOT_PATH}$4',
+	                    '{TAG_SCHEME}{TAG_SERVER}{TAG_FILE_ROOT}$4',
+	                    '{TAG_FILE_ROOT}$2',
+	                    '{TAG_ROOT_PATH}$2',
+	                    '{TAG_FILE_ROOT}$2',
+	                    '$1{TAG_FILE_ROOT}$3',
+	                    '$1{TAG_ROOT_PATH}$3',
+	                )
+	            ),
+	            'out' => array(
+	                'pattern' => array(
+	                    '%{TAG_ROOT_PATH}%',
+	                    '%{TAG_FILE_ROOT}%',
+	                    '%{TAG_SERVER}%',
+	                    '%{TAG_SCHEME}%',
+	                    '%{TAG_SECURE_SCHEME}%',
+	                    '%(["\'])(\.\./)*(file/[^"\']+)%i',
+	                    '%(["\'])(\.\./)*(images/[^"\']+)%i',
+	                ),
+	                'replace' => array(
+	                    CORE::$config["root"],
+	                    CORE::$config["file"],
+	                    CORE::$config["url"],
+	                    "http://",
+	                    "https://",
+	                    '$1'.CORE::$config["file"].'$3',
+	                    '$1'.CORE::$config["root"].'$3',
+	                )
+	            )
+	        );
+	        return preg_replace( $replace_option[$put]['pattern'] , $replace_option[$put]['replace'] , $content);
+	    }
 		
 		// 讀取系統基本設定
 		protected static function system_load(){

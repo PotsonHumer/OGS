@@ -133,6 +133,23 @@
 		});
 	}
 	
+	// 快捷鍵
+	function hotkey(){
+		$("*").keypress(function(E){
+			if(E.ctrlKey){
+				switch(E.keyCode){
+					case 2:
+						var OBJ = $(".back");
+					break;
+				}
+				
+				if(isset(OBJ)){
+					OBJ.trigger("click");
+				}
+			}
+		});
+	}
+	
 	// 直接啟動項目
 	$(function(){
 		pixels_size();
@@ -142,4 +159,5 @@
 		all_select();
 		img_block();
 		img_block_del();
+		hotkey();
 	});

@@ -2,7 +2,7 @@
 
 	$config["root"] = "/OGS/";
 	$config["url"] = "59.126.99.159";
-	$config["host"] = 'http://'.$config["rul"].$config["root"];
+	$config["host"] = 'http://'.$config["url"].$config["root"];
 	
 	// 初始路徑
 	$config["img"] = $config["root"].'images/'; // 圖片路徑
