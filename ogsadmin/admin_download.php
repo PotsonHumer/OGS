@@ -457,7 +457,7 @@
 					break;
 					case "mod":
 						$crud_func = 'U';
-						$_REQUEST["d_content"] = addslashes($_REQUEST["d_content"]);
+						//$_REQUEST["d_content"] = addslashes($_REQUEST["d_content"]);
 					break;
 					default:
 						CORE::notice('失效的資訊',CORE::$manage.'admin_download/list/');

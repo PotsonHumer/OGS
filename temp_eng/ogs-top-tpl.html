@@ -13,7 +13,10 @@
 						</select>
 					</div>
 					<div class="search">
-						<input type="text" value="Search Products"><img src="{TAG_IMAGE_PATH}search.jpg" />
+						<form name="search_form" action="{TAG_ROOT_PATH}search/" method="post">
+							<input type="text" name="kw" value="" placeholder="Search Products" style="display: inline-block; vertical-align: top;"><img src="{TAG_IMAGE_PATH}search.jpg" />
+							<input type="submit" style="display: none;">
+						</form>
 					</div>
 				</div>
 			</div>

@@ -394,6 +394,9 @@
 						case "n_img":
 							$value = CRUD::img_handle($value);
 						break;
+						case "n_content":
+							$value = CORE::content_handle($value,true);
+						break;
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
@@ -456,7 +459,6 @@
 					break;
 					case "mod":
 						$crud_func = 'U';
-						$_REQUEST["n_content"] = addslashes($_REQUEST["n_content"]);
 					break;
 					default:
 						CORE::notice('失效的資訊',CORE::$manage.'admin_news/list/');
@@ -465,6 +467,7 @@
 				}
 				
 				// 執行 replace
+				$_REQUEST["n_content"] = CORE::content_handle($_REQUEST["n_content"]);
 				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){
@@ -481,6 +484,7 @@
 					
 					// 其他語系儲存
 					if($crud_func == "C"){
+						$_REQUEST["n_content"] = CORE::content_handle($_REQUEST["n_content"],true);
 						LANG::lang_sync($tb_array,$_REQUEST,__CLASS__,__FUNCTION__);
 					}
 				}

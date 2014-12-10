@@ -35,6 +35,12 @@
 		
 		// 處理搜尋功能
 		private static function search_handle($kw){
+			
+			$nav[0] = array("name" => 'Search');
+			BREAD::make($nav);
+			
+			PRODUCTS::show(true);
+			
 			self::products($kw);
 			self::news($kw);
 		}
@@ -111,6 +117,7 @@
 		}
 		
 		// 搜尋展覽
+		
 		
 		// 搜尋下載
 	}

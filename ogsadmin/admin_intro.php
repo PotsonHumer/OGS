@@ -341,7 +341,7 @@
 					break;
 					case "mod":
 						$crud_func = 'U';
-						$_REQUEST["it_content"] = addslashes($_REQUEST["it_content"]);
+						//$_REQUEST["it_content"] = CORE::content_handle($_REQUEST["it_content"]);
 					break;
 					default:
 						CORE::notice('失效的資訊',CORE::$manage.'admin_intro/list/');
@@ -367,6 +367,7 @@
 					
 					// 其他語系儲存
 					if($crud_func == "C"){
+						$_REQUEST["it_content"] = CORE::content_handle($_REQUEST["it_content"],true);
 						LANG::lang_sync($tb_array,$_REQUEST,__CLASS__,__FUNCTION__);
 					}
 				}

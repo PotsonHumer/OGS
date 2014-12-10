@@ -225,7 +225,7 @@
 					VIEW::newBlock("TAG_PD_CONTENT");
 					VIEW::assign(array(
 						"VALUE_PD_ROW" => $i,
-						"VALUE_PD_CONTENT" => $row["pd_content"],
+						"VALUE_PD_CONTENT" => CORE::content_handle($row["pd_content"],true),
 					));
 				}
 			}

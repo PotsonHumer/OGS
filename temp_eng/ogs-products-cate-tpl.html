@@ -3,17 +3,21 @@
 	<div class="min-height">
 		{VALUE_SEO_SHORT_DESC}
 		
-		<!-- START BLOCK : TAG_P_LIST -->
-		{TAG_PC_NAME}
-		<div class="pro-list">
-			<div class="pro-pic"><a href="{VALUE_P_LINK}"><img src="{VALUE_P_S_IMG}" /></a></div>
-			<div class="pro-name"><a href="{VALUE_P_LINK}">{VALUE_P_NAME}</a></div>
-			<div class="btn-inquiry">
-				<a href="#"><img src="{TAG_IMAGE_PATH}inquiry.gif" /></a>
-				<input type="checkbox" name="checkbox" id="checkbox">
+		<form name="inquiry_form" action="{TAG_ROOT_PATH}inquiry/add/" method="post">
+		
+			<!-- START BLOCK : TAG_P_LIST -->
+			{TAG_PC_NAME}
+			<div class="pro-list">
+				<div class="pro-pic"><a href="{VALUE_P_LINK}"><img src="{VALUE_P_S_IMG}" /></a></div>
+				<div class="pro-name"><a href="{VALUE_P_LINK}">{VALUE_P_NAME}</a></div>
+				<div class="btn-inquiry">
+					<a class="inquiry_btn" href="#"><img src="{TAG_IMAGE_PATH}inquiry.gif" /></a>
+					<input type="checkbox" class="inquiry_id" name="id[]" value="{VALUE_P_ID}">
+				</div>
 			</div>
-		</div>
-		<!-- END BLOCK : TAG_P_LIST -->
+			<!-- END BLOCK : TAG_P_LIST -->
+		
+		</form>
 		
 	</div>
 	
@@ -28,5 +32,17 @@
 <script>
 	$(function(){
 		$(".pro-pic").fix_box();
+		
+		//-----
+		
+		$(".inquiry_btn").click(function(){
+			var IQ_NUM = Number($("input.inquiry_id:checked").length);
+			
+			if(IQ_NUM > 0){
+				document.inquiry_form.submit();
+			}else{
+				alert('None products select!!');
+			}
+		});
 	});
 </script>

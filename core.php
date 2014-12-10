@@ -260,9 +260,10 @@
 		// 文章處理
 		public static function content_handle($content,$put=false){
 			if($put){
-				return $content = stripslashes($content);
-				return preg_replace("/(<img src=\")*(.)*file\//",'$1'.CORE::$config["file"],$content);
+				$content = stripslashes($content);
+				return self::content_file_str_replace($content,'out');
 			}else{
+				$content = self::content_file_str_replace($content,'in');
 				return addslashes($content);
 			}
 		}

@@ -103,6 +103,11 @@
 				BREAD::make($nav);
 				
 				foreach($row as $field => $value){
+					switch($field){
+						case "n_content":
+							$value = CORE::content_handle($value,true);
+						break;
+					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
 			}

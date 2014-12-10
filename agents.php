@@ -50,7 +50,7 @@
 					VIEW::newBlock("TAG_AGENTS_LIST");
 					VIEW::assign(array(
 						"VALUE_AG_SUBJECT" => $row["ag_subject"],
-						"VALUE_AG_CONTENT" => $row["ag_content"],
+						"VALUE_AG_CONTENT" => CORE::content_handle($row["ag_content"],true),
 						"VALUE_AGC_COUNTRY" => ($last_gac_id != $row["agc_id"])?'<h3>'.$row["agc_subject"].'</h3>':'',
 						
 					));

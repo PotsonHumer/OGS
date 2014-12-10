@@ -68,7 +68,7 @@
 				//'order' => "",
 				//'limit' => "",
 			);
-		
+
 			$sql = DB::select($select);
 			$rsnum = DB::num($sql);
 			
@@ -88,38 +88,46 @@
 			CORE::country_select();
 			
 			if(CHECK::is_array_exist($_SESSION[CORE::$config["sess"]]["inquiry"])){
-				foreach($_SESSION[CORE::$config["sess"]]["inquiry"] as $id => $num){
-					
-					$select = array(
-						'table' => CORE::$config["prefix"].'_products',
-						'field' => 'p_id,p_name,p_s_img',
-						'where' => "p_status = '1' and p_id = '".$id."'",
-						//'order' => "",
-						//'limit' => "",
-					);
-				
-					$sql = DB::select($select);
-					$rsnum = DB::num($sql);
-					
-					if(!empty($rsnum)){
-						$row = DB::fetch($sql);
-						
-						VIEW::newBlock("TAG_INQUIRY_LIST");
-						VIEW::assign(array(
-							"VALUE_P_ROW" => ++$i,
-							"VALUE_P_NUM" => $num,
-							"VALUE_P_ID" => $row["p_id"],
-							"VALUE_P_NAME" => $row["p_name"],
-							"VALUE_P_S_IMG" => $row["p_s_img"],
-							"VALUE_P_DELETE" => CORE::$lang.'inquiry/del/'.$id.'/'
-						));
-					}
-				}
+				self::p_load();
 			}else{
 				CORE::notice('Inquiry cart empty!',CORE::$lang,true);
 			}
 			
 			CHECK::check_clear();
+		}
+		
+		// 詢價產品列表
+		private static function p_load(){
+			foreach($_SESSION[CORE::$config["sess"]]["inquiry"] as $id => $num){
+				
+				$select = array(
+					'table' => CORE::$config["prefix"].'_products',
+					'field' => 'p_id,p_name,p_s_img',
+					'where' => "p_status = '1' and p_id = '".$id."'",
+					//'order' => "",
+					//'limit' => "",
+				);
+			
+				$sql = DB::select($select);
+				$rsnum = DB::num($sql);
+				
+				if(!empty($rsnum)){
+					$row = DB::fetch($sql);
+					
+					$p_img = 'http://'.CORE::$config['url'].CRUD::img_handle($row["p_s_img"]);
+					$p_img = preg_replace('/ /','%20',$p_img);
+					
+					VIEW::newBlock("TAG_INQUIRY_LIST");
+					VIEW::assign(array(
+						"VALUE_P_ROW" => ++$i,
+						"VALUE_P_NUM" => $num,
+						"VALUE_P_ID" => $row["p_id"],
+						"VALUE_P_NAME" => $row["p_name"],
+						"VALUE_P_S_IMG" => $p_img,
+						"VALUE_P_DELETE" => CORE::$lang.'inquiry/del/'.$id.'/'
+					));
+				}
+			}
 		}
 		
 		// 修改詢價數量
@@ -169,7 +177,7 @@
 				CHECK::check_clear();
 				
 				// MAIL
-				//self::mail_handle($match_input);
+				self::mail_handle($match_input);
 				
 				unset($_SESSION[CORE::$config["sess"]]["inquiry"]);
 				CORE::notice('Data has submitted',CORE::$lang);
@@ -206,12 +214,14 @@
 			$mail_subject = '詢價發送通知';
 			$mail_name = 'OGS Admin system';
 			
+			self::p_load();
+			
 			foreach($input as $field => $value){
 				VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 			}
 			
 			$temp_parameter = VIEW::$parameter;
-			new VIEW("ogs-mail-tpl.html",false,true,false);
+			new VIEW("ogs-inquiry-mail-tpl.html",false,true,false);
 			VIEW::$parameter = $temp_parameter;
 			
 			CORE::mail_handle($mail_from, $mail_to, VIEW::$output, $mail_subject, $mail_name);

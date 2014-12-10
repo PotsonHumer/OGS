@@ -25,7 +25,6 @@
 			   ],
 			
 			toolbar1: "insertfile undo redo | styleselect fontselect fontsizeselect | cut copy paste pastetext | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link unlink anchor | image responsivefilemanager media |  preview emoticons print code ",
-				
 			/*
 			style_formats: [
 				{title: 'Bold text', inline: 'b'},
@@ -37,6 +36,11 @@
 			    {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
 			]
 			*/
+			
+			table_advtab: true,
+			table_cell_advtab: true,
+			table_row_advtab: true,
+
                         convert_urls: false,
                         paste_auto_cleanup_on_paste : true,
                         paste_postprocess : function(pl, o) {

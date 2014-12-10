@@ -143,7 +143,7 @@
 						"pd_sort" => $_REQUEST["pd_sort"][$key],
 						"pd_status" => $_REQUEST["pd_status"][$key],
 						"pd_title" => $_REQUEST["pd_title"][$key],
-						"pd_content" => addslashes($_REQUEST["pd_content"][$key]),
+						"pd_content" => CORE::content_handle($_REQUEST["pd_content"][$key]),
 						"p_id" => $p_id,
 					);
 					
