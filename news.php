@@ -64,6 +64,9 @@
 							case "n_img":
 								$value = CRUD::img_handle($value);
 							break;
+							case "n_hot":
+								$value = (!empty($value))?'style="display: inline-block;"':'style="display: none;"';
+							break;
 						}
 						VIEW::assign("VALUE_".strtoupper($field),$value);
 					}
@@ -73,7 +76,6 @@
 					VIEW::assign(array(
 						"VALUE_N_LINK" => CORE::$lang.'news/detail/'.$link_pointer,
 						"VALUE_N_ROW" => ++$i,
-						"VALUE_N_HOT" => (strtotime(date("Y-m-d")) - strtotime($row["n_showdate"]) <= (2 * 24 * 60 * 60))?'style="display: inline-block;"':'style="display: none;"'
 					));
 				}
 			}

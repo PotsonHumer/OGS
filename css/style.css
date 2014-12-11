@@ -425,3 +425,35 @@ ul.search-list li a:hover{color:#FFF; background:#999;}
 	vertical-align: middle;
 	border-bottom: 1px solid #CCC;
 }
+
+/* SEARCH */
+
+#tab_title_box{
+	display: block;
+	width: 100%;
+	height: 30px;
+}
+
+.tab_content{
+	width: 100%;
+}
+
+.search_list{
+	display: block;
+	margin: 10px 0;
+}
+
+.search_list li{
+	list-style: none;
+	float: right;
+	width: 78%;
+	margin: 0 0 0 1%;
+}
+
+.search_list li + li{
+	width: 20%;
+}
+
+.search_list li img{
+	width: 100%;
+}

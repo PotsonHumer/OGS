@@ -373,6 +373,9 @@
 						case "d_img":
 							$value = CRUD::img_handle($value);
 						break;
+						case "d_hot":
+							VIEW::assignGlobal("VALUE_D_HOT_CK",(!empty($value))?'checked':'');
+						break;
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}

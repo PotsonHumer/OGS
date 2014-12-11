@@ -5,7 +5,7 @@
 		private static $condition = array(
 			'products' => array('p_name'),
 			'news' => array('n_subject','n_content'),
-			'download' => array('d_subject'),
+			'download' => array('d_subject','d_file'),
 		);
 		
 		function __construct(){
@@ -54,7 +54,7 @@
 				foreach(self::$condition[$function] as $st){
 					switch($st){
 						default:
-							$where_array[] = $st." = '%".$kw."%'";
+							$where_array[] = $st." like '%".$kw."%'";
 						break;
 					}
 				}
@@ -63,7 +63,22 @@
 					return implode(" and ",$where_array);
 				}
 			}
-
+		}
+		
+		// 輸出參數處理
+		private static function args_handle(array $row){
+			foreach($row as $field => $value){
+				switch($field){
+					case "p_s_img":
+						$value = CRUD::img_handle($value);
+					break;
+					case "n_hot":
+					case "d_hot":
+						$value = (!empty($value))?'style="display: inline-block;"':'style="display: none;"';
+					break;
+				}
+				VIEW::assign("VALUE_".strtoupper($field),$value);
+			}
 		}
 		
 		// 搜尋產品
@@ -83,10 +98,17 @@
 			$rsnum = DB::num($sql);
 			
 			if(!empty($rsnum)){
+				VIEW::newBlock("TAG_P_TITLE");
+				
 				VIEW::newBlock("TAG_P_BLOCK");
 				
 				while($row = DB::fetch($sql)){
 					VIEW::newBlock("TAG_P_LIST");
+					self::args_handle($row);
+					
+					new SEO($row["seo_id"],false);
+					$pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row["p_id"];
+					VIEW::assign("VALUE_P_LINK",CORE::$lang.'products/detail/'.$pointer);
 				}
 			}
 		}
@@ -108,18 +130,61 @@
 			$rsnum = DB::num($sql);
 			
 			if(!empty($rsnum)){
+				VIEW::newBlock("TAG_N_TITLE");
+				
 				VIEW::newBlock("TAG_N_BLOCK");
 				
 				while($row = DB::fetch($sql)){
 					VIEW::newBlock("TAG_N_LIST");
+					self::args_handle($row);
+					
+					new SEO($row["seo_id"],false);
+					$pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row["n_id"];
+					VIEW::assign("VALUE_N_LINK",CORE::$lang.'news/detail/'.$pointer);
+				}
+			}
+		}
+
+		// 搜尋下載
+		private static function download($kw){
+			
+			$where = self::search_condition($kw,__FUNCTION__);
+			
+			$select = array(
+				'table' => CORE::$config["prefix"].'_download',
+				'field' => '*',
+				'where' => "d_status = '1' and ".$where,
+				'order' => "d_subject asc",
+				//'limit' => "",
+			);
+
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				VIEW::newBlock("TAG_D_TITLE");
+				
+				VIEW::newBlock("TAG_D_BLOCK");
+				
+				while($row = DB::fetch($sql)){
+					//VIEW::newBlock("TAG_D_LIST");
+					//self::args_handle($row);
+					
+					if(!empty($row["d_file"])){
+						$file_array = unserialize($row["d_file"]);
+						foreach($file_array as $file_name => $file_path){
+							VIEW::newBlock("TAG_D_LIST");
+							VIEW::assign(array(
+								"VALUE_D_FILE_NAME" => $file_name,
+								"VALUE_D_FILE" => CRUD::img_handle($file_path),
+							));
+						}
+					}
 				}
 			}
 		}
 		
 		// 搜尋展覽
-		
-		
-		// 搜尋下載
 	}
 	
 

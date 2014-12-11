@@ -397,6 +397,9 @@
 						case "n_content":
 							$value = CORE::content_handle($value,true);
 						break;
+						case "n_hot":
+							VIEW::assignGlobal("VALUE_N_HOT_CK",(!empty($value))?'checked':'');
+						break;
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}

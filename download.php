@@ -49,13 +49,17 @@
 					
 					VIEW::newBlock("TAG_D_LIST");
 					foreach($row as $field => $value){
+						switch($field){
+							case "d_hot":
+								$value = (!empty($value))?'style="display: inline-block;"':'style="display: none;"';
+							break;
+						}
 						VIEW::assign("VALUE_".strtoupper($field),$value);
 					}
 					
 					VIEW::assign(array(
 						"VALUE_D_IMG" => CRUD::img_handle($row["d_img"]),
 						"VALUE_D_ROW" => ++$i,
-						"VALUE_D_HOT" => (strtotime(date("Y-m-d")) - strtotime($row["d_createdate"]) <= (2 * 24 * 60 * 60))?'style="display: inline-block;"':'style="display: none;"'
 					));
 					
 					if(!empty($row["d_file"])){

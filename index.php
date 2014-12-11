@@ -48,7 +48,7 @@
 						foreach($file_array as $file_name => $file_path){
 							VIEW::newBlock("TAG_FILE_LIST");
 							VIEW::assign(array(
-								"VALUE_D_HOT" => (strtotime(date("Y-m-d")) - strtotime($row["d_createdate"]) <= (2 * 24 * 60 * 60))?'style="display: inline-block;"':'style="display: none;"',
+								"VALUE_D_HOT" => (!empty($row["d_hot"]))?'style="display: inline-block;"':'style="display: none;"',
 								"VALUE_D_FILE_NAME" => $row["d_subject"].' - '.$file_name,
 								"VALUE_D_FILE" => CRUD::img_handle($file_path),
 							));
