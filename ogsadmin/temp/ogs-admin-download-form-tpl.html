@@ -6,6 +6,20 @@
 
 <form name="data_form" method="post" action="{TAG_MANAGE_PATH}admin_download/replace/">
 	<table>
+		<tr class="btn">
+			<td colspan="4">
+				<label>同步儲存其他語系</label><input type="checkbox" name="lang_sync" value="1" {TAG_DISABLE}>
+			</td>
+		</tr>
+		<tr class="btn">
+			<td colspan="4">
+				<input type="submit" value="儲存">
+				<input class="goto back" type="button" value="回列表 (快捷鍵: Alt + Q)" rel="{TAG_MANAGE_PATH}admin_download/list/">
+			</td>
+		</tr>
+	</table>
+	
+	<table>
 		<tr>
 			<th class="must" width="15%">名稱</th>
 			<td width="35%">
@@ -32,6 +46,8 @@
 			<th width="15%">排序</th>
 			<td width="35%">
 				<input type="text" name="d_sort" value="{VALUE_D_SORT}" size="100">
+				<br />
+				<label>至頂</label><input type="checkbox" name="d_top" value="1" {VALUE_D_TOP_CK}>
 			</td>
 		</tr>
 		<tr>
@@ -77,7 +93,7 @@
 		<tr class="btn">
 			<td colspan="4">
 				<input type="submit" value="儲存">
-				<input class="goto back" type="button" value="回列表 (快捷鍵: Ctrl + B)" rel="{TAG_MANAGE_PATH}admin_download/list/">
+				<input class="goto back" type="button" value="回列表 (快捷鍵: Alt + Q)" rel="{TAG_MANAGE_PATH}admin_download/list/">
 			</td>
 		</tr>
 	</table>

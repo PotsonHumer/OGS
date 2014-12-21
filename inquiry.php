@@ -149,8 +149,9 @@
 		
 		// 儲存詢價
 		private static function send(){
-			CHECK::is_must($_REQUEST["iq_company"],$_REQUEST["iq_name"],$_REQUEST["iq_city"],$_REQUEST["iq_zip"],$_REQUEST["iq_tel"],$_REQUEST["iq_cellphone"],$_REQUEST["iq_email"],$_REQUEST["iq_content"]);
+			CHECK::is_must($_REQUEST["iq_company"],$_REQUEST["iq_name"],$_REQUEST["iq_city"],$_REQUEST["iq_zip"],$_REQUEST["iq_tel"],$_REQUEST["iq_cellphone"],$_REQUEST["iq_content"]);
 			CHECK::is_array_exist($_SESSION[CORE::$config["sess"]]["inquiry"]);
+			CHECK::is_email($_REQUEST["iq_email"]);
 			
 			if(CHECK::is_pass()){
 				$input = $_REQUEST;
@@ -169,6 +170,7 @@
 						"iq_id" => $iq_id,
 						"p_id" => $id,
 						"iqi_num" => $num,
+						"iqi_lang" => CORE::$config["prefix"],
 					);
 
 					DB::insert('ogs_inquiry_items',$iqi_input);

@@ -38,7 +38,7 @@ $("#id").tab_box({
 			
 			THIS.find(".tab:eq(0)").before('<div style="clear:both"></div>');
 			
-			THIS.find(".tab_title").live("click",function(){
+			THIS.find(".tab_title").click("click",function(){
 				var TAB_INDEX = THIS.find(".tab_title").index(this);
 				THIS.find(".tab_title").removeClass("current");
 				$(this).addClass("current");

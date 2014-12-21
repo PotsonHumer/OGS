@@ -1,0 +1,51 @@
+<h2>產品詢價管理</h2>
+
+<hr>
+
+<h3>產品詢價列表</h3>
+
+<form name="func_form" action="" method="post">
+	<table>
+		<tr class="btn">
+			<td>
+				<a href="#" class="span all"><span class="icon-square-check">全選 / 取消全選</span></a>
+				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}admin_inquiry/del/"><span class="icon-cross">刪除</span></a>
+			</td>
+		</tr>
+	</table>
+	
+	<table>
+		<tr>
+			<th width="5%">No.</th>
+			<th width="5%">選取</th>
+			<th width="15%">姓名</th>
+			<th width="15%">公司名稱</th>
+			<th width="20%">電話</th>
+			<th width="20%">行動電話</th>
+			<th width="20%">功能</th>
+		</tr>
+		<!-- START BLOCK : TAG_INQUIRY_LIST -->
+		<tr>
+			<td class="center">{VALUE_ROW_NUM}</td>
+			<td class="center">
+				<input type="checkbox" class="id" name="id[{VALUE_ROW_NUM}]" value="{VALUE_IQ_ID}">
+			</td>
+			<td class="center">{VALUE_IQ_NAME}</td>
+			<td class="center">{VALUE_IQ_COMPANY}</td>
+			<td class="center">{VALUE_IQ_TEL}</td>
+			<td class="center">{VALUE_IQ_CELLPHONE}</td>
+			<td class="center">
+				<a href="{TAG_MANAGE_PATH}admin_inquiry/detail/{VALUE_IQ_ID}/" class="icon-link no-brackets span">詳細資料</a>
+				<a href="{TAG_MANAGE_PATH}admin_inquiry/del/{VALUE_IQ_ID}/" class="icon-cross no-brackets span alert" rel="確定刪除?">刪除</a>
+			</td>
+		</tr>
+		<!-- END BLOCK : TAG_INQUIRY_LIST -->
+		<!-- START BLOCK : TAG_ROW_NONE -->
+		<tr>
+			<td class="center" colspan="7">查無資料</td>
+		</tr>
+		<!-- START BLOCK : TAG_ROW_NONE -->
+	</table>
+</form>
+
+<hr>

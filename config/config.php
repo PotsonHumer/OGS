@@ -51,7 +51,6 @@
 	$config["m_sync"] = false; // 多語系使用同個會員資料庫
 	################
 	
-	$config["sess"] = 'ogs';
 	
 	#### agents ####
 	$config["ag_zone"] = array(
@@ -61,6 +60,16 @@
 		4 => "America"
 	);
 	################
+	
+	#### AD ####
+	// 廣告分類
+	$config["ad_cate"] = array(
+		1 => '首頁 Banner',
+		//2 => '內頁 Banner'
+	);
+	############
+	
+	$config["sess"] = 'ogs';
 	
 	#### country ####
 	$config["country"] = array(

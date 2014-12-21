@@ -2,26 +2,38 @@
 
 	class SEARCH{
 		
+		private static $all_rsnum;
+		
 		private static $condition = array(
 			'products' => array('p_name'),
 			'news' => array('n_subject','n_content'),
 			'download' => array('d_subject','d_file'),
 		);
 		
-		function __construct(){
+		function __construct($args=false){
+			
+			if($args[0] == "hot_search"){
+				self::hot();
+				exit;
+			}
+			
+			CORE::res_init('tab','box');
 			
 			$temp_option = array(
 				"HEADER" => 'ogs-header-tpl.html',
 				"TOP" => 'ogs-top-tpl.html',
 				"SIDE" => 'ogs-left-tpl.html',
 				"FOOTER" => 'ogs-footer-tpl.html',
+				"PAGE" => 'ogs-page-tpl.html',
 			);
 			
-			CHECK::is_must($_REQUEST["kw"]);
+			$kw = (!empty($_REQUEST["kw"]))?$_REQUEST["kw"]:$args[0];
+			
+			CHECK::is_must($kw);
 			
 			if(CHECK::is_pass()){
 				$temp_main = array("MAIN" => 'ogs-search-tpl.html');
-				self::search_handle($_REQUEST["kw"]);
+				self::search_handle($kw);
 			}else{
 				$temp_main = array("MAIN" => 'ogs-msg-tpl.html');
 				CORE::notice('Keyword missing...',CORE::$lang);
@@ -43,6 +55,11 @@
 			
 			self::products($kw);
 			self::news($kw);
+			self::download($kw);
+			
+			if(empty(self::$all_rsnum)){
+				VIEW::assignGlobal("TAG_SEARCH_NONE",'No results!');
+			}
 		}
 		
 		//----------------------------------------------------------------------------
@@ -82,7 +99,7 @@
 		}
 		
 		// 搜尋產品
-		private static function products($kw){
+		private static function products($kw,$hot=false){
 			
 			$where = self::search_condition($kw,__FUNCTION__);
 			
@@ -95,20 +112,41 @@
 			);
 
 			$sql = DB::select($select);
+			$sql = PAGE::handle($sql,CORE::$lang.'search/'.$kw.'/');
 			$rsnum = DB::num($sql);
 			
+			self::$all_rsnum = self::$all_rsnum + $rsnum; 
+			
 			if(!empty($rsnum)){
-				VIEW::newBlock("TAG_P_TITLE");
-				
-				VIEW::newBlock("TAG_P_BLOCK");
+				if(!$hot){
+					VIEW::newBlock("TAG_P_TITLE");
+					VIEW::assign("VALUE_RS_NUM",$rsnum);
+					
+					VIEW::newBlock("TAG_P_BLOCK");
+				}
 				
 				while($row = DB::fetch($sql)){
-					VIEW::newBlock("TAG_P_LIST");
-					self::args_handle($row);
+					if(!$hot){
+						VIEW::newBlock("TAG_P_LIST");
+						self::args_handle($row);
+					}
 					
 					new SEO($row["seo_id"],false);
 					$pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row["p_id"];
-					VIEW::assign("VALUE_P_LINK",CORE::$lang.'products/detail/'.$pointer);
+					
+					if(!$hot){
+						VIEW::assign(array(
+							"VALUE_P_LINK" => CORE::$lang.'products/detail/'.$pointer,
+							"VALUE_ROW_NUM" => ++$i,
+						));
+					}else{
+						$row["p_link"] = CORE::$lang.'products/detail/'.$pointer;
+						$all_row[] = $row;
+					}
+				}
+				
+				if($hot){
+					return $all_row;
 				}
 			}
 		}
@@ -129,8 +167,11 @@
 			$sql = DB::select($select);
 			$rsnum = DB::num($sql);
 			
+			self::$all_rsnum = self::$all_rsnum + $rsnum;
+			
 			if(!empty($rsnum)){
 				VIEW::newBlock("TAG_N_TITLE");
+				VIEW::assign("VALUE_RS_NUM",$rsnum);
 				
 				VIEW::newBlock("TAG_N_BLOCK");
 				
@@ -140,7 +181,10 @@
 					
 					new SEO($row["seo_id"],false);
 					$pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row["n_id"];
-					VIEW::assign("VALUE_N_LINK",CORE::$lang.'news/detail/'.$pointer);
+					VIEW::assign(array(
+						"VALUE_N_LINK" => CORE::$lang.'news/detail/'.$pointer,
+						"VALUE_ROW_NUM" => ++$i,
+					));
 				}
 			}
 		}
@@ -161,8 +205,11 @@
 			$sql = DB::select($select);
 			$rsnum = DB::num($sql);
 			
+			self::$all_rsnum = self::$all_rsnum + $rsnum;
+			
 			if(!empty($rsnum)){
 				VIEW::newBlock("TAG_D_TITLE");
+				VIEW::assign("VALUE_RS_NUM",$rsnum);
 				
 				VIEW::newBlock("TAG_D_BLOCK");
 				
@@ -177,6 +224,7 @@
 							VIEW::assign(array(
 								"VALUE_D_FILE_NAME" => $file_name,
 								"VALUE_D_FILE" => CRUD::img_handle($file_path),
+								"VALUE_ROW_NUM" => ++$i,
 							));
 						}
 					}
@@ -185,6 +233,28 @@
 		}
 		
 		// 搜尋展覽
+		private static function exhibition(){}
+		
+		// 快速提示
+		private static function hot(){
+			CHECK::is_must($_REQUEST["call"]);
+			
+			if(CHECK::is_pass()){
+				$all_row = self::products($_REQUEST["call"],true);
+				
+				if(is_array($all_row)){
+					foreach($all_row as $row){
+						$hot_list_array[] = '<li><a href="'.$row["p_link"].'"><span><img src="'.$row["p_s_img"].'" /></span>'.$row["p_name"].'</a></li>';
+					}
+					
+					$rs['done'] = 1;
+					$rs['list'] = implode("",$hot_list_array);
+					
+					echo json_encode($rs);
+					exit;
+				}
+			}
+		}
 	}
 	
 

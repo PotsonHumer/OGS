@@ -20,12 +20,19 @@
 				self::$page_args = (empty(self::$page_args))?1:self::$page_args; // 如果沒有頁次參數強制為 1
 				self::$now = str_replace('page-', '', self::$page_args);
 				
+				$_SESSION[CORE::$config["sess"]]["page"] = self::$now;
+				
 				self::make_link($page_num,$link); // 產生頁次連結
 				return self::sql_handle($page_num); // 處理 sql select
 			}else{
 				// 資料數低於單頁最大值
 				return $sql;
 			}
+		}
+		
+		// 連結附帶頁次參數
+		public static function attach($path){
+			return $path.'page-'.$_SESSION[CORE::$config["sess"]]["page"].'/';
 		}
 		
 		// 產生頁次連結

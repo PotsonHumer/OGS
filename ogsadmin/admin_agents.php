@@ -93,6 +93,21 @@
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
 					self::agents_replace();
 				break;
+				case "relate":
+					$temp_main = array(
+						"MAIN" => self::$temp.'ogs-admin-agents-relate-tpl.html',
+						"LEFT" => self::$temp.'ogs-admin-left-tpl.html',
+					);
+					self::agents_relate();
+				break;
+				case "relate-replace":
+					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
+					self::agents_relate_replace();
+				break;
+				case "relate-del":
+					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
+					self::agents_relate_del($args);
+				break;
 				default:
 					//$temp_main = array("MAIN" => self::$temp.'ogs-admin-intro-group-tpl.html');
 					//self::intro_group();
@@ -513,6 +528,96 @@
 		
 		//--------------------------------------------------------------------------------------
 		
+		// 相關連結
+		private static function agents_relate(){
+			
+			$select = array (
+				'table' => CORE::$config["prefix"].'_agents_relate',
+				'field' => "*",
+				//'where' => '',
+				//'order' => '',
+				//'limit' => '',
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				while($row = DB::fetch($sql)){
+					VIEW::newBlock("TAG_AGR_LIST");
+					foreach($row as $field => $value){
+						VIEW::assign("VALUE_".strtoupper($field),$value);
+					}
+					
+					VIEW::assign(array(
+						"VALUE_AGR_ROW" => ++$i,
+						"VALUE_AGR_STATUS_CK".$row["agr_status"] => 'checked',
+						"VALUE_AGR_DEL_PATH" => CORE::$manage.'admin_agents/relate-del/'.$row["agr_id"].'/'
+					));
+				}
+			}else{
+				VIEW::newBlock("TAG_AGR_LIST");
+				VIEW::assign(array(
+					"VALUE_AGR_ROW" => 1,
+					"VALUE_AGR_SORT" => 1,
+					"VALUE_AGR_STATUS_CK1" => 'checked',
+				));
+			}
+		}
+		
+		// 相關連結儲存
+		private static function agents_relate_replace(){
+			
+			CHECK::is_array_exist($_REQUEST["agr_id"]);
+			$error_tag = false;
+			
+			if(CHECK::is_pass()){
+				$field_array = array('agr_id','agr_subject','agr_sort','agr_status','agr_img','agr_link');
+				
+				foreach($_REQUEST["agr_id"] as $key => $agr_id){
+					
+					if($error_tag){
+						break;
+					}
+					
+					unset($args);
+					
+					foreach($field_array as $field){
+						switch($field){
+							case "agr_img":
+								$args[$field] = CRUD::img_handle($_REQUEST[$field][$key]);
+							break;
+							default:
+								$args[$field] = $_REQUEST[$field][$key];
+							break;
+						}
+					}
+					
+					DB::replace(CORE::$config["prefix"].'_agents_relate',$args);
+					
+					if(!empty(DB::$error)){
+						$msg_title = DB::$error;
+						$error_tag = true;
+					}else{
+						$msg_title = '更新成功';
+					}
+				}
+			}else{
+				$msg_title = '參數錯誤';
+			}
+			
+			CORE::notice($msg_title,CORE::$manage.'admin_agents/relate/');
+		}
+		
+		// 相關連結刪除
+		private static function agents_relate_del($args){
+			DB::delete(CORE::$config["prefix"].'_agents_relate',array('agr_id' => $args[0]));
+			if(!empty(DB::$error)){
+				CORE::notice(DB::$error,CORE::$manage.'admin_agents/relate/');
+			}else{
+				CORE::notice('刪除成功',CORE::$manage.'admin_agents/relate/');
+			}
+		}
 	}
 
 ?>

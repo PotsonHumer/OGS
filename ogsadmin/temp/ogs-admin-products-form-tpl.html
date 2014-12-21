@@ -6,6 +6,20 @@
 
 <form name="data_form" method="post" action="{TAG_MANAGE_PATH}admin_products/replace/">
 	<table>
+		<tr class="btn">
+			<td width="100%">
+				<label>同步儲存其他語系</label><input type="checkbox" name="lang_sync" value="1" {TAG_DISABLE}>
+			</td>
+		</tr>
+		<tr class="btn">
+			<td>
+				<input type="submit" value="儲存">
+				<input class="goto back" type="button" value="回列表 (快捷鍵: Alt + Q)" rel="{TAG_BACK_LINK}">
+			</td>
+		</tr>
+	</table>
+	
+	<table>
 		<tr>
 			<th class="must" width="15%">名稱</th>
 			<td width="35%">
@@ -54,6 +68,22 @@
 	
 	<!-- INCLUDE BLOCK : IMG -->
 	<!-- INCLUDE BLOCK : DESC -->
+	
+	<table>
+		<tr class="btn">
+			<td width="100%">
+				<label>同步儲存其他語系</label><input type="checkbox" name="lang_sync" value="1" {TAG_DISABLE}>
+			</td>
+		</tr>
+		<tr class="btn">
+			<td>
+				<input type="submit" value="儲存">
+				<input class="goto back" type="button" value="回列表 (快捷鍵: Alt + Q)" rel="{TAG_BACK_LINK}">
+			</td>
+		</tr>
+	</table>
+
+	
 	<!-- INCLUDE BLOCK : SEO -->
 	
 	<table>
@@ -65,13 +95,14 @@
 		<tr class="btn">
 			<td>
 				<input type="submit" value="儲存">
-				<input class="goto back" type="button" value="回列表 (快捷鍵: Ctrl + B)" rel="{TAG_MANAGE_PATH}admin_products/list/">
+				<input class="goto back" type="button" value="回列表 (快捷鍵: Alt + Q)" rel="{TAG_BACK_LINK}">
 			</td>
 		</tr>
 	</table>
 
 	<input type="hidden" name="p_id" value="{VALUE_P_ID}">
 	<input type="hidden" name="p_type" value="{VALUE_P_TYPE}">
+	{TAG_KW}
 </form>
 
 <hr>

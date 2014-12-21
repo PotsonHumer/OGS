@@ -322,7 +322,7 @@
 			
 			 $sql_str = "SELECT * FROM ".CORE::$config["prefix"]."_news as n 
 						left join ".CORE::$config["prefix"]."_news_cate as nc on nc.nc_id = n.nc_id 
-						".$where." order by n.nc_id asc,n.n_sort ".CORE::$config["sort"]; 
+						".$where." order by n.nc_id asc,n.n_top desc,n.n_sort ".CORE::$config["sort"]; 
 			
 			self::news_cate_select($sk["nc_id"]);
 			
@@ -333,12 +333,14 @@
 			if(!empty($rsnum)){
 				while($row = DB::fetch($sql)){
 					
+					$top_str = (!empty($row["n_top"]))?'<span style="color: red;">[至頂]</span>':'';
+					
 					VIEW::newBlock('TAG_NEWS_LIST');
 					VIEW::assign(array(
 						"VALUE_ROW_NUM" => ++$i,
 						"VALUE_N_ID" => $row["n_id"],
 						"VALUE_NC_SUBJECT" => $row["nc_subject"],
-						"VALUE_N_SUBJECT" => $row["n_subject"],
+						"VALUE_N_SUBJECT" => $row["n_subject"].$top_str,
 						"VALUE_N_SORT" => $row["n_sort"],
 						"VALUE_N_STATUS" => ($row["n_status"])?'開啟':'關閉',
 						"VALUE_N_IMG" => CRUD::img_handle($row["n_img"]),
@@ -398,7 +400,8 @@
 							$value = CORE::content_handle($value,true);
 						break;
 						case "n_hot":
-							VIEW::assignGlobal("VALUE_N_HOT_CK",(!empty($value))?'checked':'');
+						case "n_top":
+							VIEW::assignGlobal("VALUE_".strtoupper($field)."_CK",(!empty($value))?'checked':'');
 						break;
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
@@ -471,6 +474,8 @@
 				
 				// 執行 replace
 				$_REQUEST["n_content"] = CORE::content_handle($_REQUEST["n_content"]);
+				$_REQUEST["n_hot"] = ($_REQUEST["n_hot"] == "1")?'1':'0';
+				$_REQUEST["n_top"] = ($_REQUEST["n_top"] == "1")?'1':'0';
 				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){

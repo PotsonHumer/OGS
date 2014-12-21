@@ -60,6 +60,7 @@
 					
 					VIEW::newBlock("TAG_SIDE_LIST");
 					VIEW::assign(array(
+						"VALUE_N_SUBJECT" => $row["n_subject"],
 						"VALUE_N_LINK" => CORE::$lang.'news/detail/'.$link_pointer,
 						"VALUE_N_IMG" => CRUD::img_handle($row["n_img"]),
 					));

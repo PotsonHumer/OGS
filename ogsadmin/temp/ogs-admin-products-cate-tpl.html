@@ -26,7 +26,7 @@
 	<table>
 		<tr class="btn">
 			<td>
-				<a href="{TAG_MANAGE_PATH}admin_products/cate-add/" class="span"><span class="icon-circle-plus">新增</span></a>
+				<a href="{TAG_ADD_LINK}" class="span"><span class="icon-circle-plus">新增</span></a>
 				<a href="#" class="span all"><span class="icon-square-check">全選 / 取消全選</span></a>
 				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}admin_products/cate-open/"><span class="icon-circle-check">開啟</span></a>
 				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}admin_products/cate-close/"><span class="icon-ban">關閉</span></a>
@@ -41,8 +41,8 @@
 			<th width="5%">No.</th>
 			<th width="5%">選取</th>
 			<th width="10%">排序</th>
-			<th width="15%">圖片</th>
-			<th width="35%">名稱</th>
+			<th width="10%">圖片</th>
+			<th width="40%">名稱</th>
 			<th width="10%">狀態</th>
 			<th width="20%">功能</th>
 		</tr>
@@ -59,7 +59,7 @@
 			<td class="center"><a href="{TAG_MANAGE_PATH}admin_products/cate/sk=pc_id:{VALUE_PC_ID}/">{VALUE_PC_NAME}</a></td>
 			<td class="center">{VALUE_PC_STATUS}</td>
 			<td class="center">
-				<a href="{TAG_MANAGE_PATH}admin_products/cate-mod/{VALUE_PC_ID}/" class="icon-link no-brackets span">修改</a>
+				<a href="{VALUE_PC_LINK}" class="icon-link no-brackets span">修改</a>
 				<a href="{TAG_MANAGE_PATH}admin_products/cate-del/{VALUE_PC_ID}/" class="icon-cross no-brackets span alert" rel="確定刪除?">刪除</a>
 			</td>
 		</tr>

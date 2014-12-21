@@ -18,6 +18,7 @@
 			
 			$temp_option = $temp_option + array("MAIN" => 'ogs-agents-tpl.html');
 			self::show();
+			self::relate();
 			
 			CORE::res_init('jQueryAssets/jquery.ui.core.min','jQueryAssets/jquery.ui.theme.min','jQueryAssets/jquery.ui.tabs.min','css');
 			CORE::res_init('jQueryAssets/jquery.ui-1.10.4.tabs.min','js');
@@ -72,6 +73,30 @@
 								"VALUE_ZONE_ROW" => ++$zone_i,
 							));
 						}
+					}
+				}
+			}
+		}
+
+		// 相關連結
+		private static function relate(){
+			
+			$select = array(
+				'table' => CORE::$config["prefix"].'_agents_relate',
+				'field' => '*',
+				'where' => "agr_status = '1'",
+				'order' => 'agr_sort '.CORE::$config["sort"],
+				//'limit' => '0,1',
+			);
+		
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				while($row = DB::fetch($sql)){
+					VIEW::newBlock("TAG_RELATE_LIST");
+					foreach($row as $field => $value){
+						VIEW::assign("VALUE_".strtoupper($field),$value);
 					}
 				}
 			}

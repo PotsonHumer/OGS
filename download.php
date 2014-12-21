@@ -32,7 +32,7 @@
 				'table' => CORE::$config["prefix"].'_download',
 				'field' => '*',
 				'where' => "d_status = '1'",
-				'order' => 'd_sort '.CORE::$config["sort"],
+				'order' => 'd_top desc, d_sort '.CORE::$config["sort"],
 				//'limit' => '0,1',
 			);
 		
@@ -41,7 +41,7 @@
 			$rsnum = DB::num($sql);
 			
 			new SEO('download');
-			$nav[0] = array('name' => 'E-Catalog','link' => false);
+			$nav[0] = array('name' => 'Download','link' => false);
 			BREAD::make($nav);
 			
 			if(!empty($rsnum)){

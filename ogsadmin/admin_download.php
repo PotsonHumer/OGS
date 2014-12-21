@@ -299,7 +299,7 @@
 			
 			$sql_str = "SELECT * FROM ".CORE::$config["prefix"]."_download as d 
 						left join ".CORE::$config["prefix"]."_download_cate as dc on dc.dc_id = d.dc_id 
-						".$where." order by d.d_sort ".CORE::$config["sort"]; 
+						".$where." order by d.d_top desc, d.d_sort ".CORE::$config["sort"]; 
 			
 			self::download_cate_select($sk["dc_id"]);
 			
@@ -310,12 +310,14 @@
 			if(!empty($rsnum)){
 				while($row = DB::fetch($sql)){
 					
+					$top_str = (!empty($row["d_top"]))?'<span style="color: red;">[至頂]</span>':'';
+					
 					VIEW::newBlock('TAG_DOWNLOAD_LIST');
 					VIEW::assign(array(
 						"VALUE_ROW_NUM" => ++$i,
 						"VALUE_D_ID" => $row["d_id"],
 						"VALUE_DC_SUBJECT" => $row["dc_subject"],
-						"VALUE_D_SUBJECT" => $row["d_subject"],
+						"VALUE_D_SUBJECT" => $row["d_subject"].$top_str,
 						"VALUE_D_SORT" => $row["d_sort"],
 						"VALUE_D_STATUS" => ($row["d_status"])?'開啟':'關閉',
 						"VALUE_D_IMG" => CRUD::img_handle($row["d_img"]),
@@ -374,7 +376,8 @@
 							$value = CRUD::img_handle($value);
 						break;
 						case "d_hot":
-							VIEW::assignGlobal("VALUE_D_HOT_CK",(!empty($value))?'checked':'');
+						case "d_top":
+							VIEW::assignGlobal("VALUE_".strtoupper($field)."_CK",(!empty($value))?'checked':'');
 						break;
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
@@ -469,6 +472,8 @@
 				}
 				
 				// 執行 replace
+				$_REQUEST["d_hot"] = ($_REQUEST["d_hot"] == "1")?'1':'0';
+				$_REQUEST["d_top"] = ($_REQUEST["d_top"] == "1")?'1':'0';
 				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){
@@ -521,7 +526,7 @@
 					VIEW::assign(array(
 						"VALUE_DC_ID" => $row["dc_id"],
 						"VALUE_DC_SUBJECT" => $row["dc_subject"],
-						"VALUE_DC_CURRENT" => ($dc_id == $row["dc_id"] && !empty($dc_id))?'selected':'',
+						"VALUE_DC_CURRENT" => ($rsnum == 1 || $dc_id == $row["dc_id"] && !empty($dc_id))?'selected':'',
 					));
 				}
 			}

@@ -4,7 +4,23 @@
 
 <h3>介紹頁{MSG_TITLE}</h3>
 
+
+
 <form name="data_form" method="post" action="{TAG_MANAGE_PATH}admin_intro/replace/">
+	<table>
+		<tr class="btn">
+			<td colspan="4">
+				<label>同步儲存其他語系</label><input type="checkbox" name="lang_sync" value="1" {TAG_DISABLE}>
+			</td>
+		</tr>
+		<tr class="btn">
+			<td colspan="4">
+				<input type="submit" value="儲存">
+				<input class="goto back" type="button" value="回列表 (快捷鍵: Alt + Q)" rel="{TAG_MANAGE_PATH}admin_intro/list/">
+			</td>
+		</tr>
+	</table>
+	
 	<table>
 		<tr>
 			<th class="must" width="15%">名稱</th>
@@ -51,10 +67,9 @@
 		<tr class="btn">
 			<td colspan="4">
 				<input type="submit" value="儲存">
-				<input class="goto back" type="button" value="回列表 (快捷鍵: Ctrl + B)" rel="{TAG_MANAGE_PATH}admin_intro/list/">
+				<input class="goto back" type="button" value="回列表 (快捷鍵: Alt + Q)" rel="{TAG_MANAGE_PATH}admin_intro/list/">
 			</td>
 		</tr>
-
 	</table>
 
 	<input type="hidden" name="it_id" value="{VALUE_IT_ID}">

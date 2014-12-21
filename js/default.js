@@ -135,11 +135,19 @@
 	
 	// 快捷鍵
 	function hotkey(){
-		$("*").keypress(function(E){
-			if(E.ctrlKey){
+		$(document).keyup(function(E){
+			if(E.altKey){
+				log(E.keyCode);
+				
 				switch(E.keyCode){
-					case 2:
+					case 81:
 						var OBJ = $(".back");
+					break;
+					case 83:
+						var OBJ = $(".save");
+					break;
+					case 49:
+						//var OBJ = $("#nav_close");
 					break;
 				}
 				

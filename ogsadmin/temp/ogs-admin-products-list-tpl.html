@@ -14,6 +14,9 @@
 					{TAG_PC_SELECT}
 				</select>
 				<span class="span">|</span>
+				<label>名稱搜尋</label>
+				<input type="text" name="sk[p_name]" value="{TAG_P_NAME}" size="100">
+				<span class="span">|</span>
 				<label>最新產品</label>
 				<input type="checkbox" name="sk[p_new]" value="1" {TAG_P_NEW_CK}>
 			</td>
@@ -29,7 +32,7 @@
 	<table>
 		<tr class="btn">
 			<td>
-				<a href="{TAG_MANAGE_PATH}admin_products/add/" class="span"><span class="icon-circle-plus">新增</span></a>
+				<a href="{TAG_ADD_LINK}" class="span"><span class="icon-circle-plus">新增</span></a>
 				<a href="#" class="span all"><span class="icon-square-check">全選 / 取消全選</span></a>
 				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}admin_products/open/"><span class="icon-circle-check">開啟</span></a>
 				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}admin_products/close/"><span class="icon-ban">關閉</span></a>
@@ -64,7 +67,7 @@
 			<td class="center">{VALUE_P_NAME}</td>
 			<td class="center">{VALUE_P_STATUS}</td>
 			<td class="center">
-				<a href="{TAG_MANAGE_PATH}admin_products/mod/{VALUE_P_ID}/" class="icon-link no-brackets span">修改</a>
+				<a href="{VALUE_P_LINK}" class="icon-link no-brackets span">修改</a>
 				<a href="{TAG_MANAGE_PATH}admin_products/del/{VALUE_P_ID}/" class="icon-cross no-brackets span alert" rel="確定刪除?">刪除</a>
 			</td>
 		</tr>

@@ -28,6 +28,7 @@
 					$temp_option = $temp_option + array("MAIN" => 'ogs-products-detail-tpl.html');
 					CORE::res_init('jQueryAssets/jquery.ui.core.min','jQueryAssets/jquery.ui.theme.min','jQueryAssets/jquery.ui.tabs.min','css');
 					CORE::res_init('jQueryAssets/jquery.ui-1.10.4.tabs.min','js');
+					CORE::res_init('fix','box');
 					self::detail();
 				break;
 				case "cate":
@@ -47,7 +48,7 @@
 		}
 		
 		// 主分類列表
-		public static function show($left=false){
+		public static function show($left=false,$footer=false){
 			$select = array(
 				'table' => CORE::$config["prefix"].'_products_cate',
 				'field' => '*',
@@ -71,10 +72,14 @@
 					
 					new SEO($row["seo_id"],false);
 					
-					if(!$left){
-						VIEW::newBlock("TAG_PC_LIST");
+					if($footer){
+						VIEW::newBlock("TAG_PC_FOOTER");
 					}else{
-						VIEW::newBlock("TAG_PC_LEFT");
+						if(!$left){
+							VIEW::newBlock("TAG_PC_LIST");
+						}else{
+							VIEW::newBlock("TAG_PC_LEFT");
+						}
 					}
 					
 					foreach($row as $field => $value){
@@ -144,6 +149,10 @@
 			
 			if(!empty($rsnum)){
 				$row = DB::fetch($sql);
+				
+				$p_h1 = (!empty($row["seo_h1"]))?$row["seo_h1"]:$row["p_name"];
+				VIEW::assignGlobal("VALUE_H1",$p_h1);
+				
 				foreach($row as $field => $value){
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}

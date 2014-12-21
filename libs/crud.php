@@ -244,23 +244,34 @@
 		//-------------------------------------------------------------
 		
 		// 處理搜尋參數
-		public static function sk_handle(array $sk,$goto_path){
-			if(CHECK::is_array_exist($sk)){
+		public static function sk_handle($sk,$goto_path,$goto=true){
+			CHECK::is_array_exist($sk);
+			
+			if(CHECK::is_pass()){
 				foreach($sk as $sk_name => $sk_value){
 					$sk_str_array[] = $sk_name.":".$sk_value;
 				}
 				
 				if(is_array($sk_str_array)){
 					$sk_str = 'sk='.implode("|",$sk_str_array).'/'; // 組合 sk 字串
-
-					$re_router = preg_replace("/sk([^\/])+\//",'',$_SESSION[CORE::$config["sess"]]['last_path'],1);
+					
+					$path = (!empty($goto_path))?$goto_path:$_SESSION[CORE::$config["sess"]]['last_path'];
+					
+					$re_router = preg_replace("/page-([^\/])+\//",'',$path,1);
+					$re_router = preg_replace("/sk([^\/])+\//",'',$re_router,1);
 					$re_router = $re_router.$sk_str;
 					
-					header("location: ".$re_router);
+					if($goto){
+						header("location: ".$re_router);
+					}else{
+						return $re_router;
+					}
+				}
+			}else{
+				if(!$goto){
+					return $goto_path;
 				}
 			}
-			
-			CHECK::check_clear();
 		}
 		
 		// 拆解搜尋參數

@@ -1,47 +1,79 @@
 <div class="content2 product-inner">
-	<h1>SEARCH</h1>
+	<h1>Search Results</h1>
 	<div class="min-height">
+		
+		{TAG_SEARCH_NONE}
 		
 		<ul id="tab_title_box">
 			<!-- START BLOCK : TAG_P_TITLE -->
-			<li class="tab_title">Products</li>
+			<li class="tab_title">Products ({VALUE_RS_NUM})</li>
 			<!-- END BLOCK : TAG_P_TITLE -->
 			<!-- START BLOCK : TAG_N_TITLE -->
-			<li class="tab_title">News</li>
+			<li class="tab_title">News ({VALUE_RS_NUM})</li>
 			<!-- END BLOCK : TAG_N_TITLE -->
 			<!-- START BLOCK : TAG_D_TITLE -->
-			<li class="tab_title">Download</li>
+			<li class="tab_title">Download ({VALUE_RS_NUM})</li>
 			<!-- END BLOCK : TAG_D_TITLE -->
 		</ul>
 		
 		<!-- START BLOCK : TAG_P_BLOCK -->
-		<div class="tab tab_content">
-			<!-- START BLOCK : TAG_P_LIST -->
-			<ul class="search_list">
-				<li><a href="{VALUE_P_LINK}" target="_blank">{VALUE_P_NAME}</a></li>
-				<li><img src="{VALUE_P_S_IMG}"></li>
-			</ul>
-			<!-- END BLOCK : TAG_P_LIST -->
+		<div class="tab tab_content page">
+			<table>
+				<tr>
+					<th>No.</th>
+					<th>Image</th>
+					<th>Product name</th>
+				</tr>
+				<!-- START BLOCK : TAG_P_LIST -->
+				<tr>
+					<td width="10%">{VALUE_ROW_NUM}</td>
+					<td width="20%"><img class="p_img" src="{VALUE_P_S_IMG}"></td>
+					<td width="70%"><a href="{VALUE_P_LINK}" target="_blank">{VALUE_P_NAME}</a></td>
+				</tr>
+				<!-- END BLOCK : TAG_P_LIST -->
+			</table>
 		</div>
 		<!-- END BLOCK : TAG_P_BLOCK -->
 		
+		<!-- INCLUDE BLOCK : PAGE -->
+		
 		<!-- START BLOCK : TAG_N_BLOCK -->
 		<div class="tab tab_content">
-			<!-- START BLOCK : TAG_N_LIST -->
-			<ul class="search_list">
-				<li><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt="" {VALUE_N_HOT} /><a href="{VALUE_N_LINK}" target="_blank">{VALUE_N_SUBJECT}</a></li>
-			</ul>
-			<!-- END BLOCK : TAG_N_LIST -->
+			<table>
+				<tr>
+					<th>No.</th>
+					<th>News Subject</th>
+				</tr>
+				<!-- START BLOCK : TAG_N_LIST -->
+				<tr>
+					<td width="10%">{VALUE_ROW_NUM}</td>
+					<td width="90%">
+						<img src="{TAG_IMAGE_PATH}icon-hot.gif" alt="" {VALUE_N_HOT} />
+						<a href="{VALUE_N_LINK}" target="_blank">{VALUE_N_SUBJECT}</a>
+					</td>
+				</tr>
+				<!-- END BLOCK : TAG_N_LIST -->
+			</table>
 		</div>
 		<!-- END BLOCK : TAG_N_BLOCK -->
 		
 		<!-- START BLOCK : TAG_D_BLOCK -->
 		<div class="tab tab_content">
-			<!-- START BLOCK : TAG_D_LIST -->
-			<ul class="search_list">
-				<li><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt="" {VALUE_D_HOT} /><a href="{VALUE_D_FILE}" target="_blank">{VALUE_D_FILE_NAME}</a></li>
-			</ul>
-			<!-- END BLOCK : TAG_D_LIST -->
+			<table>
+				<tr>
+					<th>No.</th>
+					<th>Download file</th>
+				</tr>
+				<!-- START BLOCK : TAG_D_LIST -->
+				<tr>
+					<td width="10%">{VALUE_ROW_NUM}</td>
+					<td width="90%">
+						<img src="{TAG_IMAGE_PATH}icon-hot.gif" alt="" {VALUE_D_HOT} />
+						<a href="{VALUE_D_FILE}" target="_blank">{VALUE_D_FILE_NAME}</a>
+					</td>
+				</tr>
+				<!-- END BLOCK : TAG_D_LIST -->
+			</table>
 		</div>
 		<!-- END BLOCK : TAG_D_BLOCK -->
 		
@@ -54,3 +86,23 @@
 		<!-- AddToAny END -->
 	</div>
 </div>
+
+<script>
+	$(function(){
+		$(".min-height").tab_box({
+			TITLE : false, //自動生成頁籤 , true => 啟動 , false => 停用
+			AFTER :  function() {  }, // 動作後執行擴充			
+		});
+		
+		//----
+		$(".tab_title").click(function(){
+			var PAGE_INDEX = $(".tab_title.current").index();
+			
+			if(PAGE_INDEX == "0"){
+				$("#page").show();
+			}else{
+				$("#page").hide();
+			}
+		});
+	});
+</script>

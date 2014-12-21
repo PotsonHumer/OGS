@@ -14,7 +14,7 @@
 					</div>
 					<div class="search">
 						<form name="search_form" action="{TAG_ROOT_PATH}search/" method="post">
-							<input type="text" name="kw" value="" placeholder="Search Products" style="display: inline-block; vertical-align: top;"><img src="{TAG_IMAGE_PATH}search.jpg" />
+							<input type="text" name="kw" value="" placeholder="Search" style="display: inline-block; vertical-align: top;"><img id="search_btn" src="{TAG_IMAGE_PATH}search.jpg" />
 							<input type="submit" style="display: none;">
 						</form>
 					</div>
@@ -37,9 +37,17 @@
 					<li><a href="{TAG_ROOT_PATH}products/">Products</a></li>
 					<li><a href="{TAG_ROOT_PATH}news/">News</a></li>
 					<li><a href="{TAG_ROOT_PATH}agents/">Service Location</a></li>
-					<li><a href="{TAG_ROOT_PATH}download/">E-Catalog</a></li>
+					<li><a href="{TAG_ROOT_PATH}download/">Download</a></li>
 					<li><a href="{TAG_ROOT_PATH}contact/">Contact Us</a></li>
 					<li><a href="#">xxxxxxxx</a></li>
 				</ul>
 			</div>
 		</div>
+		
+		<script>
+			$(function(){
+				$("#search_btn").click(function(){
+					document.search_form.submit();
+				});
+			});
+		</script>

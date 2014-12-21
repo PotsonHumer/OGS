@@ -16,6 +16,7 @@
 			self::news_list();
 			self::download_list();
 			self::new_products_list();
+			AD::ad_list();
 			
 			new VIEW("ogs-index-tpl.html",$temp_option,false,false);
 		}
@@ -77,6 +78,10 @@
 					VIEW::newBlock("TAG_P_LIST");
 					foreach($row as $field => $value){
 						VIEW::assign("VALUE_".strtoupper($field),$value);
+						
+						if($field == "p_s_img" && empty($row[$field])){
+							VIEW::assign("VALUE_".strtoupper($field),CORE::$config["img"].'no-thumb.jpg');
+						}
 					}
 										
 					new SEO($row["seo_id"],false);

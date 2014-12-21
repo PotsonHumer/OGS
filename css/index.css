@@ -80,6 +80,8 @@ a {text-decoration:none;}
 
 .exhibition li{margin:6px 0px 6px 10px;}
 
+.exhibition li img{width: 100%;}
+
 .sidebar{width:31%; float:right; padding:20px 0px;}
 .sidebar .contact{background:url(../images/index-contact_bg.jpg) no-repeat; width:233px; height:141px; padding:60px 30px 0px; line-height:1.6em;}
 .sidebar .skype{text-align:right; margin:20px 20px 0 0px;}

@@ -24,10 +24,12 @@
 		public static function permanent(){
 			self::$db = new DB(self::$config["connect"]);
 			self::res_init('default','js');
+			self::res_init('get','box');
 			self::system_load();
 			EXHIBITION::side_list();
 			
 			INTRO::submenu();
+			PRODUCTS::show(false,true);
 			//LANG::lang_fetch();
 		}
 		

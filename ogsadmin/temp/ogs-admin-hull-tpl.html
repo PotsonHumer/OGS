@@ -23,6 +23,12 @@
 			tiny_load("{TAG_ROOT_FILE}",'.tiny_input');
 			
 			$(document).tiny_box({
+				SWITCH : 0, // 1 => 圖片 , 2 => 檔案
+				ID : ".all_manage", // 綁定元素 (同css選取器)，可設定多個元素，使用 , 分隔
+				ROOT : "{TAG_ROOT_FILE}" // 根目錄位置
+			});
+			
+			$(document).tiny_box({
 				SWITCH : 1, // 1 => 圖片 , 2 => 檔案
 				ID : ".img_manage", // 綁定元素 (同css選取器)，可設定多個元素，使用 , 分隔
 				ROOT : "{TAG_ROOT_FILE}" // 根目錄位置
@@ -33,9 +39,6 @@
 				ID : ".file_manage", // 綁定元素 (同css選取器)，可設定多個元素，使用 , 分隔
 				ROOT : "{TAG_ROOT_FILE}" // 根目錄位置
 			});
-			
-			// JS DATEPICKER
-			$("input[rel=date]").Zebra_DatePicker();
 		});
 		
 		var TAG_ROOT_PATH = '{TAG_ROOT_PATH}';
@@ -51,6 +54,13 @@
 	{TAG_JS_INCLUDE}
 	{TAG_CUSTOM_INCLUDE}
 	{JS_NOTICE}
+	
+	<script>
+		$(function(){
+			// JS DATEPICKER
+			$("input[rel=date]").Zebra_DatePicker();
+		});
+	</script>
 </head>
 
 <body>

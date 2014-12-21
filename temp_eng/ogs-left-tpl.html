@@ -1,14 +1,11 @@
 <div class="sidebar2">
 	<div class="nav-title">
 		<div class="search-pro">
-			<input type="text" value="Search Products">
-			<input type="button" name="button" id="button-pro" value="search">
-			<ul class="search-list">
-				<li><a href="#"><span><img src="images/prolink/barcode32.png" /></span> 3D LOADING BAR | PURE CSS3</a></li>
-				<li><a href="#"><span><img src="images/prolink/barcode32.png" /></span> WEB LYRIC</a></li>
-				<li><a href="#"><span><img src="images/prolink/barcode32.png" /></span> CSS 3D CUBE Animation</a></li>
-				<li><a href="#"><span><img src="images/prolink/barcode32.png" /></span> F1 Feeder</a></li>
-			</ul>
+			<form name="search_form" action="{TAG_ROOT_PATH}search/" method="post">
+				<input type="text" id="hot_search" name="kw" value="" placeholder="Search Products">
+				<input type="submit" name="button" id="button-pro" value="search">
+				<ul class="search-list"></ul>
+			</form>
 		</div>
 		<img src="{TAG_IMAGE_PATH}nav-title.gif" alt=""/>
 	</div>
@@ -21,3 +18,49 @@
 	<a href="#" id="pull">Menu</a>
 	</div>
 </div>
+
+<script>
+	function hot_search(){
+		var KW = $("#hot_search").val();
+		
+		if(isset(KW)){
+			$(document).get_box({
+				CLICK : false, // 按鍵後才啟動功能 , true => 按鍵啟動  , false => 直接啟動
+				CALL : KW, // key 值
+				PHP : "{TAG_ROOT_PATH}search/hot_search/", // 取值目標
+				FUNC : "", // func 附值
+				AFTER : function() {  }, // 動作後執行擴充
+			}, function(DATA){
+				
+				if(isset(DATA)){
+					OBJ = JSON.parse(DATA);
+					
+					if(OBJ.done == 1){
+						$(".search-list").html("").append(OBJ.list).show();
+					}
+				}else{
+					$(".search-list").hide();
+				}
+				//callback
+			});
+		}else{
+			$(".search-list").hide();
+		}
+	}
+
+	$(function(){
+		$("#hot_search").keyup(function(){
+			hot_search();
+		});
+		
+		$("#hot_search").click(function(){
+			hot_search();
+		});
+		
+		$("*").not("#hot_search").click(function(){
+			$(".search-list").hide();
+		});
+		//----
+		
+	});
+</script>

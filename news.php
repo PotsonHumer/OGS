@@ -43,7 +43,7 @@
 				'table' => CORE::$config["prefix"].'_news',
 				'field' => '*',
 				'where' => "n_status = '1' and nc_id = '".$cate."'",
-				'order' => 'n_showdate desc,n_sort '.CORE::$config["sort"],
+				'order' => 'n_top desc, n_sort '.CORE::$config["sort"],
 				//'limit' => '0,1',
 			);
 		

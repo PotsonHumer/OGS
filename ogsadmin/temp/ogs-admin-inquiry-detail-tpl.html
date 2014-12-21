@@ -1,0 +1,86 @@
+<h2>產品詢價管理</h2>
+
+<hr>
+
+<h3>產品詢價詳細資料</h3>
+
+<form name="data_form" method="post" action="{TAG_MANAGE_PATH}admin_intro/replace/">
+	<table>
+		<tr>
+			<th width="15%">名稱</th>
+			<td width="35%">{VALUE_IQ_NAME}</td>
+			<th width="15%">公司名稱</th>
+			<td width="35%">{VALUE_IQ_COMPANY}</td>
+		</tr>
+		<tr>
+			<th>職務</th>
+			<td>{VALUE_IQ_POSITION}</td>
+			<th>電話</th>
+			<td>{VALUE_IQ_TEL}</td>
+		</tr>
+		<tr>
+			<th>行動電話</th>
+			<td>{VALUE_IQ_CELLPHONE}</td>
+			<th>傳真</th>
+			<td>{VALUE_IQ_FAX}</td>
+		</tr>
+		<tr>
+			<th>城市</th>
+			<td>{VALUE_IQ_CITY}</td>
+			<th>郵遞區號</th>
+			<td>{VALUE_IQ_ZIP}</td>
+		</tr>
+		<tr>
+			<th>地址</th>
+			<td>{VALUE_IQ_ADDRESS}</td>
+			<th>國家</th>
+			<td>{VALUE_IQ_COUNTRY}</td>
+		</tr>
+		<tr>
+			<th>E-mail</th>
+			<td>{VALUE_IQ_EMAIL}</td>
+			<th>網址</th>
+			<td>{VALUE_IQ_URL}</td>
+		</tr>
+		<tr>
+			<th>公司類型</th>
+			<td>{VALUE_IQ_TYPE}</td>
+			<th>詢問類別</th>
+			<td>{VALUE_IQ_QUEST}</td>
+		</tr>
+		<tr>
+			<th>內容</th>
+			<td colspan="3">{VALUE_IQ_CONTENT}</td>
+		</tr>
+		<tr>
+			<th>聯絡方式</th>
+			<td colspan="3">{VALUE_IQ_INQUIRY}</td>
+		</tr>
+	</table>
+	
+	<table>
+		<tr>
+			<th width="10%">產品圖片</th>
+			<th width="70%">產品名稱</th>
+			<th width="20%">詢價數量</th>
+		</tr>
+		<!-- START BLOCK : TAG_IQI_LIST -->
+		<tr>
+			<td class="center"><img src="{VALUE_P_S_IMG}" style="width: 80%;"></td>
+			<td>{VALUE_P_NAME}</td>
+			<td class="center">{VALUE_IQI_NUM}</td>
+		</tr>
+		<!-- END BLOCK : TAG_IQI_LIST -->
+	</table>
+	
+	<table>
+		<tr class="btn">
+			<td colspan="4">
+				<input class="goto back" type="button" value="回列表 (快捷鍵: Alt + Q)" rel="{TAG_MANAGE_PATH}admin_inquiry/">
+			</td>
+		</tr>
+
+	</table>
+</form>
+
+<hr>

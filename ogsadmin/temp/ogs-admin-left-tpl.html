@@ -5,6 +5,7 @@
 	<ul>
 		<li><a href="{TAG_MANAGE_PATH}system/">基本設定</a></li>
 		<li><a href="{TAG_MANAGE_PATH}admin/">管理員設定</a></li>
+		<li><a class="all_manage" href="#">上傳檔案管理</a></li>
 	</ul>
 	<label>介紹頁管理</label>
 	<ul>
@@ -15,6 +16,7 @@
 	<ul>
 		<li><a href="{TAG_MANAGE_PATH}admin_agents/cate/">國家管理</a></li>
 		<li><a href="{TAG_MANAGE_PATH}admin_agents/list/">代理商管理</a></li>
+		<li><a href="{TAG_MANAGE_PATH}admin_agents/relate/">相關連結管理</a></li>
 	</ul>
 	<label>最新消息管理</label>
 	<ul>
@@ -30,10 +32,18 @@
 	<ul>
 		<!--<li><a href="{TAG_MANAGE_PATH}admin_download/cate/">分類管理</a></li>-->
 		<li><a href="{TAG_MANAGE_PATH}admin_download/list/">檔案下載管理</a></li>
-	</ul>	
+	</ul>
+	<label>廣告管理</label>
+	<ul>
+		<li><a href="{TAG_MANAGE_PATH}admin_ad/list/">廣告管理</a></li>
+	</ul>
 	<label>聯絡我們管理</label>
 	<ul>
 		<li><a href="{TAG_MANAGE_PATH}admin_contact/">聯絡我們管理</a></li>
+	</ul>
+	<label>產品詢價管理</label>
+	<ul>
+		<li><a href="{TAG_MANAGE_PATH}admin_inquiry/">產品詢價管理</a></li>
 	</ul>
 	
 
@@ -71,7 +81,7 @@
 			NAV_TOUCH = false;
 		});
 		
-		$("*").click(function(){
+		$(document).click(function(){
 			if(!NAV_TOUCH){
 				nav_close(true);
 			}

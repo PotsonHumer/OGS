@@ -21,7 +21,7 @@
 			plugins: [
 			     "image responsivefilemanager advlist autolink link lists charmap print preview hr anchor pagebreak spellchecker",
 			     "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-			     "save table contextmenu directionality emoticons template paste textcolor"
+			     "save table contextmenu directionality emoticons template paste textcolor colorpicker"
 			   ],
 			
 			toolbar1: "insertfile undo redo | styleselect fontselect fontsizeselect | cut copy paste pastetext | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link unlink anchor | image responsivefilemanager media |  preview emoticons print code ",
