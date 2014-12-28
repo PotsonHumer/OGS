@@ -28,7 +28,7 @@
 			<th width="15%">狀態</th>
 			<td width="35%">
 				<label>開啟</label><input type="radio" name="pc_status" value="1" {VALUE_PC_STATUS_CK1}>
-				<label>關閉</label><input type="radio" name="pc_status" value="0" {VALUE_PC_STATUS_CK0}>
+				<label class="red">關閉</label><input type="radio" name="pc_status" value="0" {VALUE_PC_STATUS_CK0}>
 			</td>
 		</tr>
 		<tr>
@@ -54,6 +54,15 @@
 					<p class="center green">按此選擇圖片</p>
 					<div class="img_del icon-square-cross"></div>
 				</div>
+			</td>
+		</tr>
+		<tr>
+			<th>自訂內容</th>
+			<td colspan="3">
+				<p class="red icon-speech-bubble">如果開啟此自訂內容將不會顯示產品列表</p>
+				<label>關閉</label><input type="radio" name="pc_custom_status" value="0" {VALUE_PC_CUSTOM_STATUS_CK0}>
+				<label>開啟</label><input type="radio" name="pc_custom_status" value="1" {VALUE_PC_CUSTOM_STATUS_CK1}>
+				<textarea class="tiny_input" name="pc_custom">{VALUE_PC_CUSTOM}</textarea>
 			</td>
 		</tr>
 	</table>

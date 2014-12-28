@@ -47,6 +47,10 @@ a:hover{
 	color: #2F96B4 !important;
 }
 
+.red{
+	color: red !important;
+}
+
 hr{
 	height: 2px;
 	border: none;

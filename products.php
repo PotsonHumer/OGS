@@ -34,7 +34,8 @@
 				case "cate":
 					$temp_option = $temp_option + array("MAIN" => 'ogs-products-cate-tpl.html');
 					CORE::res_init('fix','box');
-					self::cate();
+					//self::cate();
+					self::level();
 				break;
 				default:
 					$temp_option = $temp_option + array("MAIN" => 'ogs-products-tpl.html');
@@ -91,17 +92,57 @@
 				}
 			}
 		}
+
+		// 分類階層檢查
+		private static function level(){
+				
+			$pc_row = self::pc_detail();
+			self::pc_nav($pc_row);
+			
+			if(empty($pc_row["pc_parent"])){ // 轉跳至第一個次分類
+				$select = array(
+					'table' => CORE::$config["prefix"].'_products_cate',
+					'field' => '*',
+					'where' => "pc_status = '1' and pc_parent = '".$pc_row["pc_id"]."'",
+					'order' => 'pc_sort '.CORE::$config["sort"],
+					'limit' => '0,1',
+				);
+
+				$sql = DB::select($select);
+				$rsnum = DB::num($sql);
+				
+				if(!empty($rsnum)){
+					$row = DB::fetch($sql);
+					
+					new SEO($row["seo_id"],false);
+					$pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row["pc_id"];
+					
+					header("location: ".CORE::$lang.'products/cate/'.$pointer);
+				}
+				
+				self::cate();
+				
+			}else{ // 顯示產品列表
+				self::cate();
+			}
+		}
 		
-		// 次分類與產品列表
+		
+		// 第三層後分類與產品列表
 		protected static function cate(){
 			
 			$pc_row = self::pc_detail();
+			BREAD::fetch($pc_row);
 			new SEO($pc_row["seo_id"]);
+			
+			if($pc_row["pc_custom_status"]){
+				VIEW::assignGlobal("VALUE_PC_CUSTOM",$pc_row["pc_custom"]);
+			}
 			
 			$cate_h1 = (!empty(SEO::$array["seo_h1"]))?SEO::$array["seo_h1"]:$pc_row["pc_name"];
 			VIEW::assignGlobal("VALUE_H1",$cate_h1);
 
-			$select = "SELECT p.*,pc.pc_id,pc.pc_name FROM ".CORE::$config["prefix"]."_products as p 
+			$select = "SELECT p.*,pc.pc_id,pc.pc_name,pc.pc_img FROM ".CORE::$config["prefix"]."_products as p 
 						LEFT JOIN ".CORE::$config["prefix"]."_products_cate as pc on pc.pc_id = p.pc_id 
 						WHERE pc.pc_status = '1' and p.p_status = '1' and pc.pc_parent = '".$pc_row["pc_id"]."' 
 						ORDER BY pc.pc_sort ".CORE::$config["sort"].", p.p_sort ".CORE::$config["sort"];
@@ -109,7 +150,7 @@
 			$sql = DB::select(false,$select);
 			$rsnum = DB::num($sql);
 			
-			if(!empty($rsnum)){
+			if(!empty($rsnum) && !$pc_row["pc_custom_status"]){
 				while($row = DB::fetch($sql)){
 					VIEW::newBlock("TAG_P_LIST");
 					foreach($row as $field => $value){
@@ -117,16 +158,50 @@
 					}
 					
 					if($last_pc_id != $row["pc_id"]){
-						VIEW::assign("TAG_PC_NAME",'<h2>'.$row["pc_name"].'</h2>');
+						$pc_img_str = (!empty($row["pc_img"]))?'<img class="h2_img" src="'.CRUD::img_handle($row["pc_img"]).'">':'';
+						VIEW::assign("TAG_PC_NAME",'<h2>'.$pc_img_str.$row["pc_name"].'</h2>');
 					}
 					
 					new SEO($row["seo_id"],false);
-
 					$pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row["p_id"];
 
 					VIEW::assign("VALUE_P_LINK",CORE::$lang.'products/detail/'.$pointer);
 
 					$last_pc_id = $row["pc_id"];
+				}
+			}
+		}
+		
+		// 產品次分類選單
+		private static function pc_nav(array $main_row){
+				
+			$top_id = self::pc_top($main_row["pc_id"]);
+			
+			$select = array(
+				'table' => CORE::$config["prefix"].'_products_cate',
+				'field' => '*',
+				'where' => "pc_status = '1' and pc_parent = '".$top_id."'",
+				'order' => 'pc_sort '.CORE::$config["sort"],
+				//'limit' => '0,1',
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				VIEW::newBlock("TAG_PC_NAV");
+				
+				while($row = DB::fetch($sql)){
+					
+					new SEO($row["seo_id"],false);
+					$pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row["pc_id"];
+					
+					VIEW::newBlock("TAG_PC_NAV_LIST");
+					VIEW::assign(array(
+						"VALUE_PC_NAME" => (!empty(SEO::$array["seo_h1"]))?SEO::$array["seo_h1"]:$row["pc_name"],
+						"VALUE_PC_LINK" => CORE::$lang.'products/cate/'.$pointer,
+						"VALUE_PC_CURRENT" => ($pointer == self::$pointer)?'class="current"':'',
+					));
 				}
 			}
 		}
@@ -151,12 +226,16 @@
 				$row = DB::fetch($sql);
 				
 				$p_h1 = (!empty($row["seo_h1"]))?$row["seo_h1"]:$row["p_name"];
-				VIEW::assignGlobal("VALUE_H1",$p_h1);
+				VIEW::assignGlobal(array(
+					"VALUE_H1" => $p_h1,
+					"TAG_BACK_LIST" => self::back_list($row["pc_id"]),
+				));
 				
 				foreach($row as $field => $value){
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
 				
+				self::prev_next($row["p_id"],$row["pc_id"]);
 				self::p_img($row["p_id"]);
 				$desc_num = self::p_desc($row["p_id"]);
 				self::p_relate($row["p_relate"],$desc_num);
@@ -182,10 +261,34 @@
 			
 			if(!empty($rsnum) && !empty(self::$pointer)){
 				$row = DB::fetch($sql);
-				BREAD::fetch($row);
 				return $row;
 			}else{
 				return false;
+			}
+		}
+		
+		// 取得頂層分類
+		private static function pc_top($id){
+			
+			$select = array(
+				'table' => CORE::$config["prefix"].'_products_cate',
+				'field' => '*',
+				'where' => "pc_status = '1' and pc_id = '".$id."'",
+				//'order' => "",
+				//'limit' => "",
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				$row = DB::fetch($sql);
+				
+				if(!empty($row["pc_parent"])){
+					return self::pc_top($row["pc_parent"]);
+				}else{
+					return $row["pc_id"];
+				}
 			}
 		}
 		
@@ -273,6 +376,77 @@
 							"VALUE_P_LINK" => CORE::$lang.'products/detail/'.$pointer,
 						));
 					}
+				}
+			}
+		}
+		
+		// 取得回列表連結
+		private static function back_list($pc_id){
+			
+			static $pc_layer;
+			
+			$select = array(
+				'table' => CORE::$config["prefix"].'_products_cate',
+				'field' => '*',
+				'where' => "pc_status = '1' and pc_id = '".$pc_id."'",
+				//'order' => "",
+				//'limit' => "",
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				$row = DB::fetch($sql);
+				
+				if(!empty($row["pc_parent"])){
+					$pc_layer[] = $row;
+					return self::back_list($row["pc_parent"]);
+				}else{
+					$pc_row = array_pop($pc_layer);
+					new SEO($pc_row,false);
+					$pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$pc_row["pc_id"];
+					
+					return CORE::$lang.'products/cate/'.$pointer;
+				}
+			}
+		}
+		
+		// 產品上下頁
+		private static function prev_next($p_id,$pc_id){
+			
+			$select = array(
+				'table' => CORE::$config["prefix"].'_products',
+				'field' => '*',
+				'where' => "p_status = '1' and pc_id = '".$pc_id."'",
+				'order' => "p_sort ".CORE::$config["sort"],
+				//'limit' => "",
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				while($row = DB::fetch($sql)){
+					
+					new SEO($row,false);
+					$pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row["p_id"];
+					$p_link = CORE::$lang.'products/detail/'.$pointer;
+					
+					if($next){
+						VIEW::assignGlobal('VALUE_NEXT_LINK','<a class="btn" href="'.$p_link.'">Next</a>');
+						unset($next);
+					}
+					
+					if($row["p_id"] == $p_id){
+						if(!empty($last_link)){
+							VIEW::assignGlobal('VALUE_PREV_LINK','<a class="btn" href="'.$last_link.'">Previous</a>');
+						}
+						
+						$next = true;
+					}
+					
+					$last_link = $p_link;
 				}
 			}
 		}

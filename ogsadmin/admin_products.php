@@ -144,7 +144,7 @@
 						"VALUE_PC_NAME" => $row["pc_name"],
 						"VALUE_PC_IMG" => CRUD::img_handle($row["pc_img"]),
 						"VALUE_PC_SORT" => $row["pc_sort"],
-						"VALUE_PC_STATUS" => ($row["pc_status"])?'開啟':'關閉',
+						"VALUE_PC_STATUS" => ($row["pc_status"])?'開啟':'<span class="red">關閉</span>',
 						"VALUE_PC_LINK" => CRUD::sk_handle($sk, CORE::$manage.'admin_products/cate-mod/'.$row["pc_id"].'/',false),
 					));
 				}
@@ -198,6 +198,7 @@
 				foreach($row as $field => $value){
 					switch($field){
 						case "pc_status":
+						case "pc_custom_status":
 							VIEW::assignGlobal("VALUE_".strtoupper($field).'_CK'.$value,'checked');
 						break;
 					}
@@ -222,7 +223,10 @@
 					$rs = CRUD::status(CORE::$config["prefix"].'_products_cate','pc',$_REQUEST["id"],0);
 				break;
 				case "cate-sort":
-					$rs = CRUD::sort(CORE::$config["prefix"].'_products_cate','pc',$_REQUEST["id"],$_REQUEST["sort"]);
+					new SORT(CORE::$config["prefix"].'_products_cate','pc',$_REQUEST["id"],$_REQUEST["sort"]);
+					$rs = SORT::$rs;
+					
+					//$rs = CRUD::sort(CORE::$config["prefix"].'_products_cate','pc',$_REQUEST["id"],$_REQUEST["sort"]);
 				break;
 				case "cate-del":
 					if(!empty($args)){
@@ -246,6 +250,8 @@
 			
 			if($rs){
 				CORE::notice('處理完成',$_SESSION[CORE::$config["sess"]]['last_path']);
+			}else{
+				CORE::notice('參數錯誤',$_SESSION[CORE::$config["sess"]]['last_path']);
 			}
 		}
 		
@@ -295,6 +301,9 @@
 					if($crud_func == "C"){
 						LANG::lang_sync($tb_array,$_REQUEST,__CLASS__,__FUNCTION__);
 					}
+					
+					// 自動排序
+					new SORT($tb_array[0],'pc',$_REQUEST["pc_id"],$_REQUEST["pc_sort"]);
 				}
 			}else{
 				CORE::notice('參數錯誤',$_SESSION[CORE::$config["sess"]]['last_path']);
@@ -368,7 +377,7 @@
 						"VALUE_P_NAME" => $row["p_name"],
 						"VALUE_P_SORT" => $row["p_sort"],
 						"VALUE_P_IMG" => $row["p_s_img"],
-						"VALUE_P_STATUS" => ($row["p_status"])?'開啟':'關閉',
+						"VALUE_P_STATUS" => ($row["p_status"])?'開啟':'<span class="red">關閉</span>',
 						"VALUE_P_LINK" => PAGE::attach(CRUD::sk_handle($sk, CORE::$manage.'admin_products/mod/'.$row["p_id"].'/',false)),
 					));
 				}

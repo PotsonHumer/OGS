@@ -40,6 +40,12 @@
 			if(!empty($rsnum)){
 				$row = DB::fetch($sql);
 				foreach($row as $field => $value){
+					switch($field){
+						case "sys_contact":
+						case "sys_footer":
+							$value = CORE::content_handle($value,true);
+						break;
+					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
 			}
@@ -55,6 +61,8 @@
 			CHECK::is_array_exist($_REQUEST["seo_id"]);
 			
 			if(CHECK::is_pass()){
+				$_REQUEST["sys_contact"] = CORE::content_handle($_REQUEST["sys_contact"]);
+				$_REQUEST["sys_footer"] = CORE::content_handle($_REQUEST["sys_footer"]);
 				CRUD::U('ogs_system',$_REQUEST);
 				
 				$seo_field_array = array('seo_id','seo_name','seo_title','seo_keyword','seo_desc','seo_h1','seo_short_desc');

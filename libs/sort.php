@@ -25,10 +25,9 @@
 			$no_prefix_tb_name = preg_replace("/^(ogs_|".CORE::$config["prefix"]."_)/", "", $tb_name,1);
 			switch($no_prefix_tb_name){
 				case "products":
-					$rule = 'products';
-				break;
-				
 				case "products_cate":
+					$rule = $no_prefix_tb_name;
+				break;
 				case "new":
 				case "download":
 				case "agents":
@@ -62,12 +61,28 @@
 			
 			if(CHECK::is_pass()){
 				foreach($id_array as $sort_key => $sort_id){
-					unset($tags);
-					$tags["sort_tag"] = 1;
-					$tags[$field_prefix."_id"] = $sort_id;
-					$tags[$field_prefix."_sort"] = $sort_array[$sort_key];
+					$select = array(
+						'table' => $tb_name,
+						'field' => $field_prefix."_sort",
+						'where' => $field_prefix."_id = '".$sort_id."'",
+						//'order' => "",
+						//'limit' => "",
+					);
 					
-					CRUD::U($tb_name,$tags);
+					$sql = DB::select($select);
+					$rsnum = DB::num($sql);
+					
+					if(!empty($rsnum)){
+						$row = DB::fetch($sql);
+						$sort_tag = ($row[$field_prefix."_sort"] <= $sort_array[$sort_key])?-1:1;
+						
+						unset($tags);
+						$tags["sort_tag"] = $sort_tag;
+						$tags[$field_prefix."_id"] = $sort_id;
+						$tags[$field_prefix."_sort"] = $sort_array[$sort_key];
+						
+						CRUD::U($tb_name,$tags);
+					}
 				}
 			}else{
 				self::$rs = false;
@@ -80,7 +95,7 @@
 			$select = array(
 				'table' => $tb_name,
 				'field' => $field_prefix."c_id",
-				'where' => "sort_tag = '1'",
+				'where' => "sort_tag != '0'",
 				//'order' => "",
 				//'limit' => "",
 			);
@@ -106,10 +121,12 @@
 			}
 		}
 		
+		//---------------------------------------------------------------------------------
+		
 		// 產品排序
 		private static function products($tb_name,$field_prefix){
 			
-			$pc_array = self::cate_get($tb_name,$field_prefix) ;
+			$pc_array = self::cate_get($tb_name,$field_prefix);
 			
 			if($pc_array !== false){
 				foreach($pc_array as $pc_id){
@@ -155,6 +172,90 @@
 				self::$rs = false;
 			}
 		}
+		
+		//---------------------------------------------------------------------------------
+		
+		private static function pc_cate_get($tb_name){
+			
+			$select = array(
+				'table' => $tb_name,
+				'field' => "pc_parent",
+				'where' => "sort_tag != '0'",
+				//'order' => "",
+				//'limit' => "",
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				while($row = DB::fetch($sql)){
+					$cate_array[] = $row["pc_parent"];
+				}
+				
+				CHECK::is_array_exist($cate_array);
+				
+				if(CHECK::is_pass()){
+					$cate_array = array_flip($cate_array);
+					$cate_array = array_flip($cate_array);
+					
+					return $cate_array;
+				}else{
+					self::$rs = false;
+				}
+			}
+		}
+		
+		// 產品分類排序
+		private static function products_cate($tb_name,$field_prefix){
+			
+			$pc_array = self::pc_cate_get($tb_name);
+			
+			if($pc_array !== false){
+				foreach($pc_array as $pc_id){
+					if(!self::$rs){
+						break;
+					}
+					
+					self::pc_sort_handle($tb_name,$pc_id);
+				}
+			}else{
+				self::$rs = false;
+			}
+		}
+		
+		// 處理排序
+		private static function pc_sort_handle($tb_name,$pc_id){
+		
+			$select = array(
+				'table' => $tb_name,
+				'field' => "pc_id",
+				'where' => "pc_parent = '".$pc_id."'",
+				'order' => "pc_sort ".CORE::$config["sort"].",sort_tag desc",
+				//'limit' => "",
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				while($row = DB::fetch($sql)){
+					unset($sort);
+					$sort = array(
+						"pc_id" => $row["pc_id"],
+						"sort_tag" => 0,
+						"pc_sort" => ++$i,
+					);
+					
+					CRUD::U($tb_name,$sort);
+				}
+				
+				self::$rs = true;
+			}else{
+				self::$rs = false;
+			}
+		}
+		
 	}
 	
 

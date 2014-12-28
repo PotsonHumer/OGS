@@ -45,8 +45,8 @@
 				'table' => CORE::$config["prefix"].'_news',
 				'field' => '*',
 				'where' => "n_status = '1' and nc_id = '3'",
-				'order' => 'n_sort '.CORE::$config["sort"],
-				//'limit' => '0,1',
+				'order' => 'n_top desc,n_sort '.CORE::$config["sort"],
+				'limit' => '0,5',
 			);
 		
 			$sql = DB::select($select);

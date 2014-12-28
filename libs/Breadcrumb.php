@@ -173,11 +173,11 @@
 					
 					krsort($nav);
 					
-					// 刪除次分類之後的分類 (益詮特有設定)
+					// 刪除第三層分類之後的分類 (益詮特有設定)
 					foreach($nav as $key => $nav_value_array){
 						++$i;
 						
-						if($i > 2){
+						if($i > 3){
 							unset($nav[$key]);
 						}
 					}

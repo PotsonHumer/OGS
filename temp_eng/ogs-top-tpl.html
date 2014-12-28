@@ -19,6 +19,14 @@
 						</form>
 					</div>
 				</div>
+				
+				<!-- START BLOCK : TAG_AD_BLOCK_3 -->
+				<div id="banner_3">
+					<!-- START BLOCK : TAG_AD_LIST_3 -->
+					<a href="{VALUE_AD_LINK}" style="display: none;"><img src="{VALUE_AD_IMG}" alt="{VALUE_AD_SUBJECT}"></a>
+					<!-- END BLOCK : TAG_AD_LIST_3 -->
+				</div>
+				<!-- END BLOCK : TAG_AD_BLOCK_3 -->
 			</div>
 			
 			<div class="menu" id="menu">
@@ -49,5 +57,17 @@
 				$("#search_btn").click(function(){
 					document.search_form.submit();
 				});
+				
+				//----
+				var B3_NUM = $("#banner_3").find("a").length;
+				
+				if(B3_NUM > 1){
+					var R3 = parseInt(Math.random()*B3_NUM+1); 
+					$("#banner_3 a:eq("+ (R3 - 1) +")").show();
+				}else{
+					$("#banner_3 a").show();
+				}
 			});
 		</script>
+		
+		

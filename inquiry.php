@@ -149,7 +149,7 @@
 		
 		// 儲存詢價
 		private static function send(){
-			CHECK::is_must($_REQUEST["iq_company"],$_REQUEST["iq_name"],$_REQUEST["iq_city"],$_REQUEST["iq_zip"],$_REQUEST["iq_tel"],$_REQUEST["iq_cellphone"],$_REQUEST["iq_content"]);
+			CHECK::is_must($_REQUEST["iq_company"],$_REQUEST["iq_name"],$_REQUEST["iq_city"],$_REQUEST["iq_tel"],$_REQUEST["iq_cellphone"],$_REQUEST["iq_content"]);
 			CHECK::is_array_exist($_SESSION[CORE::$config["sess"]]["inquiry"]);
 			CHECK::is_email($_REQUEST["iq_email"]);
 			
@@ -213,7 +213,7 @@
 			
 			$mail_from = 'no-reply@ogs-system.com.tw';
 			$mail_to = $_SESSION[CORE::$config["sess"]]["system"]["sys_email"];
-			$mail_subject = '詢價發送通知';
+			$mail_subject = '詢價發送通知 '.date("Y/m/d H:i:s");
 			$mail_name = 'OGS Admin system';
 			
 			self::p_load();

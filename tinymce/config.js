@@ -57,7 +57,9 @@
                             mybb: function(e){
                                 e.innerHTML = 'mybb';
                             }
-                        },           
+                        },
+                        
+                        /*           
                         templates : [
                             {
                                 title: "edm01單欄",
@@ -89,7 +91,9 @@
                                 url: "templates/epaper/time.htm",
                                 description: "Adds an editing timestamp."
                             }
-                        ]                                
+                        ]
+                        
+                        */                                
 
 		});
 	}

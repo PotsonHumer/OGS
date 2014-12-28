@@ -17,6 +17,8 @@
 			self::download_list();
 			self::new_products_list();
 			AD::ad_list();
+			AD::ad_list(3);
+			AD::ad_list(4);
 			
 			new VIEW("ogs-index-tpl.html",$temp_option,false,false);
 		}

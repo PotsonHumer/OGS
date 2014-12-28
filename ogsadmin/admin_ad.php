@@ -103,7 +103,7 @@
 						"VALUE_ADC_SUBJECT" => CORE::$config["ad_cate"][$row["ad_cate"]],
 						"VALUE_AD_SUBJECT" => $row["ad_subject"],
 						"VALUE_AD_SORT" => $row["ad_sort"],
-						"VALUE_AD_STATUS" => ($row["ad_status"])?'開啟':'關閉',
+						"VALUE_AD_STATUS" => ($row["ad_status"])?'開啟':'<span class="red">關閉</span>',
 						"VALUE_AD_IMG" => CRUD::img_handle($row["ad_img"]),
 					));
 				}

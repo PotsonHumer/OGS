@@ -227,7 +227,7 @@
 						"VALUE_IT_GROUP" => ($ig_name)?$ig_name:'無',
 						"VALUE_IT_SUBJECT" => $row["it_subject"],
 						"VALUE_IT_SORT" => $row["it_sort"],
-						"VALUE_IT_STATUS" => ($row["it_status"])?'開啟':'關閉',
+						"VALUE_IT_STATUS" => ($row["it_status"])?'開啟':'<span class="red">關閉</span>',
 					));
 				}
 			}else{

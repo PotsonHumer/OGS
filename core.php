@@ -24,13 +24,20 @@
 		public static function permanent(){
 			self::$db = new DB(self::$config["connect"]);
 			self::res_init('default','js');
-			self::res_init('get','box');
+			self::res_init('fix','get','scroll','box');
 			self::system_load();
 			EXHIBITION::side_list();
+			AD::ad_list(2);
+			AD::ad_list(3);
 			
 			INTRO::submenu();
 			PRODUCTS::show(false,true);
 			//LANG::lang_fetch();
+			
+			VIEW::assignGlobal(array(
+				"TAG_SYS_CONTACT" => self::content_handle($_SESSION[CORE::$config["sess"]]["system"]["sys_contact"],true),
+				"TAG_SYS_FOOTER" => self::content_handle($_SESSION[CORE::$config["sess"]]["system"]["sys_footer"],true),
+			));
 		}
 		
 		// 定義當前目錄位置

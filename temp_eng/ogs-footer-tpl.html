@@ -13,13 +13,7 @@
 			</div>
 			
 			<div class="footer-info">
-				<address>
-					Address : No. 3-1, Gongye 18th Rd, (Da-Li Industry Park) Taiping District 41154, Taichung City, Taiwan<br>
-					TEL : 886-4-22710856 | FAX : 886-4-22710857<br>
-					E-mail : <a href="mailto:echainsale@gmail.com">echainsale@gmail.com</a> | <a href="http://www.echaintool.com" target="_blank">http://www.echaintool.com</a>
-				</address>
-				<div class="copyright">COPYRIGHT &copy; 2014 <span>ECHAINTOOL INDUSTRY CO., LTD. All Rights Reserved</span></div>
-				<div class="iso">ISO9001：2008(CNS 12681)</div>
+				{TAG_SYS_FOOTER}
 				<a href="#"><img src="{TAG_IMAGE_PATH}subscribe.png" alt=""/></a><br>
 				<div class="subscribe">Email Maketing Services by Benchmark<span class="contact"><a href="{TAG_ROOT_PATH}contact/">Contact Us</a></span></div>
 			</div>
@@ -31,3 +25,15 @@
 			</div><div class="clear"></div>
 		</div>
 	</div>
+
+	<div id="top_btn"><a href="#document">TOP</a></div>
+	
+	<script>
+		$(function(){
+			$(document).scroll_box({
+				ACT_TIMER : 1000, //動作花費時間
+			}, function(DATA){
+				//callback
+			});
+		});
+	</script>

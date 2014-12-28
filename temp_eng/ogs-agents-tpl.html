@@ -7,19 +7,19 @@
 		
 		<h2><span>OVERSEA</span> AGENCY</h2>
 		<div id="Tabs1">
-			<ul>
+			<ul id="page_nav">
 				<!-- START BLOCK : TAG_ZONE_LIST -->
-				<li><a href="#tabs-{VALUE_ZONE_ROW}">{VALUE_ZONE_NAME}</a></li>
+				<li class="tab_title">{VALUE_ZONE_NAME}</li>
 				<!-- END BLOCK : TAG_ZONE_LIST -->
 			</ul>
 			
 			<!-- START BLOCK : TAG_AGENTS_BLOCK -->
-			<div id="tabs-{VALUE_AG_ROW}">
+			<div id="tabs-{VALUE_AG_ROW}" class="tab">
 				<p>
 					<div class="agent">
 						
 						<!-- START BLOCK : TAG_AGENTS_LIST -->
-						{VALUE_AGC_COUNTRY}
+						{VALUE_AGC_IMG}{VALUE_AGC_COUNTRY}
 						
 						<div class="agent-info">
 							<h4>{VALUE_AG_SUBJECT}</h4>
@@ -45,6 +45,11 @@
 
 <script>
 	$(function(){
-		$( "#Tabs1" ).tabs(); 
+		//$( "#Tabs1" ).tabs(); 
+		
+		$("#Tabs1").tab_box({
+			TITLE : false, //自動生成頁籤 , true => 啟動 , false => 停用
+			AFTER :  function() {  }, // 動作後執行擴充			
+		});		
 	});
 </script>

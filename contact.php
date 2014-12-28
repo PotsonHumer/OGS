@@ -52,7 +52,7 @@
 		
 		// 紀錄表單
 		protected static function add(){
-			CHECK::is_must($_REQUEST["ct_company"],$_REQUEST["ct_name"],$_REQUEST["ct_city"],$_REQUEST["ct_zip"],$_REQUEST["ct_tel"],$_REQUEST["ct_cellphone"],$_REQUEST["ct_email"],$_REQUEST["ct_content"]);
+			CHECK::is_must($_REQUEST["ct_company"],$_REQUEST["ct_name"],$_REQUEST["ct_city"],$_REQUEST["ct_tel"],$_REQUEST["ct_cellphone"],$_REQUEST["ct_email"],$_REQUEST["ct_content"]);
 			
 			if(CHECK::is_pass()){
 				$input = $_REQUEST;
@@ -131,7 +131,7 @@
 			
 			$mail_from = 'no-reply@ogs-system.com.tw';
 			$mail_to = $_SESSION[CORE::$config["sess"]]["system"]["sys_email"];
-			$mail_subject = '聯絡我們發送通知';
+			$mail_subject = '聯絡我們發送通知 '.date("Y/m/d H:i:s");
 			$mail_name = 'OGS Admin system';
 			
 			foreach($input as $field => $value){

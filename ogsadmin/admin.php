@@ -67,7 +67,7 @@
 				$oa_status = '啟動';
 				$oa_hide = 'TAG_HIDE_OPEN';
 			}else{
-				$oa_status = '關閉';
+				$oa_status = '<span class="red">關閉</span>';
 				$oa_hide = 'TAG_HIDE_CLOSE';
 			}
 			

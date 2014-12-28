@@ -131,7 +131,7 @@
 						"VALUE_NC_ID" => $row["nc_id"],
 						"VALUE_NC_SUBJECT" => $row["nc_subject"],
 						"VALUE_NC_SORT" => $row["nc_sort"],
-						"VALUE_NC_STATUS" => ($row["nc_status"])?'開啟':'關閉',
+						"VALUE_NC_STATUS" => ($row["nc_status"])?'開啟':'<span class="red">關閉</span>',
 					));
 				}
 			}else{
@@ -342,7 +342,7 @@
 						"VALUE_NC_SUBJECT" => $row["nc_subject"],
 						"VALUE_N_SUBJECT" => $row["n_subject"].$top_str,
 						"VALUE_N_SORT" => $row["n_sort"],
-						"VALUE_N_STATUS" => ($row["n_status"])?'開啟':'關閉',
+						"VALUE_N_STATUS" => ($row["n_status"])?'開啟':'<span class="red">關閉</span>',
 						"VALUE_N_IMG" => CRUD::img_handle($row["n_img"]),
 					));
 				}

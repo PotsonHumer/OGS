@@ -5,13 +5,25 @@ a {text-decoration:none;}
 .clear{clear:both;}
 
 #container{width:1000px; margin:auto;}
-#header{background:url(../images/header_bg.jpg) no-repeat center top; height:150px; width:100%; position:relative;}
+#header{height:150px; width:100%; position:relative;}
 .logo{position:absolute; top:6.6666%; left:1%;}
 #header .contact{background:url(../images/contact_bg.png) no-repeat; width:110px; height:20px; text-align:center; line-height:20px; position:absolute; top:24px; left:230px; margin:30px 10px;}
 .header-right{text-align:right; margin:26px 4px 0 0;}
 .cart img{vertical-align:middle;}
 #header .contact a{color:#000;}
 .header-right{float:right;}
+
+#banner_3{
+	position: absolute;
+	top: 0;
+	right: 180px;
+}
+
+.search,.language,.cart{
+	position: relative;
+	z-index: 1;
+}
+
 .menu{
   border-radius: 5px; font-size:16px;
   background-image: -moz-linear-gradient( 90deg, rgb(43,107,183) 1%, rgb(43,107,183) 57%, rgb(25,70,130) 100%);
@@ -69,14 +81,19 @@ a {text-decoration:none;}
 .content{width:65%; float:left; padding:20px 10px 20px 10px;}
 .title{border-bottom:#CCC 1px solid; margin:10px 0px;}
 .news, .certificate {padding:10px 20px;}
+.certificate p img{
+	width: 140px;
+}
+
 .download {background:#EEE; border-radius:10px; padding:10px 20px;}
 .news li, .download li{border-bottom:#CCC 1px dotted; padding-bottom:4px; margin:4px 0px;}
-.download li{height:30px; overflow:hidden; line-height:30px;}
+.download li{height:20px; overflow:hidden; line-height:20px;}
 .news .pic {float:left; width:50px; text-align:right;}
 .download .pic{float:left; width:60px; text-align:right;}
 .pic img{margin-right:4px;}
 .news li a, .download li a{}
 .share{float:right;}
+.download_tag{width: 15px;}
 
 .exhibition li{margin:6px 0px 6px 10px;}
 
@@ -104,6 +121,40 @@ a {text-decoration:none;}
 .smo li{float:left;}
 .smo li.text{padding:18px 4px 0 0;}
 .iso-logo{position:absolute; top:50px; left:370px;}
+
+.catalog-list{
+	display: inline-block;
+	vertical-align: top;
+}
+
+/* TOP_BTN */
+#top_btn{
+	position: fixed;
+	right: 0;
+	bottom: 5%;
+	width: 45px;
+	height: 40px;
+	background: #2B6BB7;
+	border-radius: 5px 0 0 5px;
+	text-align: center;
+	line-height: 40px;
+	box-shadow: 1px 2px 5px #333;
+	border: 1px solid #EEE;
+}
+
+#top_btn a{
+	display: block;
+	color: #EEE;
+}
+
+#top_btn:hover{
+	background: #0081C2;
+}
+
+#top_btn:hover a{
+	color: #FFF;
+}
+
 
 @media screen and (min-width:800px) and (max-width:999px) {
 	body{background:#FFF url(none);}

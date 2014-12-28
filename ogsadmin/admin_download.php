@@ -131,7 +131,7 @@
 						"VALUE_DC_ID" => $row["dc_id"],
 						"VALUE_DC_SUBJECT" => $row["dc_subject"],
 						"VALUE_DC_SORT" => $row["dc_sort"],
-						"VALUE_DC_STATUS" => ($row["dc_status"])?'開啟':'關閉',
+						"VALUE_DC_STATUS" => ($row["dc_status"])?'開啟':'<span class="red">關閉</span>',
 					));
 				}
 			}else{
@@ -319,7 +319,7 @@
 						"VALUE_DC_SUBJECT" => $row["dc_subject"],
 						"VALUE_D_SUBJECT" => $row["d_subject"].$top_str,
 						"VALUE_D_SORT" => $row["d_sort"],
-						"VALUE_D_STATUS" => ($row["d_status"])?'開啟':'關閉',
+						"VALUE_D_STATUS" => ($row["d_status"])?'開啟':'<span class="red">關閉</span>',
 						"VALUE_D_IMG" => CRUD::img_handle($row["d_img"]),
 					));
 				}

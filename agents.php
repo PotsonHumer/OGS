@@ -22,6 +22,7 @@
 			
 			CORE::res_init('jQueryAssets/jquery.ui.core.min','jQueryAssets/jquery.ui.theme.min','jQueryAssets/jquery.ui.tabs.min','css');
 			CORE::res_init('jQueryAssets/jquery.ui-1.10.4.tabs.min','js');
+			CORE::res_init('tab','box');
 			new VIEW("ogs-hull-tpl.html",$temp_option,false,false);
 		}
 		
@@ -48,12 +49,14 @@
 						VIEW::assign("VALUE_AG_ROW",++$i);
 					}
 					
+					$agc_img = (!empty($row["agc_img"]))?'<img class="h2_img" src="'.$row["agc_img"].'" style="height: 24px; margin-bottom: 10px;">':'';
+					
 					VIEW::newBlock("TAG_AGENTS_LIST");
 					VIEW::assign(array(
 						"VALUE_AG_SUBJECT" => $row["ag_subject"],
 						"VALUE_AG_CONTENT" => CORE::content_handle($row["ag_content"],true),
-						"VALUE_AGC_COUNTRY" => ($last_gac_id != $row["agc_id"])?'<h3>'.$row["agc_subject"].'</h3>':'',
-						
+						"VALUE_AGC_COUNTRY" => ($last_gac_id != $row["agc_id"])?'<h3>'.$agc_img.$row["agc_subject"].'</h3>':'',
+						//"VALUE_AGC_IMG" => '<img src="'.$row["agc_img"].'" height="24" style="display: inline-block;">',
 					));
 					
 					$last_zone_id = $row["zone_id"];

@@ -146,7 +146,7 @@
 						"VALUE_AGC_ID" => $row["agc_id"],
 						"VALUE_AGC_SUBJECT" => $row["agc_subject"],
 						"VALUE_AGC_SORT" => $row["agc_sort"],
-						"VALUE_AGC_STATUS" => ($row["agc_status"])?'開啟':'關閉',
+						"VALUE_AGC_STATUS" => ($row["agc_status"])?'開啟':'<span class="red">關閉</span>',
 					));
 				}
 			}else{
@@ -266,6 +266,7 @@
 				}
 				
 				// 執行 replace
+				$_REQUEST["agc_img"] = CRUD::img_handle($_REQUEST["agc_img"]);
 				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){
@@ -347,7 +348,7 @@
 						"VALUE_AGC_SUBJECT" => $row["agc_subject"],
 						"VALUE_AG_SUBJECT" => $row["ag_subject"],
 						"VALUE_AG_SORT" => $row["ag_sort"],
-						"VALUE_AG_STATUS" => ($row["ag_status"])?'開啟':'關閉',
+						"VALUE_AG_STATUS" => ($row["ag_status"])?'開啟':'<span class="red">關閉</span>',
 					));
 				}
 			}else{

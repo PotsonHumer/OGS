@@ -8,7 +8,14 @@
 		
 		<!-- INCLUDE BLOCK : TOP -->
 		
-		<div class="banner"><img src="{TAG_IMAGE_PATH}banner.jpg" /></div>
+		<!-- START BLOCK : TAG_AD_BLOCK_2 -->
+		<div class="banner">
+			<!-- START BLOCK : TAG_AD_LIST_2 -->
+			<a href="{VALUE_AD_LINK}"><img class="inner_banner" src="{VALUE_AD_IMG}" alt="{VALUE_AD_SUBJECT}" style="display: none;" /></a>
+			<!-- END BLOCK : TAG_AD_LIST_2 -->
+		</div>
+		<!-- END BLOCK : TAG_AD_BLOCK_2 -->
+		
 		<div class="breadcrumbs">{TAG_LAYER}</div>
 		
 		<!-- INCLUDE BLOCK : MAIN -->
@@ -24,6 +31,16 @@
 <script>
 	$(function(){
 		$('#menu').slicknav();
+		
+		//----
+		var B_NUM = $(".inner_banner").length;
+		
+		if(B_NUM > 1){
+			var R = parseInt(Math.random()*B_NUM+1); 
+			$(".inner_banner:eq("+ (R - 1) +")").show();
+		}else{
+			$(".inner_banner").show();
+		}
 	});
 </script>
 

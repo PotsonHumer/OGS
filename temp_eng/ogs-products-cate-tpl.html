@@ -3,7 +3,17 @@
 	<div class="min-height">
 		{VALUE_SEO_SHORT_DESC}
 		
-		<form name="inquiry_form" action="{TAG_ROOT_PATH}inquiry/add/" method="post">
+		<!-- START BLOCK : TAG_PC_NAV -->
+		<ul id="page_nav">
+			<!-- START BLOCK : TAG_PC_NAV_LIST -->
+			<li {VALUE_PC_CURRENT}><a href="{VALUE_PC_LINK}">{VALUE_PC_NAME}</a></li>
+			<!-- END BLOCK : TAG_PC_NAV_LIST -->
+		</ul>
+		<!-- END BLOCK : TAG_PC_NAV -->
+		
+		{VALUE_PC_CUSTOM}
+		
+		<form name="inquiry_form" action="{TAG_ROOT_PATH}inquiry/add/" method="post" >
 		
 			<!-- START BLOCK : TAG_P_LIST -->
 			{TAG_PC_NAME}

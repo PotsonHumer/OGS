@@ -25,7 +25,7 @@
 					VIEW::assign(array(
 						"VALUE_AD_SUBJECT" => $row["ad_subject"] ,
 						"VALUE_AD_IMG" => $row["ad_img"],
-						"VALUE_AD_LINK" => $row["ad_link"],
+						"VALUE_AD_LINK" => (!empty($row["ad_link"]))?$row["ad_link"]:'#',
 					));
 				}
 			}

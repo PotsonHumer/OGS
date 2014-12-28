@@ -37,7 +37,7 @@
 			new VIEW("ogs-hull-tpl.html",$temp_option,false,false);
 		}
 		
-		// 主分類列表
+		// 列表
 		public static function show($cate=2){
 			$select = array(
 				'table' => CORE::$config["prefix"].'_news',
@@ -71,17 +71,21 @@
 						VIEW::assign("VALUE_".strtoupper($field),$value);
 					}
 					
+					$exposec = strtotime($row["n_expoend"]) - strtotime($row["n_expostart"]);
+					$expodays = ($exposec / 60 / 60 / 24);
+					
 					new SEO($row["seo_id"],false);
 					$link_pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row['n_id'];
 					VIEW::assign(array(
 						"VALUE_N_LINK" => CORE::$lang.'news/detail/'.$link_pointer,
 						"VALUE_N_ROW" => ++$i,
+						"VALUE_N_EXPODAYS" => $expodays,
 					));
 				}
 			}
 		}
 
-		// 產品詳細頁
+		// 詳細頁
 		public static function detail(){
 
 			if(self::$seo){
@@ -112,6 +116,14 @@
 					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
+				
+				$exposec = strtotime($row["n_expoend"]) - strtotime($row["n_expostart"]);
+				$expodays = ($exposec / 60 / 60 / 24);
+				
+				VIEW::assignGlobal(array(
+					"VALUE_N_EXPODAYS" => $expodays,
+					"VALUE_N_EXPO_HIDE" => (empty($exposec))?'style="display: none;"':'',
+				));
 			}
 		}
 		
