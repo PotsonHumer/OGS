@@ -63,15 +63,27 @@
 					));
 					
 					if(!empty($row["d_file"])){
-						VIEW::newBlock("TAG_FILE_BLOCK");
-						
 						$file_array = unserialize($row["d_file"]);
+						unset($d);
+						
+						
+						if(count($file_array) > 1){
+							VIEW::newBlock("TAG_FILE_BLOCK");
+						}
+						
 						foreach($file_array as $file_name => $file_path){
-							VIEW::newBlock("TAG_FILE_LIST");
-							VIEW::assign(array(
-								"VALUE_D_FILE_NAME" => $file_name,
-								"VALUE_D_FILE" => CRUD::img_handle($file_path),
-							));
+							
+							if(++$d > 1){
+								VIEW::newBlock("TAG_FILE_LIST");
+								VIEW::assign(array(
+									"VALUE_D_FILE_NAME" => $file_name,
+									"VALUE_D_FILE" => CRUD::img_handle($file_path),
+								));
+							}
+							
+							if($d == 1){
+								VIEW::assignGlobal("VALUE_D_FILE_FIRST",CRUD::img_handle($file_path));
+							}
 						}
 					}
 				}

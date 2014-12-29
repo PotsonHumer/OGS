@@ -82,7 +82,7 @@
 						VIEW::assign("VALUE_".strtoupper($field),$value);
 						
 						if($field == "p_s_img" && empty($row[$field])){
-							VIEW::assign("VALUE_".strtoupper($field),CORE::$config["img"].'no-thumb.jpg');
+							VIEW::assign("VALUE_".strtoupper($field),CORE::$config["noimg"]);
 						}
 					}
 										

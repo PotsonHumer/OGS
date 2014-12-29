@@ -6,6 +6,7 @@
 	
 	// 初始路徑
 	$config["img"] = $config["root"].'images/'; // 圖片路徑
+	$config["noimg"] = $config["img"].'no-thumb.jpg'; // 預設圖片路徑
 	$config["css"] = $config["root"].'css/'; // css 路徑
 	$config["js"] = $config["root"].'js/'; // js 路徑
 	$config["file"] = $config["root"].'file/'; // 檔案路徑
@@ -66,7 +67,7 @@
 	$config["ad_cate"] = array(
 		1 => '首頁 Banner',
 		2 => '內頁 Banner',
-		3 => '首頁上方圖示',
+		3 => '上方圖示',
 		4 => '首頁型錄連結',
 	);
 	############

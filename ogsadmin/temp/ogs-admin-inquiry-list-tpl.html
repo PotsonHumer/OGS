@@ -11,6 +11,13 @@
 				<a href="#" class="span all"><span class="icon-square-check">全選 / 取消全選</span></a>
 				<a href="#" class="func span" rel="{TAG_MANAGE_PATH}admin_inquiry/del/"><span class="icon-cross">刪除</span></a>
 			</td>
+			<td class="right">
+				<label>輸出 Excel</label>
+				<input type="text" name="startdate" rel="date" size="100">
+				~
+				<input type="text" name="enddate" rel="date" size="100">
+				<input type="button" name="output_btn" value="輸出">
+			</td>
 		</tr>
 	</table>
 	
@@ -49,3 +56,11 @@
 </form>
 
 <hr>
+
+<script>
+	$(function(){
+		$("input[name=output_btn]").click(function(){
+			$("form[name=func_form]").attr("action","{TAG_MANAGE_PATH}admin_inquiry/output/").submit();
+		});
+	});
+</script>

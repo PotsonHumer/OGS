@@ -4,7 +4,7 @@ RewriteEngine On
 
 RewriteRule ^(phpmyadmin|filemanager)([^*]+)$  $1$2 [L]
 #RewriteRule ^404.html$  404.htm [L]
-RewriteRule ^([^*]+).(css|js|jpg|png|gif|pdf|eot|svg|ttf|woff)$  $1.$2 [L]
+RewriteRule ^([^*]+).(css|js|jpg|png|gif|pdf|eot|svg|ttf|woff|xls)$  $1.$2 [L]
 RewriteRule ^([^*]+)$  router.php [L]
 
 ErrorDocument 404 /404.html

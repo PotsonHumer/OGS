@@ -18,6 +18,10 @@
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-inquiry-detail-tpl.html');
 					self::inquiry_detail($args);
 				break;
+				case "output":
+					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
+					self::output();
+				break;
 				default:
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-inquiry-list-tpl.html');
 					self::inquiry_list();
@@ -167,6 +171,131 @@
 		
 		//--------------------------------------------------------------------------------------
 		
+		// Excel輸出
+		function output(){
+			
+			$sql_str = "SELECT * FROM ogs_inquiry_items as iqi 
+						left join ogs_inquiry as iq on iq.iq_id = iqi.iq_id 
+						WHERE iq.iq_createdate >= '".$_REQUEST["startdate"]."' and iq.iq_createdate <= '".$_REQUEST["enddate"]."' 
+						ORDER BY iq.iq_createdate asc";
+
+			$sql = DB::select(false,$sql_str);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				
+				$xls = new PHPExcel();
+				
+				//宣告工作表
+				$xls->setActiveSheetIndex(0);
+
+				$xls->getActiveSheet()
+					->setTitle("產品詢價資料") //頁籤名稱
+					->setCellValue('A1', 'No.')
+					->setCellValue('B1', '詢價產品名稱')
+					->setCellValue('C1', '詢價數量')
+					->setCellValue('D1', '名稱')
+					->setCellValue('E1', '公司名稱')
+					->setCellValue('F1', '職務')
+					->setCellValue('G1', '電話')
+					->setCellValue('H1', '行動電話')
+					->setCellValue('I1', '傳真')
+					->setCellValue('J1', '城市')
+					->setCellValue('K1', '郵遞區號')
+					->setCellValue('L1', '地址')
+					->setCellValue('M1', '國家')
+					->setCellValue('N1', 'E-mail')
+					->setCellValue('O1', '網址')
+					->setCellValue('P1', '內容')
+					->setCellValue('Q1', '聯絡方式')
+					->setCellValue('R1', '紀錄時間')
+					;
+	
+				$xls->getActiveSheet()->getColumnDimension('A')->setWidth(5);
+				$xls->getActiveSheet()->getColumnDimension('B')->setWidth(30);
+				$xls->getActiveSheet()->getColumnDimension('C')->setWidth(10);
+				$xls->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+				$xls->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+				$xls->getActiveSheet()->getColumnDimension('F')->setWidth(20);
+				$xls->getActiveSheet()->getColumnDimension('G')->setWidth(20);
+				$xls->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+				$xls->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+				$xls->getActiveSheet()->getColumnDimension('J')->setWidth(10);
+				$xls->getActiveSheet()->getColumnDimension('K')->setWidth(10);
+				$xls->getActiveSheet()->getColumnDimension('L')->setWidth(40);
+				$xls->getActiveSheet()->getColumnDimension('M')->setWidth(20);
+				$xls->getActiveSheet()->getColumnDimension('N')->setWidth(30);
+				$xls->getActiveSheet()->getColumnDimension('O')->setWidth(20);
+				$xls->getActiveSheet()->getColumnDimension('P')->setWidth(40);
+				$xls->getActiveSheet()->getColumnDimension('Q')->setWidth(20);
+				$xls->getActiveSheet()->getColumnDimension('R')->setWidth(20);
+				$xls->getActiveSheet()->getStyle('A1:R1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+				
+				$xls->getActiveSheet()->getStyle('A1:R1')->getFill()
+					->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+					->getStartColor()->setRGB('00B0F0');
+					
+				$xls->getActiveSheet()->getStyle('A1:R1')->getFont()->getColor()->setRGB('FFFFFF');
+				
+				$i = 1;
+				while($row = DB::fetch($sql)){
+					$i++;
+					
+					$select = array (
+						'table' => $row["iqi_lang"].'_products',
+						'field' => "*",
+						'where' => "p_id = '".$row["p_id"]."'",
+						//'order' => '',
+						//'limit' => '',
+					);
+					
+					$p_sql = DB::select($select);
+					$p_row = DB::fetch($p_sql);
+					
+					$xls->getActiveSheet()
+						->setTitle("產品詢價資料") //頁籤名稱
+						->setCellValue('A'.$i, ($i - 1))
+						->setCellValueExplicit('B'.$i, $p_row["p_name"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('C'.$i, $row["iqi_num"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('D'.$i, $row["iq_name"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('E'.$i, $row["iq_company"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('F'.$i, $row["iq_position"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('G'.$i, $row["iq_tel"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('H'.$i, $row["iq_cellphone"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('I'.$i, $row["iq_fax"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('J'.$i, $row["iq_city"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('K'.$i, $row["iq_zip"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('L'.$i, $row["iq_address"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('M'.$i, $row["iq_country"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('N'.$i, $row["iq_email"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('O'.$i, $row["iq_url"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('P'.$i, $row["iq_content"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('Q'.$i, $row["iq_contact"], PHPExcel_Cell_DataType::TYPE_STRING)
+						->setCellValueExplicit('R'.$i, $row["iq_createdate"], PHPExcel_Cell_DataType::TYPE_STRING)
+						;
+						
+					$xls->getActiveSheet()->getStyle('A'.$i.':R'.$i)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+				}
+				
+				$output_status = true;
+				
+				//輸出
+				if($output_status){
+					$xls->setActiveSheetIndex(0);
+					
+					$savefilename = iconv("utf8","big5","inquiry-".date("Y-m-d").".xls");
+					header('Content-Type: application/vnd.ms-excel');
+					header("Content-Disposition: attachment;filename=\"".$savefilename."\"");
+					header('Cache-Control: max-age=0');
+	
+					$objWriter = PHPExcel_IOFactory::createWriter($xls, 'Excel5');
+					$objWriter->save('php://output');
+				}
+			}else{
+				CORE::notice('查無資料',$_SESSION[CORE::$config["sess"]]['last_path']);
+			}
+		}
+				
 	}
 
 ?>

@@ -157,6 +157,7 @@
 				$input = $_REQUEST;
 				
 				$input["iq_content"] = addslashes(htmlspecialchars($input["iq_content"]));
+				$input["iq_createdate"] = date("Y-m-d");
 				$match_input = CRUD::field_match('ogs_inquiry',$input);
 				
 				DB::insert('ogs_inquiry',$match_input);

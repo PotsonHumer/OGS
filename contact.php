@@ -72,6 +72,7 @@
 				}
 				
 				$input["ct_content"] = addslashes(htmlspecialchars($input["ct_content"]));
+				$input["ct_createdate"] = date("Y-m-d");
 				$match_input = CRUD::field_match('ogs_contact',$input);
 				
 				DB::insert('ogs_contact',$match_input);

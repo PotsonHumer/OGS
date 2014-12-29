@@ -154,6 +154,11 @@
 				while($row = DB::fetch($sql)){
 					VIEW::newBlock("TAG_P_LIST");
 					foreach($row as $field => $value){
+						switch($field){
+							case "p_s_img":
+								$value = (!empty($value))?$value:CORE::$config["noimg"];
+							break;
+						}
 						VIEW::assign("VALUE_".strtoupper($field),$value);
 					}
 					
@@ -371,7 +376,7 @@
 						
 						VIEW::newBlock("TAG_RELATE_LIST");
 						VIEW::assign(array(
-							//"VALUE_P_NAME" => $row["p_name"],
+							"VALUE_P_NAME" => $row["p_name"],
 							"VALUE_P_IMG" => CRUD::img_handle($row["p_s_img"]),
 							"VALUE_P_LINK" => CORE::$lang.'products/detail/'.$pointer,
 						));

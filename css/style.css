@@ -351,6 +351,14 @@ ul.search-list li a:hover{color:#FFF; background:#999;}
 	.min-height{min-height:inherit; text-align:center;}
 	.list{float:none;}
 	.nav li { width:100%;}
+	#banner_3{
+		right: -180px;
+	}
+	.iso-logo{
+		position: absolute;
+		top: 0;
+		left: 50px;
+	}
 }
 
 
@@ -414,13 +422,26 @@ ul.search-list li a:hover{color:#FFF; background:#999;}
 }
 
 .application a{
+	position: relative;
 	border:#ccc 3px solid;
-	margin:10px 3px;
+	margin:10px 3px 20px 3px;
 	border-radius:5px;
 	display: block;
 	width: 156px;
 	height: 156px;
 	float: left;
+}
+
+.application a span{
+	position: absolute;
+	display: block;
+	bottom: -25px;
+	width: 100%;
+	text-align: center;
+}
+
+.application a:hover span{
+	color: #2B6BB7;
 }
 
 /* TAB */
@@ -474,13 +495,16 @@ ul.search-list li a:hover{color:#FFF; background:#999;}
 /* PAGE_NAV */
 #page_nav{
 	height: auto;
-	border-bottom: 1.5px solid #2B6BB7;
+	border-bottom: 1.5px solid #a3238e;
 	box-shadow: -1px 2px 3px #CCC;
 }
 
 #page_nav li{
+	border-top: 1px solid #CCC;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
 	border-radius: 5px 5px 0 0;
-	background: #CCC;
+	background: #FFF;
 	margin: 0;
 }
 
@@ -489,7 +513,7 @@ ul.search-list li a:hover{color:#FFF; background:#999;}
 }
 
 #page_nav li:hover,#page_nav li.current{
-	background: #2B6BB7;
+	background: #a3238e;
 }
 
 #page_nav li:hover a,#page_nav li.current a,#page_nav li.current,#page_nav li:hover{
@@ -538,7 +562,7 @@ ul.search-list li a:hover{color:#FFF; background:#999;}
 /* BTN */
 .btn{
 	display: inline-block;
-	background: #2B6BB7;
+	background: #a3238e;
 	padding: 3px 10px;
 	color: #EEE;
 }
@@ -559,11 +583,11 @@ ul.search-list li a:hover{color:#FFF; background:#999;}
 	bottom: 5%;
 	width: 45px;
 	height: 40px;
-	background: #2B6BB7;
-	border-radius: 10px;
+	background: #a3238e;
+	border-radius: 5px 0 0 5px;
 	text-align: center;
 	line-height: 40px;
-	box-shadow: 1px 1px 5px #333;
+	box-shadow: 1px 2px 5px #333;
 	border: 1px solid #EEE;
 }
 
