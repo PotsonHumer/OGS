@@ -70,7 +70,7 @@ a {text-decoration:none; border:none;}
 
 .breadcrumbs{background:url(../images/home.gif) no-repeat #E5E5E5 14px 7px; padding:6px 0px; padding-left:30px}
 .content{width:65%; float:left; padding:20px 10px 20px 10px; font-size:13px; line-height:24px;}
-h1{border-bottom:#CCC 1px solid; font-size:25px; background:url(../images/h1_bg.jpg) no-repeat; line-height:40px; padding-left:46px; text-transform:uppercase;}
+h1{border-bottom:#CCC 1px solid; font-size:25px; background:url(../images/h1_bg.jpg) no-repeat; line-height:40px; padding-left:46px; /*text-transform:uppercase;*/}
 .company { background:url(../images/content_bg.jpg) no-repeat center top;}
 .company h3{font-size:18px; font-family:"Times New Roman"; padding:6px 20px; margin:0px; font-weight:bold;}
 .company .article{margin:0px 30px;}

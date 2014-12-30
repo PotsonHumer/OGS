@@ -164,7 +164,8 @@
 					
 					if($last_pc_id != $row["pc_id"]){
 						$pc_img_str = (!empty($row["pc_img"]))?'<img class="h2_img" src="'.CRUD::img_handle($row["pc_img"]).'">':'';
-						VIEW::assign("TAG_PC_NAME",'<h2>'.$pc_img_str.$row["pc_name"].'</h2>');
+						//VIEW::assign("TAG_PC_NAME",'<h2>'.$pc_img_str.$row["pc_name"].'</h2>');
+						VIEW::assign("TAG_PC_NAME",'<h2>　</h2>');
 					}
 					
 					new SEO($row["seo_id"],false);

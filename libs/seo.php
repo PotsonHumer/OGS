@@ -50,6 +50,7 @@
 			
 			if(CHECK::is_must($args["seo_id"])){
 				$args["seo_short_desc"] = CORE::content_handle($args["seo_short_desc"]);
+				$args["seo_file_name"] = self::seo_file_name_check($args["seo_file_name"],$args["seo_id"]);
 				CRUD::U(CORE::$config["prefix"].'_seo',$args);
 				$return_args = true;
 			}else{
@@ -59,6 +60,7 @@
 				
 				$new_args = CRUD::field_match(CORE::$config["prefix"].'_seo',$args);
 				$new_args["seo_short_desc"] = CORE::content_handle($new_args["seo_short_desc"]);
+				$new_args["seo_file_name"] = self::seo_file_name_check($new_args["seo_file_name"]);
 				DB::insert($tb_seo,$new_args);
 				//CRUD::C(CORE::$config["prefix"].'_seo',$args);
 
@@ -78,6 +80,29 @@
 				return true;
 			}else{
 				return false;
+			}
+		}
+		
+		// 檢查 seo_file_name 有無重複
+		private static function seo_file_name_check($seo_file_name,$seo_id=false){
+			
+			$where = (!empty($seo_id))?" and seo_id != '".$seo_id."'":'';
+			
+			$select = array(
+				'table' => CORE::$config["prefix"].'_seo',
+				'field' => "seo_file_name",
+				"where" => "seo_file_name != '' and seo_file_name = '".$seo_file_name."'".$where,
+				//"order" => "",
+				//"limit" => "",
+			);
+			
+			$sql = DB::select($select);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				return $seo_file_name.'-repeat';
+			}else{
+				return $seo_file_name;
 			}
 		}
 		
