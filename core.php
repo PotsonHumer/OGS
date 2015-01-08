@@ -34,9 +34,11 @@
 			PRODUCTS::show(false,true);
 			//LANG::lang_fetch();
 			
+			$skype_account = SESS::get('system','sys_skype');
 			VIEW::assignGlobal(array(
-				"TAG_SYS_CONTACT" => self::content_handle($_SESSION[CORE::$config["sess"]]["system"]["sys_contact"],true),
-				"TAG_SYS_FOOTER" => self::content_handle($_SESSION[CORE::$config["sess"]]["system"]["sys_footer"],true),
+				"TAG_SYS_CONTACT" => self::content_handle(SESS::get('system','sys_contact'),true),
+				"TAG_SYS_FOOTER" => self::content_handle(SESS::get('system','sys_footer'),true),
+				"TAG_SYS_SKYPE" => (!empty($skype_account))?'skype:'.$skype_account.'?chat':'#',
 			));
 		}
 		

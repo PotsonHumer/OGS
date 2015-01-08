@@ -16,7 +16,16 @@
 		<form name="inquiry_form" action="{TAG_ROOT_PATH}inquiry/add/" method="post" >
 		
 			<!-- START BLOCK : TAG_P_LIST -->
-			{TAG_PC_NAME}
+			
+			<!-- START BLOCK : TAG_PC_TITLE -->
+			<div class="clear"></div>
+			<div class="pc_title_line"></div>
+			<div class="pro-list left">
+				<img class="h2_img" src="{VALUE_PC_IMG}" {VALUE_PC_IMG_HIDE}>
+				<h2>{VALUE_PC_NAME}</h2>
+			</div>
+			<!-- START BLOCK : TAG_PC_TITLE -->
+			
 			<div class="pro-list">
 				<div class="pro-pic"><a href="{VALUE_P_LINK}"><img src="{VALUE_P_S_IMG}" alt="{VALUE_P_NAME}" /></a></div>
 				<div class="pro-name"><a href="{VALUE_P_LINK}">{VALUE_P_NAME}</a></div>
@@ -25,6 +34,8 @@
 					<input type="checkbox" class="inquiry_id" name="id[]" value="{VALUE_P_ID}">
 				</div>
 			</div>
+			{VALUE_PC_BLANK}
+			
 			<!-- END BLOCK : TAG_P_LIST -->
 		
 		</form>

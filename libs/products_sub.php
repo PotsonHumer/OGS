@@ -23,8 +23,14 @@
 					if($tpl){
 						VIEW::newBlock("TAG_IMG_LIST");
 						foreach($row as $field => $value){
-							if($field == "pi_img"){
-								$value = CRUD::img_handle($value);
+							switch($field){
+								case "pi_img":
+									$value = CRUD::img_handle($value);
+								break;
+								case "pi_width":
+								case "pi_height":
+									$value = (!empty($value))?$value:"";
+								break;
 							}
 							VIEW::assign("VALUE_".strtoupper($field),$value);
 						}
@@ -58,6 +64,9 @@
 						"pi_id" => $pi_id,
 						"pi_sort" => $key + 1,
 						"pi_img" => $_REQUEST["pi_img"][$key],
+						"pi_width" => $_REQUEST["pi_width"][$key],
+						"pi_height" => $_REQUEST["pi_height"][$key],
+						"pi_alt" => $_REQUEST["pi_alt"][$key],
 						"p_id" => $p_id,
 					);
 					
@@ -164,6 +173,12 @@
 			}
 			
 			CHECK::check_clear();
+		}
+
+		// 描述 - 刪除
+		public static function desc_del($pd_id){
+			$input = array('pd_id' => $pd_id);
+			DB::delete(CORE::$config["prefix"].'_products_desc',$input);
 		}
 	}
 

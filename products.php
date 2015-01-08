@@ -28,7 +28,7 @@
 					$temp_option = $temp_option + array("MAIN" => 'ogs-products-detail-tpl.html');
 					CORE::res_init('jQueryAssets/jquery.ui.core.min','jQueryAssets/jquery.ui.theme.min','jQueryAssets/jquery.ui.tabs.min','css');
 					CORE::res_init('jQueryAssets/jquery.ui-1.10.4.tabs.min','js');
-					CORE::res_init('fix','box');
+					CORE::res_init('fix','tab','box');
 					self::detail();
 				break;
 				case "cate":
@@ -152,6 +152,8 @@
 			
 			if(!empty($rsnum) && !$pc_row["pc_custom_status"]){
 				while($row = DB::fetch($sql)){
+					$total_count++;
+					
 					VIEW::newBlock("TAG_P_LIST");
 					foreach($row as $field => $value){
 						switch($field){
@@ -163,15 +165,25 @@
 					}
 					
 					if($last_pc_id != $row["pc_id"]){
-						$pc_img_str = (!empty($row["pc_img"]))?'<img class="h2_img" src="'.CRUD::img_handle($row["pc_img"]).'">':'';
-						//VIEW::assign("TAG_PC_NAME",'<h2>'.$pc_img_str.$row["pc_name"].'</h2>');
-						VIEW::assign("TAG_PC_NAME",'<h2>　</h2>');
+						VIEW::newBlock("TAG_PC_TITLE");
+						VIEW::assign(array(
+							"VALUE_PC_NAME" => $row["pc_name"],
+							"VALUE_PC_IMG" => CRUD::img_handle($row["pc_img"]),
+							"VALUE_PC_IMG_HIDE" => (empty($row["pc_img"]))?'style="display: none;"':'',
+						));
+						
+						$blank_count = 1;
+						
+						VIEW::gotoBlock("TAG_P_LIST");
 					}
 					
 					new SEO($row["seo_id"],false);
 					$pointer = (!empty(SEO::$array["seo_file_name"]))?SEO::$array["seo_file_name"]:$row["p_id"];
 
-					VIEW::assign("VALUE_P_LINK",CORE::$lang.'products/detail/'.$pointer);
+					VIEW::assign(array(
+						"VALUE_P_LINK" => CORE::$lang.'products/detail/'.$pointer,
+						"VALUE_PC_BLANK" => ($blank_count++ % 4 == 0 && $total_count != $rsnum)?'<div class="pro-list response_fix"></div>':''
+					));
 
 					$last_pc_id = $row["pc_id"];
 				}
@@ -314,7 +326,12 @@
 			if(!empty($rsnum)){
 				while($row = DB::fetch($sql)){
 					VIEW::newBlock("TAG_P_IMG");
-					VIEW::assign("VALUE_P_IMG",$row["pi_img"]);
+					VIEW::assign(array(
+						"VALUE_P_IMG" => $row["pi_img"],
+						"VALUE_P_WIDTH" => (!empty($row["pi_width"]))?$row["pi_width"]:'',
+						"VALUE_P_HEIGHT" => (!empty($row["pi_height"]))?$row["pi_height"]:'',
+						"VALUE_P_ALT" => $row["pi_alt"],
+					));
 				}
 			}
 		}
@@ -324,7 +341,7 @@
 			$select = array(
 				'table' => CORE::$config["prefix"].'_products_desc',
 				'field' => '*',
-				'where' => "p_id = '".$p_id."'",
+				'where' => "p_id = '".$p_id."' and pd_status = '1'",
 				'order' => 'pd_sort '.CORE::$config["sort"],
 				//'limit' => '0,1',
 			);

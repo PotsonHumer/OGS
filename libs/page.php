@@ -38,8 +38,8 @@
 		// 產生頁次連結
 		private static function make_link($page_num,$link){
 			
-			// 求得目前頁次顯示區段
-			$section = (CORE::$config["list_num"] < self::$now)?ceil(self::$now / CORE::$config["list_num"]):1;
+			$section = (CORE::$config["list_num"] < self::$now)?ceil(self::$now / CORE::$config["list_num"]):1; // 求得目前頁次顯示區段
+			$all_section = ceil($page_num / CORE::$config["list_num"]); // 求得所有區段數
 			$p_start = ($section * CORE::$config["list_num"] - CORE::$config["list_num"]) + 1;
 			$section_end = ($p_start + 9);
 			$p_end = ($section_end > $page_num)?$page_num:$section_end;
@@ -67,7 +67,19 @@
 				$next_str = '<li><a href="'.$link.'page-'.$next.'/"> >> </a></li>';
 			}
 			
-			$page_str = $prev_str.$link_str.$next_str; // 組合連結
+			// 往前區段連結
+			if($section > 1){
+				$prev = $section * CORE::$config["list_num"] - CORE::$config["list_num"];
+				$prev_section = '<li><a href="'.$link.'page-'.$prev.'/"> <<<< </a></li>';
+			}
+			
+			// 往後區段連結
+			if($section < $all_section && $all_section > 1){
+				$next = $section * CORE::$config["list_num"] + 1;
+				$next_section = '<li><a href="'.$link.'page-'.$next.'/"> >>>> </a></li>';
+			}
+			
+			$page_str = $prev_section.$prev_str.$link_str.$next_str.$next_section; // 組合連結
 			
 			VIEW::newBlock("TAG_PAGE_BLOCK");
 			VIEW::assign("TAG_PAGE_STR",$page_str);

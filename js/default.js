@@ -33,7 +33,7 @@
 	
 	// 檢查變數是否存在
 	function isset(ARGS){
-		if(typeof(ARGS) != "undefined" && ARGS != '' && ARGS != "false"){
+		if(typeof(ARGS) != "undefined" && ARGS != '' && ARGS != "false" && ARGS != 0){
 			return true;
 		}else{
 			return false;
@@ -98,6 +98,7 @@
 	function img_block(){
 		
 		$(".img_block").each(function(KEY){
+			var THIS = $(this);
 			var IMG = $(this).find("img");
 			var TXT = $(this).find("p");
 			var IMG_PATH = IMG.attr("src");
@@ -109,12 +110,33 @@
 				TXT.hide();
 			}
 			
-			var NOW_IMG_PATH = $(this).find("input").val();
+			var NOW_IMG_PATH = $(this).find("input.img").val();
 			if(IMG_ARRAY[KEY] != NOW_IMG_PATH && isset(NOW_IMG_PATH)){
 				var ROOT_PATH_EXIST = NOW_IMG_PATH.search(TAG_FILE_PATH);
 				IMG_ARRAY[KEY] = (ROOT_PATH_EXIST >= 0)?NOW_IMG_PATH:TAG_ROOT_PATH + NOW_IMG_PATH;
 				IMG.attr("src",IMG_ARRAY[KEY]);
 				$(this).fix_box();
+				
+				// 取得圖片原始寬高
+				img_load(IMG_ARRAY[KEY],function(IMG_W,IMG_H){
+					var OBJ_W = THIS.find("input.width");
+					var OBJ_H = THIS.find("input.height");
+					var NOW_WIDTH = OBJ_W.val();
+					var NOW_HEIGHT = OBJ_H.val();
+					
+					/*
+					if(!isset(NOW_WIDTH)){
+						OBJ_W.val(IMG_W);
+					}
+					
+					if(!isset(NOW_HEIGHT)){
+						OBJ_H.val(IMG_H);
+					}
+					*/
+					
+					THIS.find(".img_input[rel=width]").attr("placeholder",'原始寬度 : '+ IMG_W);
+					THIS.find(".img_input[rel=height]").attr("placeholder",'原始高度 : '+ IMG_H);
+				});
 			}
 		});
 		
@@ -127,10 +149,61 @@
 			var OBJ = $(this).parents(".img_block");			
 			var IMG = OBJ.find("img");
 			var TXT = OBJ.find("p");
-			OBJ.find("input").val("");
+			OBJ.find("input[type=text]").val("");
 			IMG.removeAttr("src").hide();
 			TXT.show();
 		});
+	}
+	
+	// 圖片選取框 - 圖片設定
+	function img_block_setting(){
+		
+		// 開啟設定框
+		$(document).on("click",".img_config",function(){
+			pixels_size();
+			
+			var OBJ = $(this).parents(".img_block").find(".img_conf_block");
+			var OBJ_BG = $(this).parents(".img_block").find(".img_conf_block_bg");
+			
+			if(isset(OBJ.length) && isset(OBJ_BG.length)){
+				OBJ.fadeIn('fast');
+				OBJ_BG.fadeIn('fast');
+			}
+		});
+		
+		// 關閉設定框
+		$(document).on("click",".img_conf_cancel",function(){
+			var OBJ = $(this).parents(".img_conf_block");
+			OBJ.fadeOut('fast');
+			OBJ.next(".img_conf_block_bg").fadeOut('fast');
+		});
+		
+		// 輸入設定
+		$(document).on("click",".img_conf_input",function(){
+			var OBJ = $(this).parents(".img_conf_block");
+			var OBJ_PARENT = $(this).parents(".img_block");
+			
+			OBJ.find(".img_input").each(function(){
+				var MATCH_CLASS = $(this).attr("rel");
+				var VAL = $(this).val();
+				OBJ_PARENT.find("."+ MATCH_CLASS).val(VAL);
+			});
+			
+			OBJ.find(".img_conf_cancel").trigger('click');
+		});
+	}
+	
+	// 圖片選取框 - 讀取尺寸
+	function img_load(IMG_PATH,CALLBACK){
+		
+		if(isset(IMG_PATH)){
+			var IMG = new Image;
+			IMG.src = IMG_PATH;
+			
+			$(IMG).load(function(){
+				CALLBACK(IMG.width,IMG.height);
+			});
+		}
 	}
 	
 	// 快捷鍵
@@ -167,5 +240,6 @@
 		all_select();
 		img_block();
 		img_block_del();
+		img_block_setting();
 		hotkey();
 	});

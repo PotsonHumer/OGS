@@ -131,6 +131,11 @@
 				return self::$status[] = $total_rs;
 			}
 		}
+		
+		// 檢查傳輸是否為 ajax , 不會納入 is_pass 檢查範疇
+		public static function is_ajax(){
+			return $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+		}
 	}
 	
 

@@ -80,8 +80,10 @@
 				break;
 			}
 			
-			// 紀錄最後顯示的列表路徑
-			$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$config["root"].CORE::$path;
+			// 紀錄最後顯示的路徑
+			if(!CHECK::is_ajax()){
+				$_SESSION[CORE::$config["sess"]]['last_path'] = CORE::$config["root"].CORE::$path;
+			}
 		}
 		
 		// 檢查登入

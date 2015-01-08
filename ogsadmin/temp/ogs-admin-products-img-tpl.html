@@ -9,11 +9,23 @@
 			<div style="float: left; margin: 10px;">
 				<input type="hidden" name="pi_id[]" value="{VALUE_PI_ID}">
 				<div class="img_block">
-					<input type="hidden" name="pi_img[]" value="{VALUE_PI_IMG}">
+					<input type="hidden" class="width" name="pi_width[]" value="{VALUE_PI_WIDTH}">
+					<input type="hidden" class="height" name="pi_height[]" value="{VALUE_PI_HEIGHT}">
+					<input type="hidden" class="alt" name="pi_alt[]" value="{VALUE_PI_ALT}">
+					<input type="hidden" class="img" name="pi_img[]" value="{VALUE_PI_IMG}">
 					<a class="img_manage"></a>
 					<img>
 					<p class="center green">按此選擇圖片</p>
 					<div class="img_del icon-square-cross"></div>
+					<div class="img_config icon-cog"></div>
+					
+					<div class="img_conf_block">
+						<label>尺寸</label><input type="text" class="img_input" value="{VALUE_PI_WIDTH}" size="120" rel="width" placeholder="寬度"> x <input type="text" class="img_input" value="{VALUE_PI_HEIGHT}" size="120" rel="height" placeholder="高度"><br />
+						<label>簡述(alt)</label><input type="text" class="img_input" value="{VALUE_PI_ALT}" size="200" rel="alt" placeholder="圖片 alt"><br />
+						<input type="button" class="img_conf_input" value="確定">
+						<input type="button" class="img_conf_cancel" value="取消">
+					</div>
+					<div class="img_conf_block_bg"></div>
 				</div>
 			</div>
 			<!-- END BLOCK : TAG_IMG_LIST -->
@@ -33,11 +45,23 @@
 				'<div style="float: left; margin: 10px;">'+
 					'<input type="hidden" name="pi_id[]">'+
 					'<div class="img_block">'+
-						'<input type="hidden" name="pi_img[]">'+
+						'<input type="hidden" class="width" name="pi_width[]">'+
+						'<input type="hidden" class="height" name="pi_height[]">'+
+						'<input type="hidden" class="alt" name="pi_alt[]">'+
+						'<input type="hidden" class="img" name="pi_img[]">'+
 						'<a class="img_manage"></a>'+
 						'<img>'+
 						'<p class="center green">按此選擇圖片</p>'+
 						'<div class="img_del icon-square-cross"></div>'+
+						'<div class="img_config icon-cog"></div>'+
+						
+						'<div class="img_conf_block">'+
+							'<label>尺寸</label><input type="text" class="img_input" size="120" rel="width" placeholder="寬度"> x <input type="text" class="img_input" size="120" rel="height" placeholder="高度"><br />'+
+							'<label>簡述(alt)</label><input type="text" class="img_input" size="200" rel="alt" placeholder="圖片 alt"><br />'+
+							'<input type="button" class="img_conf_input" value="確定"> '+
+							'<input type="button" class="img_conf_cancel" value="取消">'+
+						'</div>'+
+						'<div class="img_conf_block_bg"></div>'+
 					'</div>'+
 				'</div>'
 			);

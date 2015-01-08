@@ -71,6 +71,8 @@
 						"DESC" => self::$temp.'ogs-admin-products-desc-tpl.html',
 						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
+					
+					CORE::res_init('get','box');
 					self::products_add($args);
 				break;
 				case "mod":
@@ -81,6 +83,8 @@
 						"DESC" => self::$temp.'ogs-admin-products-desc-tpl.html',
 						"SEO" => self::$temp.'ogs-admin-seo-tpl.html',
 					);
+					
+					CORE::res_init('get','box');
 					self::products_mod($args);
 				break;
 				case "open":
@@ -96,6 +100,9 @@
 				case "replace":
 					$temp_main = array("MAIN" => self::$temp.'ogs-admin-msg-tpl.html');
 					self::products_replace();
+				break;
+				case "pd_del":
+					P_SUB::desc_del($_REQUEST["call"]);
 				break;
 				default:
 					//$temp_main = array("MAIN" => self::$temp.'ogs-admin-intro-group-tpl.html');
@@ -283,6 +290,7 @@
 				
 				// 執行 replace
 				$_REQUEST["pc_img"] = CRUD::img_handle($_REQUEST["pc_img"]);
+				$_REQUEST["pc_custom_status"] = (empty($_REQUEST["pc_custom_status"]))?0:1;
 				CRUD::$crud_func($tb_array[0],$_REQUEST);
 				
 				if(!empty(DB::$error)){

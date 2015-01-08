@@ -49,7 +49,7 @@
 			<td colspan="3">
 				<p>圖片大小 主分類 - 寬：224px , 高：251px , 第三層分類 - 寬:無限制 , 高:27px</p>
 				<div class="img_block">
-					<input type="hidden" name="pc_img" value="{VALUE_PC_IMG}">
+					<input type="hidden" class="img" name="pc_img" value="{VALUE_PC_IMG}">
 					<a class="img_manage"></a>
 					<img src="{VALUE_PC_IMG}">
 					<p class="center green">按此選擇圖片</p>
@@ -61,7 +61,7 @@
 			<th>自訂內容</th>
 			<td colspan="3">
 				<p class="red icon-speech-bubble">如果開啟此自訂內容將不會顯示產品列表</p>
-				<label>關閉</label><input type="radio" name="pc_custom_status" value="0" {VALUE_PC_CUSTOM_STATUS_CK0}>
+				<label class="red">關閉</label><input type="radio" name="pc_custom_status" value="0" {VALUE_PC_CUSTOM_STATUS_CK0}>
 				<label>開啟</label><input type="radio" name="pc_custom_status" value="1" {VALUE_PC_CUSTOM_STATUS_CK1}>
 				<textarea class="tiny_input" name="pc_custom">{VALUE_PC_CUSTOM}</textarea>
 			</td>

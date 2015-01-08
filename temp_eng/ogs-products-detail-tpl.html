@@ -9,27 +9,27 @@
 		</div>
 		
 		<!-- START BLOCK : TAG_P_IMG -->
-		<div class="pro-large"><img src="{VALUE_P_IMG}" alt="{VALUE_P_NAME}"/></div>
+		<div class="pro-large"><img src="{VALUE_P_IMG}" width="{VALUE_P_WIDTH}" height="{VALUE_P_HEIGHT}" alt="{VALUE_P_ALT}"/></div>
 		<!-- END BLOCK : TAG_P_IMG -->
 		
 		<div id="Tabs1">
-			<ul>
+			<ul id="page_nav">
 				<!-- START BLOCK : TAG_PD_TITLE -->
-				<li><a href="#tabs-{VALUE_PD_ROW}">{VALUE_PD_TITLE}</a></li>
+				<li class="tab_title">{VALUE_PD_TITLE}</li>
 				<!-- END BLOCK : TAG_PD_TITLE -->
 				
 				<!-- START BLOCK : TAG_RELATE_TITLE -->
-				<li><a href="#tabs-{VALUE_P_ROW}">APPLICATION</a></li>
+				<li class="tab_title">APPLICATION</li>
 				<!-- END BLOCK : TAG_RELATE_TITLE -->
 			</ul>
 			<!-- START BLOCK : TAG_PD_CONTENT -->
-			<div id="tabs-{VALUE_PD_ROW}">
+			<div id="tabs-{VALUE_PD_ROW}" class="tab">
 				{VALUE_PD_CONTENT}
 			</div>
 			<!-- END BLOCK : TAG_PD_CONTENT -->
 			
 			<!-- START BLOCK : TAG_RELATE_BLOCK -->
-			<div id="tabs-{VALUE_P_ROW}">
+			<div id="tabs-{VALUE_P_ROW}" class="tab">
 				<div class="application">
 					<!-- START BLOCK : TAG_RELATE_LIST -->
 					<a href="{VALUE_P_LINK}"><img src="{VALUE_P_IMG}" /><span>{VALUE_P_NAME}</span></a>
@@ -50,7 +50,11 @@
 
 <script>
 	$(function(){
-		$( "#Tabs1" ).tabs();
+		//$( "#Tabs1" ).tabs();
+		$("#Tabs1").tab_box({
+			TITLE : false, //自動生成頁籤 , true => 啟動 , false => 停用
+			AFTER :  function() {  }, // 動作後執行擴充			
+		});
 		$(".application a").fix_box();
 	});
 </script>

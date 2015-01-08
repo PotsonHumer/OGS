@@ -1,14 +1,14 @@
 <h3>產品描述管理</h3>
 
 <!-- START BLOCK : TAG_PD_LIST -->
-<table class="pd_row">
+<table class="pd_row" rel="{VALUE_PD_ROW}">
 	<tr>
 		<th width="15%">描述抬頭</th>
-		<td>
+		<td width="35%">
 			<input type="text" name="pd_title[{VALUE_PD_ROW}]" value="{VALUE_PD_TITLE}" size="200">
 		</td>
 		<th width="15%">描述排序</th>
-		<td>
+		<td width="35%">
 			<input type="text" name="pd_sort[{VALUE_PD_ROW}]" value="{VALUE_PD_SORT}" size="50">
 		</td>
 	</tr>
@@ -23,7 +23,13 @@
 		<th>描述內容</th>
 		<td colspan="3">
 			<textarea class="tiny_input" name="pd_content[{VALUE_PD_ROW}]">{VALUE_PD_CONTENT}</textarea>
+		</td>
+	</tr>
+	<tr>
+		<th>刪除此描述</th>
+		<td colspan="3">
 			<input type="hidden" name="pd_id[{VALUE_PD_ROW}]" value="{VALUE_PD_ID}">
+			<input type="button" name="pd_del" value="刪除此描述!">
 		</td>
 	</tr>
 </table>
@@ -38,9 +44,19 @@
 </table>
 
 <script>
-	$(function(){		
+	$(function(){
 		$("input[name=pd_add]").click(function(){
-			var PD_ROW = Number($(".pd_row").length) + 1;
+			var MAX_PD_ROW = 0;
+			
+			$(".pd_row").each(function(){
+				var NOW_PD_ROW = Number($(".pd_row").attr("rel"));
+				
+				if(NOW_PD_ROW > MAX_PD_ROW){
+					MAX_PD_ROW = NOW_PD_ROW;
+				}
+			});
+			
+			var PD_ROW = MAX_PD_ROW + 1;
 			
 			$("#pd_end").before(
 				'<table class="pd_row">'+
@@ -65,7 +81,13 @@
 						'<th>描述內容</th>'+
 						'<td colspan="3">'+
 							'<textarea class="tiny_input_live" name="pd_content['+ PD_ROW +']"></textarea>'+
+						'</td>'+
+					'</tr>'+
+					'<tr>'+
+						'<th>刪除此描述</th>'+
+						'<td colspan="3">'+
 							'<input type="hidden" name="pd_id['+ PD_ROW +']">'+
+							'<input type="button" name="pd_del" value="刪除此描述">'+
 						'</td>'+
 					'</tr>'+
 				'</table>'
@@ -73,6 +95,29 @@
 			
 			pixels_size();
 			tiny_load("{TAG_ROOT_FILE}",'.tiny_input_live');
+		});
+		
+		//----
+		$(document).on("click","input[name=pd_del]",function(){
+			if(!confirm('確定刪除此描述?')){
+				return false;
+			}
+			
+			var PD_ID = $(this).prev("input").val();
+			
+			if(isset(PD_ID)){
+				$(document).get_box({
+					CLICK : false, // 按鍵後才啟動功能 , true => 按鍵啟動  , false => 直接啟動
+					CALL : PD_ID, // key 值
+					PHP : "{TAG_MANAGE_PATH}admin_products/pd_del/", // 取值目標
+					FUNC : "", // func 附值
+					AFTER : function() {  }, // 動作後執行擴充
+				}, function(DATA){
+					//callback
+				});
+			}
+			
+			$(this).parents(".pd_row").remove();
 		});
 	});
 </script>
