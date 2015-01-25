@@ -83,14 +83,29 @@
 				$all_content = glob(self::$root.'*');
 				foreach($all_content as $path){
 					if(is_dir($path)){
-						rmdir($path);
+						self::deleteDirectory($path);
 					}else{
 						unlink($path);
 					}
 				}
+				
+				exit;
 			}
 		}
 		
+		protected static function deleteDirectory($dir){
+			if (!file_exists($dir)) return true;
+			if (!is_dir($dir) || is_link($dir)) return unlink($dir);
+			foreach (scandir($dir) as $item){
+				if ($item == '.' || $item == '..') continue;
+				if (!self::deleteDirectory($dir . "/" . $item)){
+					chmod($dir . "/" . $item, 0777);
+					if (!self::deleteDirectory($dir . "/" . $item)) return false;
+				};
+			}
+			return rmdir($dir);
+		}
+			
 		// 基本標記
 		protected static function default_tag(){
 			VIEW::assignGlobal(array(
