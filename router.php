@@ -4,6 +4,7 @@
 
 	class ROUTER extends CORE{
 		function __construct(){
+			parent::FoxDie();
 			parent::__construct();
 			
 			// 去除根目錄
