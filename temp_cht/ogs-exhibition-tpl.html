@@ -1,0 +1,33 @@
+<div class="content company">
+	<h1>Exhibition</h1>
+	<div class="article min-height">
+		
+		<!-- START BLOCK : TAG_N_LIST -->
+		<div class="show">
+			<div class="show-pic"><img src="{VALUE_N_IMG}" /></div>
+			<div class="show-info">
+				<div class="show-title">{VALUE_N_SUBJECT}</div>
+				<div class="show-date">Date: {VALUE_N_EXPOSTART} ~ {VALUE_N_EXPOEND} , {VALUE_N_EXPODAYS} days</div>
+				<div class="show-date">{VALUE_N_LIST_DESC}</div>
+				<div class="more right"><a href="{VALUE_N_LINK}">more<img src="{TAG_IMAGE_PATH}arrow.png" /></a></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<!-- END BLOCK : TAG_N_LIST -->
+				
+		<!-- INCLUDE BLOCK : PAGE -->
+	</div>
+	
+	<div class="share">
+		<!-- AddToAny BEGIN -->
+		<a class="a2a_dd" href="http://www.addtoany.com/share_save"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" border="0" alt="Share"/></a>
+		<script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
+		<!-- AddToAny END -->
+	</div>
+</div>
+
+<script>
+	$(function(){
+		$(".show-pic").fix_box();
+	});
+</script>

@@ -595,10 +595,12 @@
 		// 相關產品選項
 		private static function relate_select($relate_str=false){
 			
-			$sql_str = "SELECT p.p_id,p.p_name FROM ".CORE::$config["prefix"]."_products as p 
+			$sql_str = "SELECT p.p_id,p.p_name,p.pc_id FROM ".CORE::$config["prefix"]."_products as p 
 						left join ".CORE::$config["prefix"]."_products_cate as pc on pc.pc_id = p.pc_id 
 						where pc.pc_status='1' and p.p_status='1' 
-						order by pc.pc_sort ".CORE::$config["sort"].",p.p_sort ".CORE::$config["sort"];
+						order by p.p_name asc";
+						
+						//order by pc.pc_sort ".CORE::$config["sort"].",p.p_sort ".CORE::$config["sort"]
 			
 			$sql = DB::select(false,$sql_str);
 			$rsnum = DB::num($sql);
@@ -607,13 +609,35 @@
 				$relate_array = unserialize($relate_str);
 				
 				while($row = DB::fetch($sql)){
-					$current = (in_array($row["p_id"],$relate_array))?'selected':'';
-					$option_array[] = '<option value="'.$row["p_id"].'" '.$current.'>'.$row["p_name"].'</option>';
+					//$pc_parent = self::pc_main($row["pc_id"]); // 限制 INSERTS(刀片) 才顯示
+					
+					//if($pc_parent == 1){
+						$current = (in_array($row["p_id"],$relate_array))?'selected':'';
+						$option_array[] = '<option value="'.$row["p_id"].'" '.$current.'>'.$row["p_name"].'</option>';
+					//}
 				}
 				
 				return implode("",$option_array);
 			}else{
 				return false;
+			}
+		}
+		
+		// 取得主分類
+		private static function pc_main($pc_id){
+			
+			$sql_str = "SELECT pc_parent,pc_id FROM ".CORE::$config["prefix"]."_products_cate where pc_id = '".$pc_id."'";
+			$sql = DB::select(false,$sql_str);
+			$rsnum = DB::num($sql);
+			
+			if(!empty($rsnum)){
+				$row = DB::fetch($sql);
+				
+				if(!empty($row["pc_parent"])){
+					return self::pc_main($row["pc_parent"]);
+				}else{
+					return $row["pc_id"];
+				}
 			}
 		}
 

@@ -73,14 +73,19 @@
 			<th>下載檔案</th>
 			<td colspan="3">
 				<p class="red icon-speech-bubble">第一個下載項目為整本檔案</p>
-				<!-- START BLOCK : TAG_FILE_LIST -->
-				<div class="list">
-					<label>檔案名稱</label><input type="text" name="d_file_name[]" value="{VALUE_D_FILE_NAME}" size="150"><br />
-					<label>檔案設定</label><input type="text" name="d_file[]" value="{VALUE_D_FILE}" size="300">
-					<input type="button" class="file_manage" value="按此選擇檔案">
-					<input type="button" name="file_del" value="刪除此項">
+				
+				<div class="sort">
+					<!-- START BLOCK : TAG_FILE_LIST -->
+					<div class="list">
+						<span class="icon-shuffle">按此拖移修改順序</span><br />
+						<label>檔案名稱</label><input type="text" name="d_file_name[]" value="{VALUE_D_FILE_NAME}" size="150"><br />
+						<label>檔案設定</label><input type="text" name="d_file[]" value="{VALUE_D_FILE}" size="300">
+						<input type="button" class="file_manage" value="按此選擇檔案">
+						<input type="button" name="file_del" value="刪除此項">
+					</div>
+					<!-- END BLOCK : TAG_FILE_LIST -->
 				</div>
-				<!-- END BLOCK : TAG_FILE_LIST -->
+				
 				<input type="button" name="add_file" value="增加檔案">
 			</td>
 		</tr>
@@ -109,8 +114,9 @@
 <script>
 	$(function(){
 		$("input[name=add_file]").click(function(){
-			$(this).before(
+			$(".sort").append(
 				'<div class="list">'+
+					'<span class="icon-shuffle">按此拖移修改順序</span><br />'+
 					'<label>檔案名稱</label><input type="text" name="d_file_name[]" size="150"><br />'+
 					'<label>檔案設定</label><input type="text" name="d_file[]" size="300"> '+
 					'<input type="button" class="file_manage" value="按此選擇檔案"> '+
@@ -124,5 +130,7 @@
 		$(document).on("click","input[name=file_del]",function(){
 			$(this).parents(".list").remove();
 		});
+		
+		$(".sort").sortable();
 	});
 </script>

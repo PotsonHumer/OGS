@@ -1,0 +1,55 @@
+<div class="content location">
+	<h1>SERVICE LOCATION</h1>
+	
+	<div class="service">
+		<h2><span>HEADQUARTER</span>-TAIWAN</h2>
+		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3641.8875973273857!2d120.71894700000006!3d24.105447999999992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3469232ebb76442b%3A0x7ef41d24f6f46927!2z55uK6Kmu5bel5qWt5pyJ6ZmQ5YWs5Y-4!5e0!3m2!1szh-TW!2stw!4v1409991461264" width="620" height="360" frameborder="0" style="border:0"></iframe>
+		
+		<h2><span>OVERSEA</span> AGENCY</h2>
+		<div id="Tabs1">
+			<ul id="page_nav">
+				<!-- START BLOCK : TAG_ZONE_LIST -->
+				<li class="tab_title">{VALUE_ZONE_NAME}</li>
+				<!-- END BLOCK : TAG_ZONE_LIST -->
+			</ul>
+			
+			<!-- START BLOCK : TAG_AGENTS_BLOCK -->
+			<div id="tabs-{VALUE_AG_ROW}" class="tab">
+				<p>
+					<div class="agent">
+						
+						<!-- START BLOCK : TAG_AGENTS_LIST -->
+						{VALUE_AGC_IMG}{VALUE_AGC_COUNTRY}
+						
+						<div class="agent-info">
+							<h4>{VALUE_AG_SUBJECT}</h4>
+							
+							{VALUE_AG_CONTENT}
+						</div>
+						<!-- END BLOCK : TAG_AGENTS_LIST -->
+						
+					</div>
+				</p>
+			</div>
+			<!-- END BLOCK : TAG_AGENTS_BLOCK -->
+		</div>
+	</div>
+	
+	<div class="share">
+		<!-- AddToAny BEGIN -->
+		<a class="a2a_dd" href="http://www.addtoany.com/share_save"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" border="0" alt="Share"/></a>
+		<script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
+		<!-- AddToAny END -->
+	</div>
+</div>
+
+<script>
+	$(function(){
+		//$( "#Tabs1" ).tabs(); 
+		
+		$("#Tabs1").tab_box({
+			TITLE : false, //自動生成頁籤 , true => 啟動 , false => 停用
+			AFTER :  function() {  }, // 動作後執行擴充			
+		});		
+	});
+</script>

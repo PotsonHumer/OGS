@@ -35,7 +35,7 @@
 				'field' => '*',
 				'where' => "d_status = '1'",
 				'order' => 'd_sort '.CORE::$config["sort"],
-				//'limit' => '0,1',
+				//'limit' => '0,6',
 			);
 		
 			$sql = DB::select($select);
@@ -49,12 +49,17 @@
 						
 						$file_array = unserialize($row["d_file"]);
 						foreach($file_array as $file_name => $file_path){
-							VIEW::newBlock("TAG_FILE_LIST");
-							VIEW::assign(array(
-								"VALUE_D_HOT" => (!empty($row["d_hot"]))?'style="display: inline-block;"':'style="display: none;"',
-								"VALUE_D_FILE_NAME" => $row["d_subject"].' - '.$file_name,
-								"VALUE_D_FILE" => CRUD::img_handle($file_path),
-							));
+							
+							if(++$i <= 6){
+								VIEW::newBlock("TAG_FILE_LIST");
+								VIEW::assign(array(
+									"VALUE_D_HOT" => (!empty($row["d_hot"]))?'style="display: inline-block;"':'style="display: none;"',
+									"VALUE_D_FILE_NAME" => $row["d_subject"].' - '.$file_name,
+									"VALUE_D_FILE" => CRUD::img_handle($file_path),
+								));
+							}else{
+								break;
+							}
 						}
 					}
 				}

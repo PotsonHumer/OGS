@@ -149,7 +149,7 @@
 			var OBJ = $(this).parents(".img_block");			
 			var IMG = OBJ.find("img");
 			var TXT = OBJ.find("p");
-			OBJ.find("input[type=text]").val("");
+			OBJ.find("input.img").val("");
 			IMG.removeAttr("src").hide();
 			TXT.show();
 		});

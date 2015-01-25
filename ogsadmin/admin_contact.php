@@ -1,6 +1,6 @@
 <?php
 
-	// 管理員設定
+	// 聯絡我們設定
 	class ADMIN_CONTACT extends OGSADMIN{
 		protected static $func;
 		

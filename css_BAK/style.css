@@ -200,9 +200,8 @@ ul.search-list li a:hover{color:#FFF; background:#999;}
 
 .hot{text-align:left;}
 .down-pic{float:left; width:60px; margin-right:10px;}
-.down-page{float: left; margin: 0 10px;}
-.down-page li{text-align: left; list-style: disc; margin: 0 0 0 10px;}
-.down-page li a{font-size: 12px;}
+.down-page{float: left;}
+.down-page li{text-align: left;}
 
 
 .page-number a, .CurrentPage{margin:0 6px;}

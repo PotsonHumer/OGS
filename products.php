@@ -250,6 +250,11 @@
 				));
 				
 				foreach($row as $field => $value){
+					switch($field){
+						case "p_sec_title":
+							$value = '<h2>'.$value.'</h2>';
+						break;
+					}
 					VIEW::assignGlobal("VALUE_".strtoupper($field),$value);
 				}
 				
@@ -457,13 +462,13 @@
 					$p_link = CORE::$lang.'products/detail/'.$pointer;
 					
 					if($next){
-						VIEW::assignGlobal('VALUE_NEXT_LINK','<a class="btn" href="'.$p_link.'">Next</a>');
+						VIEW::assignGlobal('VALUE_NEXT_LINK','<a class="btn icon-fast-forward" href="'.$p_link.'">Next</a>');
 						unset($next);
 					}
 					
 					if($row["p_id"] == $p_id){
 						if(!empty($last_link)){
-							VIEW::assignGlobal('VALUE_PREV_LINK','<a class="btn" href="'.$last_link.'">Previous</a>');
+							VIEW::assignGlobal('VALUE_PREV_LINK','<a class="btn icon-rewind" href="'.$last_link.'">Previous</a>');
 						}
 						
 						$next = true;

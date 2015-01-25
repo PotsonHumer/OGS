@@ -1,0 +1,69 @@
+<div class="content2 product-inner">
+	<h1>{VALUE_H1}</h1>
+	<div class="min-height">
+		{VALUE_SEO_SHORT_DESC}
+		
+		<!-- START BLOCK : TAG_PC_NAV -->
+		<ul id="page_nav">
+			<!-- START BLOCK : TAG_PC_NAV_LIST -->
+			<li {VALUE_PC_CURRENT}><a href="{VALUE_PC_LINK}">{VALUE_PC_NAME}</a></li>
+			<!-- END BLOCK : TAG_PC_NAV_LIST -->
+		</ul>
+		<!-- END BLOCK : TAG_PC_NAV -->
+		
+		{VALUE_PC_CUSTOM}
+		
+		<form name="inquiry_form" action="{TAG_ROOT_PATH}inquiry/add/" method="post" >
+		
+			<!-- START BLOCK : TAG_P_LIST -->
+			
+			<!-- START BLOCK : TAG_PC_TITLE -->
+			<div class="clear"></div>
+			<div class="pc_title_line"></div>
+			<div class="pro-list left">
+				<img class="h2_img" src="{VALUE_PC_IMG}" {VALUE_PC_IMG_HIDE}>
+				<h2>{VALUE_PC_NAME}</h2>
+			</div>
+			<!-- START BLOCK : TAG_PC_TITLE -->
+			
+			<div class="pro-list">
+				<div class="pro-pic"><a href="{VALUE_P_LINK}"><img src="{VALUE_P_S_IMG}" alt="{VALUE_P_NAME}" /></a></div>
+				<div class="pro-name"><a href="{VALUE_P_LINK}">{VALUE_P_NAME}</a></div>
+				<div class="btn-inquiry">
+					<a class="inquiry_btn" href="#"><img src="{TAG_IMAGE_PATH}inquiry.gif" /></a>
+					<input type="checkbox" class="inquiry_id" name="id[]" value="{VALUE_P_ID}">
+				</div>
+			</div>
+			{VALUE_PC_BLANK}
+			
+			<!-- END BLOCK : TAG_P_LIST -->
+		
+		</form>
+		
+	</div>
+	
+	<div class="share">
+		<!-- AddToAny BEGIN -->
+		<a class="a2a_dd" href="http://www.addtoany.com/share_save"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" border="0" alt="Share"/></a>
+		<script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
+		<!-- AddToAny END -->
+	</div>
+</div>
+
+<script>
+	$(function(){
+		$(".pro-pic").fix_box();
+		
+		//-----
+		
+		$(".inquiry_btn").click(function(){
+			var IQ_NUM = Number($("input.inquiry_id:checked").length);
+			
+			if(IQ_NUM > 0){
+				document.inquiry_form.submit();
+			}else{
+				alert('None products select!!');
+			}
+		});
+	});
+</script>

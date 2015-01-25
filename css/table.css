@@ -1,0 +1,42 @@
+.ta0112 {width: 720px;}
+.td0112-1 {width: 85px;}
+.td0112-2 {width: 110px;}
+.td0112-3 {width: 150px;}
+.td0112-4 {width: 260px;} 
+.td0112-5 {width: 40px;}
+.td0112-6 {width: 30px;}
+.bag {background: #ddd !important;}
+.bab {background: #00a0e9 !important;}
+.bay {background: #fff100 !important;}
+.bar {background: #d0111b !important;}
+.bagr {background: #2aa738 !important;}
+.baba {background: #7fcef4 !important;} 
+.ta0112 td {border: 1px solid #000 !important;vertical-align: middle !important;text-align: center !important;}
+.dote0112 {font-size: 40px;}
+.ta0112 img {vertical-align: middle;}
+.ta0115 {width: 720px;}
+.ta0115 td {border: 1px solid #000;text-align: center;vertical-align: middle;font-size: 12px;padding: 1px;}
+td.tdf16 {font-size: 30px;}
+.ta0115 img {vertical-align: middle;}
+.td0115-1 {background: #ce93c0;color: #fff;}
+.td0115-2 {background: #e6e6e7;}
+.tdf16 {font-size:40px;}
+.ta0115 tr {background: #fff;} tr:nth-child(2n) {background: #f0e1ee;} tr {background-color: expression((this.sectionRowIndex % 2 == 0) ? "#fff" : "#f0e1ee" );}
+.baw {background: #fff;}
+.bgfee tr {background: #fff;} tr:nth-child(2n) {background: #fffde4;} tr {background-color: expression((this.sectionRowIndex % 2 == 0) ? "#fff" : "#fffde4" );}
+.bgfee {background:#feeabe;color:#000;}
+.bab1 {background: #7FECF4;}
+.bab2 {background: #D3EDFB;}
+.bar2 {background: #F5D8C8;}
+.bgfce tr {background: #fff;} tr:nth-child(2n) {background: #fce8f1;} tr {background-color: expression((this.sectionRowIndex % 2 == 0) ? "#fff" : "#fce8f1" );}
+.bgfce td {color: #000;}
+td.bgfce {background:#E62E8B;color:#fff;}
+.bg462 {background:#fff462;color:#000;}
+
+.bg00a tr {background: #fff;} tr:nth-child(2n) {background: #d8ecdd;} tr {background-color: expression((this.sectionRowIndex % 2 == 0) ? "#fff" : "#d8ecdd" );}
+.bg00a {background:#00a54f;}
+td.bg00a {color:#fff;}
+
+.bgf39 tr {background: #fff;} tr:nth-child(2n) {background: #fdecd5;} tr {background-color: expression((this.sectionRowIndex % 2 == 0) ? "#fff" : "#fdecd5" );}
+.bgf39 {background:#f3981e;}
+td.bgf39 {color:#000;}

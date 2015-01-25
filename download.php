@@ -71,6 +71,8 @@
 							VIEW::newBlock("TAG_FILE_BLOCK");
 						}
 						
+						unset($d,$f);
+						$file_num = count($file_array) - 1;
 						foreach($file_array as $file_name => $file_path){
 							
 							if(++$d > 1){
@@ -83,6 +85,12 @@
 							
 							if($d == 1){
 								VIEW::assignGlobal("VALUE_D_FILE_FIRST",CRUD::img_handle($file_path));
+							}else{
+								++$f;
+							}
+							
+							if($f == ceil($file_num / 2) && $file_num > 2){
+								VIEW::assign("TAG_DOWNLOAD_UL",'</ul><ul class="down-page">');
 							}
 						}
 					}

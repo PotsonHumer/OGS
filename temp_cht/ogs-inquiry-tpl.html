@@ -1,0 +1,132 @@
+<div class="content2 product-inner">
+	<h1>Inquiry</h1>
+	<div class="contact min-height">
+		<table width="100%" border="1" class="tab">
+			<tr>
+				<th>No.</th>
+				<th>Image</th>
+				<th>Name</th>
+				<th>Amount</th>
+				<th>Delete</th>
+			</tr>
+			<!-- START BLOCK : TAG_INQUIRY_LIST -->
+			<tr>
+				<td>{VALUE_P_ROW}</td>
+				<td><img src="{VALUE_P_S_IMG}" style="width: 100px"></td>
+				<td>{VALUE_P_NAME}</td>
+				<td>
+					<input type="text" name="amount" value="{VALUE_P_NUM}" rel="{VALUE_P_ID}" style="width: 50px;">
+				</td>
+				<td><a href="{VALUE_P_DELETE}">Delete</a></td>
+			</tr>
+			<!-- END BLOCK : TAG_INQUIRY_LIST -->
+		</table>
+		
+		<br />
+		
+		<form name="iq_form" action="{TAG_ROOT_PATH}inquiry/send/" method="post">
+		<table width="100%" border="1" class="contact-tab">
+			<tr>
+				<th><span class="red">*</span> Company Name :</th>
+				<td>
+					<input type="text" name="iq_company" value="{VALUE_IQ_COMPANY}" size="400">
+				</td>
+			</tr>
+			<tr>
+				<th><span class="red">*</span> Contact person / Position:</th>
+				<td>
+					<input type="text" name="iq_name" value="{VALUE_IQ_NAME}"> / <input type="text" name="iq_position" value="{VALUE_IQ_POSITION}">
+				</td>
+			</tr>
+			<tr>
+				<th>Address :</th>
+				<td>
+					<input type="text" name="iq_address" value="{VALUE_IQ_ADDRESS}" size="400">
+				</td>
+			</tr>
+			<tr>
+				<th><span class="red">*</span> City :</th>
+				<td>
+					<input type="text" name="iq_city" value="{VALUE_IQ_CITY}"> Zip cold : <input type="text" name="iq_zip" value="{VALUE_IQ_ZIP}">
+				</td>
+			</tr>
+			<tr>
+				<th>Country :</th>
+				<td>
+				<select name="iq_country">
+					<option value="">Select country</option>
+					{TAG_COUNTRY_SELECT}
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<th><span class="red">*</span> TEL :</th>
+				<td>
+					<input type="text" name="iq_tel" value="{VALUE_IQ_TEL}">
+				</td>
+			</tr>
+			<tr>
+				<th><span class="red">*</span> Mobile :</th>
+				<td>
+					<input type="text" name="iq_cellphone" value="{VALUE_IQ_CELLPHONE}">
+				</td>
+			</tr>
+			<tr>
+				<th>Fax :</th>
+				<td>
+					<input type="text" name="iq_fax" value="{VALUE_IQ_FAX}">
+				</td>
+			</tr>
+			<tr>
+				<th>Website :</th>
+				<td>
+					<input type="text" name="iq_url" value="{VALUE_IQ_URL}" size="300">
+				</td>
+			</tr>
+			<tr>
+				<th><span class="red">*</span> E-mail :</th>
+				<td>
+					<input type="text" name="iq_email" value="{VALUE_IQ_EMAIL}" size="300">
+				</td>
+			</tr>
+			<tr>
+				<th><span class="red">*</span> Comments :</th>
+				<td>
+					<textarea name="iq_content" cols="60" rows="8">{VALUE_IQ_CONTENT}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><input type="submit" value="Send"></td>
+			</tr>
+		</table>
+		</form>
+	</div>
+	
+	
+	<div class="share">
+		<!-- AddToAny BEGIN -->
+		<a class="a2a_dd" href="http://www.addtoany.com/share_save"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" border="0" alt="Share"/></a>
+		<script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
+		<!-- AddToAny END -->
+	</div>
+</div>
+
+<script>
+	$(function(){
+		$("input[name=amount]").keyup(function(){
+			var AMOUNT = $(this).val();
+			var ID = $(this).attr("rel");
+			
+			$(document).get_box({
+				CLICK : false, // 按鍵後才啟動功能 , true => 按鍵啟動  , false => 直接啟動
+				CALL : AMOUNT, // key 值
+				PHP : "{TAG_ROOT_PATH}inquiry/num/"+ ID +"/", // 取值目標
+				FUNC : "", // func 附值
+				AFTER : function() {  }, // 動作後執行擴充
+			}, function(DATA){
+				//callback
+			});
+		});
+	});
+</script>

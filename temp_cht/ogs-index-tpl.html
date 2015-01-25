@@ -1,21 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>INDEX</title>
-	<meta name="description" content="" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
+<!-- INCLUDE BLOCK : HEADER -->
 
 <body>
-	<header>
-		<h1>INDEX</h1>
-	</header>
+	<div id="container">
+		<!-- INCLUDE BLOCK : TOP -->
 	
-	<main>
-		建構中...
-	</main>
+		<!-- START BLOCK : TAG_AD_BLOCK_1 -->
+		<div class="banner">
+			<div class="slide_move">
+				<!-- START BLOCK : TAG_AD_LIST_1 -->
+				<a href="{VALUE_AD_LINK}"><img class="slide_pic" src="{VALUE_AD_IMG}" alt="{VALUE_AD_SUBJECT}" /></a>
+				<!-- END BLOCK : TAG_AD_LIST_1 -->
+			</div>
+		</div>
+		<!-- END BLOCK : TAG_AD_BLOCK_1 -->
+		
+		<div class="pro-list">
+			<div class="new-pro"><img src="{TAG_IMAGE_PATH}title-new-products.png" alt=""/>
+				<div class="more"><a href="{TAG_ROOT_PATH}products/">more</a> <img src="{TAG_IMAGE_PATH}arrow.png" /></div>
+			</div>
+			<div class="quick">
+				<img src="{TAG_IMAGE_PATH}index-quick.png" alt=""/>
+				<p class="strong">Quick Ordering</p>
+				<p>If you know what products to order</p>
+			</div>
+			<div class="pro">
+				<ul id="flexiselDemo3">
+					<!-- START BLOCK : TAG_P_LIST -->
+					<li>
+						<a href="{VALUE_P_LINK}">
+							<p class="pro-pic"><img src="{VALUE_P_S_IMG}" alt=""/></p>
+							<p>{VALUE_P_NAME}</p>
+						</a>
+					</li>
+					<!-- END BLOCK : TAG_P_LIST -->
+				</ul> 
+			</div>
+			
+			<div class="clear"></div>
+		</div>
+
+		<div class="content">
+			<div class="news">
+				<div class="title"><img src="{TAG_IMAGE_PATH}title-news.png" alt=""/><div class="more more-r"><a href="{TAG_ROOT_PATH}news/">more</a> <img src="{TAG_IMAGE_PATH}arrow.png" /></div></div>
+				<ul>
+					<!-- START BLOCK : TAG_N_LIST -->
+					<li>
+						<div class="pic"><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt="" {VALUE_N_HOT} /> <img src="{TAG_IMAGE_PATH}icon-n.gif" alt=""/></div>
+						<a href="{VALUE_N_LINK}">{VALUE_N_SUBJECT}</a>
+					</li>
+					<!-- END BLOCK : TAG_N_LIST -->
+				</ul>
+			</div>
+			<div class="download">
+				<div class="title"><img src="{TAG_IMAGE_PATH}title-download.png" alt=""/><div class="more more-r"><a href="{TAG_ROOT_PATH}download/">more</a> <img src="{TAG_IMAGE_PATH}arrow.png" /></div></div>
+				<ul>
+					<!-- START BLOCK : TAG_FILE_LIST -->
+					<li>
+						<div class="pic"><img src="{TAG_IMAGE_PATH}icon-hot.gif" alt="" {VALUE_D_HOT} /><img class="download_tag" src="{TAG_IMAGE_PATH}icon-pdf.gif" alt=""/></div>
+						<a href="{VALUE_D_FILE}" target="_blank">{VALUE_D_FILE_NAME}</a>
+					</li>
+					<!-- END BLOCK : TAG_FILE_LIST -->
+				</ul>
+			</div>
+			<!-- START BLOCK : TAG_AD_BLOCK_4 -->
+			<div class="certificate">
+				<div class="title"><img src="{TAG_IMAGE_PATH}title-catalog.png" alt=""/></div>
+				<!-- START BLOCK : TAG_AD_LIST_4 -->
+				<p class="catalog-list"><a href="{VALUE_AD_LINK}" target="_blank"><img src="{VALUE_AD_IMG}" alt="{VALUE_AD_SUBJECT}"/></a></p>
+				<!-- END BLOCK : TAG_AD_LIST_4 -->
+			</div>
+			<!-- END BLOCK : TAG_AD_BLOCK_4 -->
+			<div class="share">
+				<!-- AddToAny BEGIN -->
+				<a class="a2a_dd" href="http://www.addtoany.com/share_save"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" border="0" alt="Share"/></a>
+				<script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
+				<!-- AddToAny END -->
+			</div>
+		</div>
+
+		<!-- INCLUDE BLOCK : SIDE -->
+		
+	</div>
+	
+	<!-- INCLUDE BLOCK : FOOTER -->
+	
 </body>
 </html>
+
+<script>
+	$(function(){
+		$(".banner").super_slide_box({
+			SHOW_NUM : 1, //一次顯示數量
+			TYPE : 1, // 0 => 移動 (slide) , 1 => 漸層 (fade) , 2 => 旋轉(Circle) , 3 => 環繞(Orbit)
+			OUTER_WIDTH : 0, //額外間距
+			ACT_TIMER : 3000, //動作間隔時間
+			POSITION : 0, // 起始位置
+			AUTO : true, // true => 自動動作 , false => 手動動作
+			WIDTH : 1000, // 圖片大小
+			HEIGHT : 0, // 圖片高度
+			HOVER : false, // 滑鼠hover停止動作 , true => 停止 , false => 不停止
+			CYCLE : true, // 循環 / 回放切換 , true => 循環 , false => 回放
+			VERTICAL : false, //移動方向 , true => 垂直 , false => 水平
+		},function(KEY){
+			// key_callback
+		});
+	});
+	
+	$(window).load(function() {
+		$("#flexiselDemo3").flexisel({
+			visibleItems: 3,
+			animationSpeed: 1000,
+			autoPlay: true,
+			autoPlaySpeed: 3000,
+			pauseOnHover: true,
+			enableResponsiveBreakpoints: true,
+			responsiveBreakpoints: { 
+				portrait: { 
+					changePoint:480,
+					visibleItems: 1
+				}, 
+				landscape: { 
+					changePoint:590,
+					visibleItems: 2
+				},
+				tablet: { 
+					changePoint:768,
+					visibleItems: 3
+				}
+			}
+		});
+	});
+</script>
+

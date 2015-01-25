@@ -58,7 +58,10 @@
 		1 => "Asia",
 		2 => "Europe",
 		3 => "Middle East",
-		4 => "America"
+		4 => "North America",
+		5 => "South America",
+		6 => "Australia",
+		7 => "Africa"
 	);
 	################
 	
