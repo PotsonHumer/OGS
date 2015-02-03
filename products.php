@@ -84,6 +84,12 @@
 					}
 					
 					foreach($row as $field => $value){
+						switch($field){
+							case "pc_img":
+								//$value = CRUD::img_handle($value);
+								$value = CORE::content_handle($value,true);
+							break;
+						}
 						VIEW::assign("VALUE_".strtoupper($field),$value);
 					}
 					

@@ -84,6 +84,11 @@
 					
 					VIEW::newBlock("TAG_P_LIST");
 					foreach($row as $field => $value){
+						switch($field){
+							case "p_s_img":
+								$value = CORE::content_handle($value,true);
+							break;
+						}
 						VIEW::assign("VALUE_".strtoupper($field),$value);
 						
 						if($field == "p_s_img" && empty($row[$field])){

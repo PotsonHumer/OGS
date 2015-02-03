@@ -16,7 +16,7 @@
 .ta0112 img {vertical-align: middle;}
 .ta0115 {width: 720px;}
 .ta0115 td {border: 1px solid #000;text-align: center;vertical-align: middle;font-size: 12px;padding: 1px;}
-td.tdf16 {font-size: 30px;}
+td.tdf16 {font-size: 40px;}
 .ta0115 img {vertical-align: middle;}
 .td0115-1 {background: #ce93c0;color: #fff;}
 .td0115-2 {background: #e6e6e7;}
@@ -40,3 +40,19 @@ td.bg00a {color:#fff;}
 .bgf39 tr {background: #fff;} tr:nth-child(2n) {background: #fdecd5;} tr {background-color: expression((this.sectionRowIndex % 2 == 0) ? "#fff" : "#fdecd5" );}
 .bgf39 {background:#f3981e;}
 td.bgf39 {color:#000;}
+
+.bg0e9 tr {background: #fff;} tr:nth-child(2n) {background: #dff2fc;} tr {background-color: expression((this.sectionRowIndex % 2 == 0) ? "#fff" : "#dff2fc" );}
+.bg0e9 {background:#00a0e9;}
+td.bg0e9 {color:#fff;}
+.bgd3e {background:#d3edfb;}
+.bgf5d {background:#f5d8c8;}
+
+.bgffe57a tr {background: #fff;} .bgffe57a tr:nth-child(2n) {background: #fffbee;} tr {background-color: expression((this.sectionRowIndex % 2 == 0) ? "#fff" : "#fffbee" );}
+.bgffe57a {background:#ffe57a;}
+td.bgd01 {color:#fff;}
+
+.bgff tr {background: #fff;} .bgff tr:nth-child(2n) {background: #fff;} tr {background-color: expression((this.sectionRowIndex % 2 == 0) ? "#fff" : "fff" );}
+
+.bgd01 tr {background: #fff;} tr:nth-child(2n) {background: #f8e2d6;} tr {background-color: expression((this.sectionRowIndex % 2 == 0) ? "#fff" : "#f8e2d6" );}
+.bgd01 {background:#d0111b;}
+td.bgd01 {color:#fff;}

@@ -26,15 +26,12 @@
 		
 		// 基本設定顯示
 		private static function show(){
-			$select = array(
-				'table' => 'ogs_system',
-				'field' => "*",
-				'where' => "sys_id='1'",
-				//'order' => "",
-				//'limit' => '',
-			);
 			
-			$sql = DB::select($select);
+			$sql_str = "SELECT * FROM ogs_system as sys 
+						right join ".CORE::$config["prefix"]."_system as lang_sys on sys.sys_id = lang_sys.sys_id
+						where sys.sys_id='1'";
+
+			$sql = DB::select(false,$sql_str);
 			$rsnum = DB::num($sql);
 			
 			if(!empty($rsnum)){
@@ -64,6 +61,7 @@
 				$_REQUEST["sys_contact"] = CORE::content_handle($_REQUEST["sys_contact"]);
 				$_REQUEST["sys_footer"] = CORE::content_handle($_REQUEST["sys_footer"]);
 				CRUD::U('ogs_system',$_REQUEST);
+				CRUD::U(CORE::$config["prefix"].'_system',$_REQUEST);
 				
 				$seo_field_array = array('seo_id','seo_name','seo_title','seo_keyword','seo_desc','seo_h1','seo_short_desc');
 				foreach($_REQUEST["seo_id"] as $key => $seo_id){
